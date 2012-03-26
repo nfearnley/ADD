@@ -12,13 +12,50 @@
     
         <asp:DropDownList ID="InstructorList" runat="server" 
             DataSourceID="InstructorsDataSource" DataTextField="FullName" 
-            DataValueField="InstructorID">
+            DataValueField="InstructorID" AutoPostBack="True">
         </asp:DropDownList>
         <asp:SqlDataSource ID="InstructorsDataSource" runat="server" 
-            ConnectionString="<%$ ConnectionStrings:ADD Database %>" 
+            ConnectionString="<%$ ConnectionStrings:ADDDatabase %>" 
+            
             SelectCommand="SELECT [InstructorID], [FirstName], [LastName], FirstName + ' ' + LastName as FullName FROM [Instructors] ORDER BY [LastName], [FirstName]">
         </asp:SqlDataSource>
-        <asp:SqlDataSource ID="InstructorDetailsDataSource" runat="server">
+        <asp:DetailsView ID="DetailsView1" runat="server" Height="50px" Width="394px" 
+            AutoGenerateRows="False" DataKeyNames="InstructorID" 
+            DataSourceID="InstructorDetailsDataSource">
+            <Fields>
+                <asp:BoundField DataField="AddressCity" HeaderText="AddressCity" 
+                    SortExpression="AddressCity" />
+                <asp:BoundField DataField="AddressCountry" HeaderText="AddressCountry" 
+                    SortExpression="AddressCountry" />
+                <asp:BoundField DataField="AddressLine1" HeaderText="AddressLine1" 
+                    SortExpression="AddressLine1" />
+                <asp:BoundField DataField="AddressLine2" HeaderText="AddressLine2" 
+                    SortExpression="AddressLine2" />
+                <asp:BoundField DataField="AddressRegion" HeaderText="AddressRegion" 
+                    SortExpression="AddressRegion" />
+                <asp:BoundField DataField="AddressPostalCode" HeaderText="AddressPostalCode" 
+                    SortExpression="AddressPostalCode" />
+                <asp:BoundField DataField="AltPhone" HeaderText="AltPhone" 
+                    SortExpression="AltPhone" />
+                <asp:BoundField DataField="FirstName" HeaderText="FirstName" 
+                    SortExpression="FirstName" />
+                <asp:BoundField DataField="HomePhone" HeaderText="HomePhone" 
+                    SortExpression="HomePhone" />
+                <asp:BoundField DataField="InstructorID" HeaderText="InstructorID" 
+                    InsertVisible="False" ReadOnly="True" SortExpression="InstructorID" 
+                    Visible="False" />
+                <asp:BoundField DataField="LastName" HeaderText="LastName" 
+                    SortExpression="LastName" />
+            </Fields>
+        </asp:DetailsView>
+        <asp:SqlDataSource ID="InstructorDetailsDataSource" runat="server" 
+            ConnectionString="<%$ ConnectionStrings:ADDDatabase %>" 
+            
+            SelectCommand="SELECT * FROM [Instructors] WHERE ([InstructorID] = @InstructorID)">
+            <SelectParameters>
+                <asp:ControlParameter ControlID="InstructorList" Name="InstructorID" 
+                    PropertyName="SelectedValue" Type="Int32" />
+            </SelectParameters>
         </asp:SqlDataSource>
     
     </div>
