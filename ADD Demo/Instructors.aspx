@@ -23,29 +23,29 @@
             AutoGenerateRows="False" DataKeyNames="InstructorID" 
             DataSourceID="InstructorDetailsDataSource">
             <Fields>
-                <asp:BoundField DataField="AddressCity" HeaderText="AddressCity" 
-                    SortExpression="AddressCity" />
-                <asp:BoundField DataField="AddressCountry" HeaderText="AddressCountry" 
-                    SortExpression="AddressCountry" />
-                <asp:BoundField DataField="AddressLine1" HeaderText="AddressLine1" 
-                    SortExpression="AddressLine1" />
-                <asp:BoundField DataField="AddressLine2" HeaderText="AddressLine2" 
-                    SortExpression="AddressLine2" />
-                <asp:BoundField DataField="AddressRegion" HeaderText="AddressRegion" 
-                    SortExpression="AddressRegion" />
-                <asp:BoundField DataField="AddressPostalCode" HeaderText="AddressPostalCode" 
-                    SortExpression="AddressPostalCode" />
-                <asp:BoundField DataField="AltPhone" HeaderText="AltPhone" 
-                    SortExpression="AltPhone" />
-                <asp:BoundField DataField="FirstName" HeaderText="FirstName" 
-                    SortExpression="FirstName" />
-                <asp:BoundField DataField="HomePhone" HeaderText="HomePhone" 
-                    SortExpression="HomePhone" />
                 <asp:BoundField DataField="InstructorID" HeaderText="InstructorID" 
                     InsertVisible="False" ReadOnly="True" SortExpression="InstructorID" 
                     Visible="False" />
-                <asp:BoundField DataField="LastName" HeaderText="LastName" 
+                <asp:BoundField DataField="FirstName" HeaderText="First Name" 
+                    SortExpression="FirstName" />
+                <asp:BoundField DataField="LastName" HeaderText="Last Name" 
                     SortExpression="LastName" />
+                <asp:BoundField DataField="HomePhone" HeaderText="Home Phone" 
+                    SortExpression="HomePhone" />
+                <asp:BoundField DataField="AltPhone" HeaderText="Alternate Phone" 
+                    SortExpression="AltPhone" />
+                <asp:BoundField DataField="AddressLine1" HeaderText="Address Line 1" 
+                    SortExpression="AddressLine1" />
+                <asp:BoundField DataField="AddressLine2" HeaderText="Address Line 2" 
+                    SortExpression="AddressLine2" />
+                <asp:BoundField DataField="AddressCity" HeaderText="City" 
+                    SortExpression="AddressCity" />
+                <asp:BoundField DataField="AddressRegion" HeaderText="Region" 
+                    SortExpression="AddressRegion" />
+                <asp:BoundField DataField="AddressCountry" HeaderText="Country" 
+                    SortExpression="AddressCountry" />
+                <asp:BoundField DataField="AddressPostalCode" HeaderText="Postal Code" 
+                    SortExpression="AddressPostalCode" />
             </Fields>
         </asp:DetailsView>
         <asp:SqlDataSource ID="InstructorDetailsDataSource" runat="server" 
