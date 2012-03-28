@@ -31,6 +31,15 @@ namespace ADD_Demo {
         protected global::System.Web.UI.WebControls.SqlDataSource SDSClient;
         
         /// <summary>
+        /// lblClientSearch control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblClientSearch;
+        
+        /// <summary>
         /// ddlClientSearch control.
         /// </summary>
         /// <remarks>
@@ -38,6 +47,15 @@ namespace ADD_Demo {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList ddlClientSearch;
+        
+        /// <summary>
+        /// lblClientInfo control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblClientInfo;
         
         /// <summary>
         /// dvClientDetails control.
@@ -56,5 +74,23 @@ namespace ADD_Demo {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.SqlDataSource SDSClientDetails;
+        
+        /// <summary>
+        /// dvClientCompany control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DetailsView dvClientCompany;
+        
+        /// <summary>
+        /// SDSClientCompany control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.SqlDataSource SDSClientCompany;
     }
 }
