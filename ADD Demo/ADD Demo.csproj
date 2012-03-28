@@ -60,6 +60,8 @@
     <Content Include="App_Data\db_log.ldf">
       <DependentUpon>db.mdf</DependentUpon>
     </Content>
+    <Content Include="Clients.aspx" />
+    <Content Include="ClientsTest.aspx" />
     <Content Include="Instructors.aspx" />
     <Content Include="Styles\Site.css" />
     <Content Include="Default.aspx" />
@@ -110,6 +112,20 @@
     </Compile>
     <Compile Include="Account\Register.aspx.designer.cs">
       <DependentUpon>Register.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Clients.aspx.cs">
+      <DependentUpon>Clients.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Clients.aspx.designer.cs">
+      <DependentUpon>Clients.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ClientsTest.aspx.cs">
+      <DependentUpon>ClientsTest.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ClientsTest.aspx.designer.cs">
+      <DependentUpon>ClientsTest.aspx</DependentUpon>
     </Compile>
     <Compile Include="Default.aspx.cs">
       <DependentUpon>Default.aspx</DependentUpon>
