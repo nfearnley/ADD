@@ -116,6 +116,8 @@
                     HeaderText="Address Postal Code" SortExpression="BillingAddressPostalCode" />
                 <asp:BoundField DataField="BillingAddressRegion" HeaderText="Address Region" 
                     SortExpression="BillingAddressRegion" />
+                <asp:CommandField ShowEditButton="True" ShowInsertButton="True">
+                </asp:CommandField>
             </Fields>
             <FooterStyle BackColor="#CCCCCC" ForeColor="Black" />
             <HeaderStyle BackColor="#000084" Font-Bold="True" ForeColor="White" />
@@ -124,11 +126,32 @@
         </asp:DetailsView>
         <asp:SqlDataSource ID="SDSClientCompany" runat="server" 
             ConnectionString="<%$ ConnectionStrings:ADDDatabase %>" 
-            SelectCommand="SELECT Companys.BillingAddressCity, Companys.BillingAddressCountry, Companys.BillingAddressLine1, Companys.BillingAddressLine2, Companys.BillingAddressPostalCode, Companys.BillingAddressRegion, Companys.BillingName, Companys.CompanyID, Clients.ClientID, Clients.CompanyID AS Expr1 FROM Companys INNER JOIN Clients ON Clients.CompanyID = Companys.CompanyID WHERE (Clients.ClientID = @ClientID)">
+            InsertCommand="INSERT INTO Companys(BillingAddressCity, BillingAddressCountry, BillingAddressLine1, BillingAddressLine2, BillingAddressPostalCode, BillingAddressRegion, BillingName) VALUES (@BillingAddressCity, @BillingAddressCountry, @BillingAddressLine1, @BillingAddressLine2, @BillingAddressPostalCode, @BillingAddressRegion, @BillingName)" 
+            SelectCommand="SELECT Companys.BillingAddressCity, Companys.BillingAddressCountry, Companys.BillingAddressLine1, Companys.BillingAddressLine2, Companys.BillingAddressPostalCode, Companys.BillingAddressRegion, Companys.BillingName, Companys.CompanyID, Clients.ClientID, Clients.CompanyID AS Expr1 FROM Companys INNER JOIN Clients ON Clients.CompanyID = Companys.CompanyID WHERE (Clients.ClientID = @ClientID)" 
+            UpdateCommand="UPDATE Companys SET BillingAddressCity = @BillingAddressCity, BillingAddressCountry = @BillingAddressCountry, BillingAddressLine1 = @BillingAddressLine1, BillingAddressLine2 = @BillingAddress2, BillingAddressPostalCode = @BillingAddressPostalCode, BillingAddressRegion = @BillingAddressRegion, BillingName = @BillingName WHERE EXISTS (SELECT ClientID, CompanyID FROM Clients WHERE ClientID = @ClientID)">
+            <InsertParameters>
+                <asp:Parameter Name="BillingAddressCity" />
+                <asp:Parameter Name="BillingAddressCountry" />
+                <asp:Parameter Name="BillingAddressLine1" />
+                <asp:Parameter Name="BillingAddressLine2" />
+                <asp:Parameter Name="BillingAddressPostalCode" />
+                <asp:Parameter Name="BillingAddressRegion" />
+                <asp:Parameter Name="BillingName" />
+            </InsertParameters>
             <SelectParameters>
                 <asp:ControlParameter ControlID="ddlClientSearch" Name="ClientID" 
                     PropertyName="SelectedValue" />
             </SelectParameters>
+            <UpdateParameters>
+                <asp:Parameter Name="BillingAddressCity" />
+                <asp:Parameter Name="BillingAddressCountry" />
+                <asp:Parameter Name="BillingAddressLine1" />
+                <asp:Parameter Name="BillingAddress2" />
+                <asp:Parameter Name="BillingAddressPostalCode" />
+                <asp:Parameter Name="BillingAddressRegion" />
+                <asp:Parameter Name="BillingName" />
+                <asp:Parameter Name="ClientID" />
+            </UpdateParameters>
         </asp:SqlDataSource>
         <br />
         <br />
