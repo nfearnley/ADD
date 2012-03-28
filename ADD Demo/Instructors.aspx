@@ -10,6 +10,9 @@
     <form id="form1" runat="server">
     <div>
     
+        <h3>
+            Instructor:</h3>
+    
         <asp:DropDownList ID="InstructorList" runat="server" 
             DataSourceID="InstructorsDataSource" DataTextField="FullName" 
             DataValueField="InstructorID" AutoPostBack="True">
@@ -59,6 +62,28 @@
         </asp:SqlDataSource>
     
     </div>
+    <h3>
+        Qualifications:</h3>
+    <asp:SqlDataSource ID="InstructorQualificationsDataSource" runat="server" 
+        ConnectionString="<%$ ConnectionStrings:ADDDatabase %>" 
+        SelectCommand="SELECT Courses.Description, Courses.CourseCode FROM InstructorQualifications INNER JOIN Courses ON InstructorQualifications.CourseID = Courses.CourseID WHERE (InstructorQualifications.InstructorID = @InstructorID)">
+        <SelectParameters>
+            <asp:ControlParameter ControlID="InstructorList" Name="InstructorID" 
+                PropertyName="SelectedValue" Type="Int32" />
+        </SelectParameters>
+    </asp:SqlDataSource>
+    <asp:GridView ID="GridView1" runat="server" AutoGenerateColumns="False" 
+        DataSourceID="InstructorQualificationsDataSource">
+        <Columns>
+            <asp:BoundField DataField="Description" HeaderText="Description" 
+                SortExpression="Description" />
+            <asp:BoundField DataField="CourseCode" HeaderText="Course Code" 
+                SortExpression="CourseCode" />
+        </Columns>
+        <EmptyDataTemplate>
+            This instructor is not qualified to teach.
+        </EmptyDataTemplate>
+    </asp:GridView>
     </form>
 </body>
 </html>
