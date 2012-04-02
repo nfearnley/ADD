@@ -13,7 +13,7 @@
         <asp:Label ID="lblCompany" runat="server" Text="Company Information"></asp:Label>
         <br />
         <asp:DropDownList ID="ddlCompanies" runat="server" AutoPostBack="True" 
-            DataSourceID="SDSCompanyInfo" DataTextField="BillingName" 
+            DataSourceID="SDSCompanies" DataTextField="BillingName" 
             DataValueField="CompanyID">
         </asp:DropDownList>
         <asp:SqlDataSource ID="SDSCompanies" runat="server" 
@@ -50,7 +50,6 @@
                 PropertyName="SelectedValue" Type="Int32" />
         </SelectParameters>
     </asp:SqlDataSource>
-    <br />
     </form>
 </body>
 </html>
