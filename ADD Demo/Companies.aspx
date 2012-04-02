@@ -50,6 +50,27 @@
                 PropertyName="SelectedValue" Type="Int32" />
         </SelectParameters>
     </asp:SqlDataSource>
+    <asp:SqlDataSource ID="SDSCompanyClientList" runat="server" 
+        ConnectionString="<%$ ConnectionStrings:ADDDatabase %>" 
+        SelectCommand="SELECT * FROM [Companys] INNER JOIN [Clients] ON Companys.CompanyID=Clients.CompanyID WHERE Companys.CompanyID=@CompanyID">
+        <SelectParameters>
+            <asp:ControlParameter ControlID="ddlCompanies" Name="CompanyID" 
+                PropertyName="SelectedValue" />
+        </SelectParameters>
+    </asp:SqlDataSource>
+    <asp:GridView ID="GridView1" runat="server" AutoGenerateColumns="False" 
+        DataKeyNames="CompanyID,ClientID" DataSourceID="SDSCompanyClientList" 
+        Width="250px">
+        <Columns>
+            <asp:BoundField DataField="BillingName" HeaderText="Company" 
+                SortExpression="BillingName" />
+            <asp:BoundField DataField="FirstName" HeaderText="First Name" 
+                SortExpression="FirstName" />
+            <asp:BoundField DataField="LastName" HeaderText="Last Name" 
+                SortExpression="LastName" />
+        </Columns>
+    </asp:GridView>
+    <br />
     </form>
 </body>
 </html>
