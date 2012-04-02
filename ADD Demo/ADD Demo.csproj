@@ -62,6 +62,7 @@
     </Content>
     <Content Include="Clients.aspx" />
     <Content Include="ClientsTest.aspx" />
+    <Content Include="Companies.aspx" />
     <Content Include="Instructors.aspx" />
     <Content Include="Styles\Site.css" />
     <Content Include="Default.aspx" />
@@ -126,6 +127,13 @@
     </Compile>
     <Compile Include="ClientsTest.aspx.designer.cs">
       <DependentUpon>ClientsTest.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Companies.aspx.cs">
+      <DependentUpon>Companies.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Companies.aspx.designer.cs">
+      <DependentUpon>Companies.aspx</DependentUpon>
     </Compile>
     <Compile Include="Default.aspx.cs">
       <DependentUpon>Default.aspx</DependentUpon>
