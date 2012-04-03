@@ -40,15 +40,41 @@
                 SortExpression="BillingAddressPostalCode" />
             <asp:BoundField DataField="BillingAddressRegion" HeaderText="Region" 
                 SortExpression="BillingAddressRegion" />
+            <asp:CommandField ShowEditButton="True" ShowInsertButton="True" />
         </Fields>
     </asp:DetailsView>
     <asp:SqlDataSource ID="SDSCompanyInformation" runat="server" 
         ConnectionString="<%$ ConnectionStrings:ADDDatabase %>" 
-        SelectCommand="SELECT * FROM [Companys] WHERE ([CompanyID] = @CompanyID)">
+        SelectCommand="SELECT * FROM [Companys] WHERE ([CompanyID] = @CompanyID)" 
+        DeleteCommand="DELETE FROM Companys WHERE (CompanyID = @CompanyID)" 
+        InsertCommand="INSERT INTO Companys(BillingAddressCity, BillingAddressCountry, BillingAddressLine1, BillingAddressLine2, BillingAddressPostalCode, BillingAddressRegion, BillingName) VALUES (@BillingAddressCity, @BillingAddressCountry, @BillingAddressLine1, @BillingAddressLine2, @BillingAddressPostalCode, @BillingAddressRegion, @BillingName)" 
+        UpdateCommand="UPDATE Companys SET BillingName = @BillingName, BillingAddressRegion = @BillingAddressRegion, BillingAddressPostalCode = @BillingAddressPostalCode, BillingAddressLine2 = @BillingAddressLine2, BillingAddressLine1 = @BillingAddressLine1, BillingAddressCountry = @BillingAddressCountry, BillingAddressCity = @BillingAddressCity WHERE CompanyID = @CompanyID">
+        <DeleteParameters>
+            <asp:Parameter Name="CompanyID" />
+        </DeleteParameters>
+        <InsertParameters>
+            <asp:Parameter Name="BillingAddressCity" />
+            <asp:Parameter Name="BillingAddressCountry" />
+            <asp:Parameter Name="BillingAddressLine1" />
+            <asp:Parameter Name="BillingAddressLine2" />
+            <asp:Parameter Name="BillingAddressPostalCode" />
+            <asp:Parameter Name="BillingAddressRegion" />
+            <asp:Parameter Name="BillingName" />
+        </InsertParameters>
         <SelectParameters>
             <asp:ControlParameter ControlID="ddlCompanies" Name="CompanyID" 
                 PropertyName="SelectedValue" Type="Int32" />
         </SelectParameters>
+        <UpdateParameters>
+            <asp:Parameter Name="BillingName" />
+            <asp:Parameter Name="BillingAddressRegion" />
+            <asp:Parameter Name="BillingAddressPostalCode" />
+            <asp:Parameter Name="BillingAddressLine2" />
+            <asp:Parameter Name="BillingAddressLine1" />
+            <asp:Parameter Name="BillingAddressCountry" />
+            <asp:Parameter Name="BillingAddressCity" />
+            <asp:Parameter Name="CompanyID" />
+        </UpdateParameters>
     </asp:SqlDataSource>
     <asp:SqlDataSource ID="SDSCompanyClientList" runat="server" 
         ConnectionString="<%$ ConnectionStrings:ADDDatabase %>" 
