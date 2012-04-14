@@ -7,5 +7,10 @@ namespace ADD_Demo.Classes
 {
     public class Course
     {
+        private int CourseID;
+        private String CourseCode;
+        private String Description;
+        private String Outline;
+        private float Price;
     }
 }
