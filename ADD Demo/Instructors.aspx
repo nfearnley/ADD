@@ -11,7 +11,7 @@
     <div>
     
         <h3>
-            Instructor:</h3>
+            Instructors:</h3>
     
         <asp:DropDownList ID="InstructorList" runat="server" 
             DataSourceID="InstructorsDataSource" DataTextField="FullName" 
