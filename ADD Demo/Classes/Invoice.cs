@@ -7,5 +7,9 @@ namespace ADD_Demo.Classes
 {
     public class Invoice
     {
+        private int CompanyID;
+        private int InvoiceID;
+        private DateTime Date;
+
     }
 }
