@@ -64,6 +64,7 @@
     <Content Include="ClientsTest.aspx" />
     <Content Include="Companies.aspx" />
     <Content Include="Instructors.aspx" />
+    <Content Include="Courses.aspx" />
     <Content Include="Styles\Site.css" />
     <Content Include="Default.aspx" />
     <Content Include="Global.asax" />
@@ -114,6 +115,17 @@
     <Compile Include="Account\Register.aspx.designer.cs">
       <DependentUpon>Register.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Classes\Client.cs" />
+    <Compile Include="Classes\ClientSession.cs" />
+    <Compile Include="Classes\Company.cs" />
+    <Compile Include="Classes\Course.cs" />
+    <Compile Include="Classes\Instructor.cs" />
+    <Compile Include="Classes\InstructorQualification.cs" />
+    <Compile Include="Classes\Invoice.cs" />
+    <Compile Include="Classes\InvoiceItem.cs" />
+    <Compile Include="Classes\Room.cs" />
+    <Compile Include="Classes\Session.cs" />
+    <Compile Include="Classes\Status.cs" />
     <Compile Include="Clients.aspx.cs">
       <DependentUpon>Clients.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -159,6 +171,13 @@
     </Compile>
     <Compile Include="Site.Master.designer.cs">
       <DependentUpon>Site.Master</DependentUpon>
+    </Compile>
+    <Compile Include="Courses.aspx.cs">
+      <DependentUpon>Courses.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Courses.aspx.designer.cs">
+      <DependentUpon>Courses.aspx</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup />
