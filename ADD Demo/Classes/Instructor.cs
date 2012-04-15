@@ -2,64 +2,110 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Data.SqlClient;
+using System.Data;
 
 namespace ADD_Demo.Classes
 {
     public class Instructor
     {
-        private int InstructorID;
-        private String AddressCity;
-        private String AddressCountry;
-        private String AddressLine1;
-        private String AddressLine2;
-        private String AddressPostalCode;
-        private String AddressRegion;
-        private String AltPhone;
-        private String FirstName;
-        private String HomePhone;
-        private String LastName;
+
+        public int InstructorID { get; set; }
+        public String AddressCity { get; set; }
+        public String AddressCountry { get; set; }
+        public String AddressLine1 { get; set; }
+        public String AddressLine2 { get; set; }
+        public String AddressPostalCode { get; set; }
+        public String AddressRegion { get; set; }
+        public String AltPhone { get; set; }
+        public String FirstName { get; set; }
+        public String HomePhone { get; set; }
+        public String LastName { get; set; }
 
         public Instructor()
         { }
 
-        public Instructor(String city, String country, String line1,String line2, String code, String region,String altPhone,String fName,String lName,String hPhone)
-        { 
-            AddressCity = city;
-            AddressCountry = country;
-            AddressLine1 = line1;
-            AddressLine2 = line2;
-            AddressPostalCode = code;
-            AddressRegion = region;
-            AltPhone = altPhone;
-            FirstName = fName;
-            HomePhone = hPhone;
-            LastName = lName;
-        }
-
         public static Instructor GetInstructor(int instructorID)
-        { 
+        {
 
-            return new Instructor();
+            throw new NotSupportedException();
         }
 
-        public static List<Instructor> GetInstructors()
+        public static IEnumerable<Instructor> GetInstructors()
         {
-            return new List<Instructor>();
+            List<Instructor> instructors = new List<Instructor>();
+
+            // Load connection string from web.config
+            System.Configuration.Configuration config = System.Web.Configuration.WebConfigurationManager.OpenWebConfiguration("/");
+            System.Configuration.ConnectionStringSettings connString = config.ConnectionStrings.ConnectionStrings["ADDDatabase"];
+
+            // Setup Connection
+            SqlConnection conn = new SqlConnection();
+            conn.ConnectionString = connString.ConnectionString;
+
+            // Setup Command
+            SqlCommand comm = new SqlCommand();
+            comm.CommandType = CommandType.StoredProcedure;
+            comm.CommandText = "dbo.GetInstructor";
+            comm.Connection = conn;
+
+            try
+            {
+                // Open Connection
+                conn.Open();
+
+                // ExecuteCommand
+                SqlDataReader reader = comm.ExecuteReader();
+                while (reader.Read())
+                {
+                    Instructor instructor = new Instructor();
+                    instructor.InstructorID = (int)reader["InstructorID"];
+                    instructor.AddressCity = reader["AddressCity"] as String;
+                    instructor.AddressCountry = reader["AddressCity"] as String;
+                    instructor.AddressLine1 = reader["AddressLine1"] as String;
+                    instructor.AddressLine2 = reader["AddressLine2"] as String;
+                    instructor.AddressPostalCode = reader["AddressPostalCode"] as String;
+                    instructor.AddressRegion = reader["AddressRegion"] as String;
+                    instructor.AltPhone = reader["AltPhone"] as String;
+                    instructor.FirstName = reader["FirstName"] as String;
+                    instructor.HomePhone = reader["HomePhone"] as String;
+                    instructor.LastName = reader["LastName"] as String;
+                    instructors.Add(instructor);
+                }
+            }
+            catch
+            {
+            }
+            finally
+            {
+                // Close Connection
+                if (conn.State == ConnectionState.Open)
+                    conn.Close();
+
+                // Dispose of Command
+                comm.Dispose();
+
+                // Dispose of Connection
+                conn.Dispose();
+            }
+
+            return instructors;
+            throw new NotSupportedException();
         }
 
         public static void AddInstructor(Instructor inst)
-        { 
-        
+        {
+            throw new NotSupportedException();
         }
 
         public static Instructor RemoveInstructor(int instructorID)
         {
-            return new Instructor();
+            throw new NotSupportedException();
         }
 
         public static bool UpdateInstructor(Instructor inst)
         {
-            return false;        
+            throw new NotSupportedException();
         }
     }
 }
