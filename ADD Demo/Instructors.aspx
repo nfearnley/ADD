@@ -14,14 +14,12 @@
             Instructors:</h3>
     
         <asp:DropDownList ID="InstructorList" runat="server" 
-            DataSourceID="InstructorsDataSource" DataTextField="FullName" 
+            DataSourceID="InstructorsDataSource" DataTextField="LastName" 
             DataValueField="InstructorID" AutoPostBack="True">
         </asp:DropDownList>
-        <asp:SqlDataSource ID="InstructorsDataSource" runat="server" 
-            ConnectionString="<%$ ConnectionStrings:ADDDatabase %>" 
-            
-            SelectCommand="SELECT [InstructorID], [FirstName], [LastName], FirstName + ' ' + LastName as FullName FROM [Instructors] ORDER BY [LastName], [FirstName]">
-        </asp:SqlDataSource>
+        <asp:ObjectDataSource ID="InstructorsDataSource" runat="server" 
+            SelectMethod="GetInstructors" TypeName="ADD_Demo.Classes.Instructor">
+        </asp:ObjectDataSource>
         <asp:DetailsView ID="DetailsView1" runat="server" Height="50px" Width="394px" 
             AutoGenerateRows="False" DataKeyNames="InstructorID" 
             DataSourceID="InstructorDetailsDataSource">
@@ -51,15 +49,13 @@
                     SortExpression="AddressPostalCode" />
             </Fields>
         </asp:DetailsView>
-        <asp:SqlDataSource ID="InstructorDetailsDataSource" runat="server" 
-            ConnectionString="<%$ ConnectionStrings:ADDDatabase %>" 
-            
-            SelectCommand="SELECT * FROM [Instructors] WHERE ([InstructorID] = @InstructorID)">
+        <asp:ObjectDataSource ID="InstructorDetailsDataSource" runat="server" 
+            SelectMethod="GetInstructor" TypeName="ADD_Demo.Classes.Instructor">
             <SelectParameters>
-                <asp:ControlParameter ControlID="InstructorList" Name="InstructorID" 
+                <asp:ControlParameter ControlID="InstructorList" Name="instructorID" 
                     PropertyName="SelectedValue" Type="Int32" />
             </SelectParameters>
-        </asp:SqlDataSource>
+        </asp:ObjectDataSource>
     
     </div>
     <h3>
