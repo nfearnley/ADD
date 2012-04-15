@@ -7,5 +7,7 @@ namespace ADD_Demo.Classes
 {
     public class InstructorQualification
     {
+        private int CourseID;
+        private int InstructorID;
     }
 }
