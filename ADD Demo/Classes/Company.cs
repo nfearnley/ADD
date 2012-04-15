@@ -43,10 +43,20 @@ namespace ADD_Demo.Classes
             {
                 SqlCommand cmd = new SqlCommand("GetCompany", conn);
                 cmd.CommandType = CommandType.StoredProcedure;
-
+                cmd.Parameters.AddWithValue("@CompanyID", companyID);
+                conn.Open();
+                while(cmd.ExecuteNonQuery())
+                {
+                
+                }
+                SqlDataAdapter dataAdapter = new SqlDataAdapter(cmd);
+                DataSet dataSet = new DataSet();
+                dataAdapter.Fill(dataSet);
             }
             catch 
-            { }
+            {
+                conn.Close();
+            }
             return new Company();
         }
 
