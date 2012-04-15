@@ -46,7 +46,7 @@ namespace ADD_Demo.Classes
             // Setup Command
             SqlCommand comm = new SqlCommand();
             comm.CommandType = CommandType.StoredProcedure;
-            comm.CommandText = "dbo.GetInstructor";
+            comm.CommandText = "dbo.GetInstructors";
             comm.Connection = conn;
 
             try
