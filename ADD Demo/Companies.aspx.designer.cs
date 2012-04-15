@@ -49,6 +49,33 @@ namespace ADD_Demo {
         protected global::System.Web.UI.WebControls.SqlDataSource SDSCompanies;
         
         /// <summary>
+        /// GetCompanies control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.ObjectDataSource GetCompanies;
+        
+        /// <summary>
+        /// GetCompany control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.ObjectDataSource GetCompany;
+        
+        /// <summary>
+        /// GetClientsByCompany control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.ObjectDataSource GetClientsByCompany;
+        
+        /// <summary>
         /// dvCompanyInfo control.
         /// </summary>
         /// <remarks>
