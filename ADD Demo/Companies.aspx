@@ -21,6 +21,8 @@
             SelectCommand="SELECT [CompanyID], [BillingName] FROM [Companys]">
         </asp:SqlDataSource>
     
+        <asp:ObjectDataSource ID="GetCompanies" runat="server"></asp:ObjectDataSource>
+    
     </div>
     <asp:DetailsView ID="dvCompanyInfo" runat="server" AutoGenerateRows="False" 
         DataKeyNames="CompanyID" DataSourceID="SDSCompanyInformation" Height="50px" 
