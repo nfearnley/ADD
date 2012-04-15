@@ -45,9 +45,10 @@ namespace ADD_Demo.Classes
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@CompanyID", companyID);
                 conn.Open();
-                while(cmd.ExecuteNonQuery())
+                SqlDataReader reader = cmd.ExecuteReader();
+                while(reader.Read())
                 {
-                
+                    
                 }
                 SqlDataAdapter dataAdapter = new SqlDataAdapter(cmd);
                 DataSet dataSet = new DataSet();
