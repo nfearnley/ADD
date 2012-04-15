@@ -38,7 +38,8 @@ namespace ADD_Demo.Classes
 
         public static Instructor GetInstructor(int instructorID)
         { 
-            return new Instructor;
+
+            return new Instructor();
         }
 
         public static List<Instructor> GetInstructors()

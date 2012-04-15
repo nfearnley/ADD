@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Data;
+using System.Data.SqlClient;
+using System.Web.Configuration;
 
 namespace ADD_Demo.Classes
 {
@@ -27,13 +30,23 @@ namespace ADD_Demo.Classes
             BillingName = name;
         }
 
-        public    Company()
+        public Company()
         {
         
         }
 
         public static Company GetCompany(int companyID)
         {
+            Company retCompany = new Company();
+            SqlConnection conn = new SqlConnection(WebConfigurationManager.ConnectionStrings["ConnectionString"].ToString());
+            try
+            {
+                SqlCommand cmd = new SqlCommand("GetCompany", conn);
+                cmd.CommandType = CommandType.StoredProcedure;
+
+            }
+            catch 
+            { }
             return new Company();
         }
 
