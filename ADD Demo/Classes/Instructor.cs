@@ -27,8 +27,62 @@ namespace ADD_Demo.Classes
 
         public static Instructor GetInstructor(int instructorID)
         {
+            Instructor instructor = new Instructor();
 
-            throw new NotSupportedException();
+            // Load connection string from web.config
+            System.Configuration.Configuration config = System.Web.Configuration.WebConfigurationManager.OpenWebConfiguration("/");
+            System.Configuration.ConnectionStringSettings connString = config.ConnectionStrings.ConnectionStrings["ADDDatabase"];
+
+            // Setup Connection
+            SqlConnection conn = new SqlConnection();
+            conn.ConnectionString = connString.ConnectionString;
+
+            // Setup Command
+            SqlCommand comm = new SqlCommand();
+            comm.CommandType = CommandType.StoredProcedure;
+            comm.CommandText = "dbo.GetInstructor";
+            comm.Parameters.AddWithValue("InstructorID", instructorID);
+            comm.Connection = conn;
+
+            try
+            {
+                // Open Connection
+                conn.Open();
+
+                // ExecuteCommand
+                SqlDataReader reader = comm.ExecuteReader();
+                while (reader.Read())
+                {
+                    instructor.InstructorID = (int)reader["InstructorID"];
+                    instructor.AddressCity = reader["AddressCity"] as String;
+                    instructor.AddressCountry = reader["AddressCity"] as String;
+                    instructor.AddressLine1 = reader["AddressLine1"] as String;
+                    instructor.AddressLine2 = reader["AddressLine2"] as String;
+                    instructor.AddressPostalCode = reader["AddressPostalCode"] as String;
+                    instructor.AddressRegion = reader["AddressRegion"] as String;
+                    instructor.AltPhone = reader["AltPhone"] as String;
+                    instructor.FirstName = reader["FirstName"] as String;
+                    instructor.HomePhone = reader["HomePhone"] as String;
+                    instructor.LastName = reader["LastName"] as String;
+                }
+            }
+            catch
+            {
+            }
+            finally
+            {
+                // Close Connection
+                if (conn.State == ConnectionState.Open)
+                    conn.Close();
+
+                // Dispose of Command
+                comm.Dispose();
+
+                // Dispose of Connection
+                conn.Dispose();
+            }
+
+            return instructor;
         }
 
         public static IEnumerable<Instructor> GetInstructors()
@@ -90,7 +144,6 @@ namespace ADD_Demo.Classes
             }
 
             return instructors;
-            throw new NotSupportedException();
         }
 
         public static void AddInstructor(Instructor inst)
