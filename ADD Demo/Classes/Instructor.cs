@@ -7,7 +7,7 @@ using System.Data;
 
 namespace ADD_Demo.Classes
 {
-    public class Instructor
+    public class Instructor : DatabaseConnection
     {
 
         public int InstructorID { get; set; }
@@ -29,20 +29,12 @@ namespace ADD_Demo.Classes
         {
             Instructor instructor = new Instructor();
 
-            // Load connection string from web.config
-            System.Configuration.Configuration config = System.Web.Configuration.WebConfigurationManager.OpenWebConfiguration("/");
-            System.Configuration.ConnectionStringSettings connString = config.ConnectionStrings.ConnectionStrings["ADDDatabase"];
+            // Get Connection
+            SqlConnection conn = GetConnection();
 
-            // Setup Connection
-            SqlConnection conn = new SqlConnection();
-            conn.ConnectionString = connString.ConnectionString;
-
-            // Setup Command
-            SqlCommand comm = new SqlCommand();
-            comm.CommandType = CommandType.StoredProcedure;
-            comm.CommandText = "dbo.GetInstructor";
+            // Get Command
+            SqlCommand comm = GetCommand("dbo.GetInstructor", conn);
             comm.Parameters.AddWithValue("InstructorID", instructorID);
-            comm.Connection = conn;
 
             try
             {
@@ -55,7 +47,7 @@ namespace ADD_Demo.Classes
                 {
                     instructor.InstructorID = (int)reader["InstructorID"];
                     instructor.AddressCity = reader["AddressCity"] as String;
-                    instructor.AddressCountry = reader["AddressCity"] as String;
+                    instructor.AddressCountry = reader["AddressCountry"] as String;
                     instructor.AddressLine1 = reader["AddressLine1"] as String;
                     instructor.AddressLine2 = reader["AddressLine2"] as String;
                     instructor.AddressPostalCode = reader["AddressPostalCode"] as String;
@@ -89,19 +81,11 @@ namespace ADD_Demo.Classes
         {
             List<Instructor> instructors = new List<Instructor>();
 
-            // Load connection string from web.config
-            System.Configuration.Configuration config = System.Web.Configuration.WebConfigurationManager.OpenWebConfiguration("/");
-            System.Configuration.ConnectionStringSettings connString = config.ConnectionStrings.ConnectionStrings["ADDDatabase"];
+            // Get Connection
+            SqlConnection conn = GetConnection();
 
-            // Setup Connection
-            SqlConnection conn = new SqlConnection();
-            conn.ConnectionString = connString.ConnectionString;
-
-            // Setup Command
-            SqlCommand comm = new SqlCommand();
-            comm.CommandType = CommandType.StoredProcedure;
-            comm.CommandText = "dbo.GetInstructors";
-            comm.Connection = conn;
+            // Get Command
+            SqlCommand comm = GetCommand("dbo.GetInstructors", conn);
 
             try
             {
@@ -115,7 +99,7 @@ namespace ADD_Demo.Classes
                     Instructor instructor = new Instructor();
                     instructor.InstructorID = (int)reader["InstructorID"];
                     instructor.AddressCity = reader["AddressCity"] as String;
-                    instructor.AddressCountry = reader["AddressCity"] as String;
+                    instructor.AddressCountry = reader["AddressCountry"] as String;
                     instructor.AddressLine1 = reader["AddressLine1"] as String;
                     instructor.AddressLine2 = reader["AddressLine2"] as String;
                     instructor.AddressPostalCode = reader["AddressPostalCode"] as String;
@@ -146,19 +130,157 @@ namespace ADD_Demo.Classes
             return instructors;
         }
 
-        public static void AddInstructor(Instructor instructor)
+        public static int AddInstructor(Instructor instructor)
         {
-            throw new NotSupportedException();
+            int result = 0;
+
+            // Get Connection
+            SqlConnection conn = GetConnection();
+
+            // Get Command
+            SqlCommand comm = GetCommand("dbo.AddInstructor", conn);
+            comm.Parameters.AddWithValue("AddressCity", instructor.AddressCity);
+            comm.Parameters.AddWithValue("AddressCountry", instructor.AddressCountry);
+            comm.Parameters.AddWithValue("AddressLine1", instructor.AddressLine1);
+            comm.Parameters.AddWithValue("AddressLine2", instructor.AddressLine2 == null ? (object)DBNull.Value : instructor.AddressLine2);
+            comm.Parameters.AddWithValue("AddressPostalCode", instructor.AddressPostalCode);
+            comm.Parameters.AddWithValue("AddressRegion", instructor.AddressRegion);
+            comm.Parameters.AddWithValue("AltPhone", instructor.AltPhone == null ? (object)DBNull.Value : instructor.AltPhone);
+            comm.Parameters.AddWithValue("FirstName", instructor.FirstName);
+            comm.Parameters.AddWithValue("HomePhone", instructor.HomePhone);
+            comm.Parameters.AddWithValue("LastName", instructor.LastName);
+
+            try
+            {
+                // Open Connection
+                conn.Open();
+
+                // ExecuteCommand
+                result = comm.ExecuteNonQuery();
+            }
+            catch
+            {
+            }
+            finally
+            {
+                // Close Connection
+                if (conn.State == ConnectionState.Open)
+                    conn.Close();
+
+                // Dispose of Command
+                comm.Dispose();
+
+                // Dispose of Connection
+                conn.Dispose();
+            }
+
+            return result;
         }
 
-        public static Instructor RemoveInstructor(int instructorID)
+        public static int RemoveInstructor(Instructor oldInstructor)
         {
-            throw new NotSupportedException();
+            int result = 0;
+
+            // Get Connection
+            SqlConnection conn = GetConnection();
+
+            // Get Command
+            SqlCommand comm = GetCommand("dbo.RemoveInstructor", conn);
+            comm.Parameters.AddWithValue("OldInstructorID", oldInstructor.InstructorID);
+            comm.Parameters.AddWithValue("OldAddressCity", oldInstructor.AddressCity);
+            comm.Parameters.AddWithValue("OldAddressCountry", oldInstructor.AddressCountry);
+            comm.Parameters.AddWithValue("OldAddressLine1", oldInstructor.AddressLine1);
+            comm.Parameters.AddWithValue("OldAddressLine2", oldInstructor.AddressLine2 == null ? (object)DBNull.Value : oldInstructor.AddressLine2);
+            comm.Parameters.AddWithValue("OldAddressPostalCode", oldInstructor.AddressPostalCode);
+            comm.Parameters.AddWithValue("OldAddressRegion", oldInstructor.AddressRegion);
+            comm.Parameters.AddWithValue("OldAltPhone", oldInstructor.AltPhone == null ? (object)DBNull.Value : oldInstructor.AltPhone);
+            comm.Parameters.AddWithValue("OldFirstName", oldInstructor.FirstName);
+            comm.Parameters.AddWithValue("OldHomePhone", oldInstructor.HomePhone);
+            comm.Parameters.AddWithValue("OldLastName", oldInstructor.LastName);
+
+            try
+            {
+                // Open Connection
+                conn.Open();
+
+                // ExecuteCommand
+                result = comm.ExecuteNonQuery();
+            }
+            catch
+            {
+            }
+            finally
+            {
+                // Close Connection
+                if (conn.State == ConnectionState.Open)
+                    conn.Close();
+
+                // Dispose of Command
+                comm.Dispose();
+
+                // Dispose of Connection
+                conn.Dispose();
+            }
+
+            return result;
         }
 
-        public static bool UpdateInstructor(Instructor instructor)
+        public static int UpdateInstructor(Instructor instructor, Instructor oldInstructor)
         {
-            throw new NotSupportedException();
+            int result = 0;
+
+            // Get Connection
+            SqlConnection conn = GetConnection();
+
+            // Get Command
+            SqlCommand comm = GetCommand("dbo.UpdateInstructor", conn);
+            comm.Parameters.AddWithValue("AddressCity", instructor.AddressCity);
+            comm.Parameters.AddWithValue("AddressCountry", instructor.AddressCountry);
+            comm.Parameters.AddWithValue("AddressLine1", instructor.AddressLine1);
+            comm.Parameters.AddWithValue("AddressLine2", instructor.AddressLine2 == null ? (object)DBNull.Value : instructor.AddressLine2);
+            comm.Parameters.AddWithValue("AddressPostalCode", instructor.AddressPostalCode);
+            comm.Parameters.AddWithValue("AddressRegion", instructor.AddressRegion);
+            comm.Parameters.AddWithValue("AltPhone", instructor.AltPhone == null ? (object)DBNull.Value : instructor.AltPhone);
+            comm.Parameters.AddWithValue("FirstName", instructor.FirstName);
+            comm.Parameters.AddWithValue("HomePhone", instructor.HomePhone);
+            comm.Parameters.AddWithValue("LastName", instructor.LastName);
+            comm.Parameters.AddWithValue("OldInstructorID", oldInstructor.InstructorID);
+            comm.Parameters.AddWithValue("OldAddressCity", oldInstructor.AddressCity);
+            comm.Parameters.AddWithValue("OldAddressCountry", oldInstructor.AddressCountry);
+            comm.Parameters.AddWithValue("OldAddressLine1", oldInstructor.AddressLine1);
+            comm.Parameters.AddWithValue("OldAddressLine2", oldInstructor.AddressLine2 == null ? (object)DBNull.Value : oldInstructor.AddressLine2);
+            comm.Parameters.AddWithValue("OldAddressPostalCode", oldInstructor.AddressPostalCode);
+            comm.Parameters.AddWithValue("OldAddressRegion", oldInstructor.AddressRegion);
+            comm.Parameters.AddWithValue("OldAltPhone", oldInstructor.AltPhone == null ? (object)DBNull.Value : oldInstructor.AltPhone);
+            comm.Parameters.AddWithValue("OldFirstName", oldInstructor.FirstName);
+            comm.Parameters.AddWithValue("OldHomePhone", oldInstructor.HomePhone);
+            comm.Parameters.AddWithValue("OldLastName", oldInstructor.LastName);
+
+            try
+            {
+                // Open Connection
+                conn.Open();
+
+                // ExecuteCommand
+                result = comm.ExecuteNonQuery();
+            }
+            catch
+            {
+            }
+            finally
+            {
+                // Close Connection
+                if (conn.State == ConnectionState.Open)
+                    conn.Close();
+
+                // Dispose of Command
+                comm.Dispose();
+
+                // Dispose of Connection
+                conn.Dispose();
+            }
+
+            return result;
         }
     }
 }

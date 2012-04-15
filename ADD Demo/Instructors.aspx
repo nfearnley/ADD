@@ -47,10 +47,19 @@
                     SortExpression="AddressCountry" />
                 <asp:BoundField DataField="AddressPostalCode" HeaderText="Postal Code" 
                     SortExpression="AddressPostalCode" />
+                <asp:CommandField ShowDeleteButton="True" ShowEditButton="True" 
+                    ShowInsertButton="True" />
             </Fields>
         </asp:DetailsView>
         <asp:ObjectDataSource ID="InstructorDetailsDataSource" runat="server" 
-            SelectMethod="GetInstructor" TypeName="ADD_Demo.Classes.Instructor">
+            ConflictDetection="CompareAllValues" 
+            DataObjectTypeName="ADD_Demo.Classes.Instructor" 
+            DeleteMethod="RemoveInstructor" InsertMethod="AddInstructor" 
+            OldValuesParameterFormatString="old{0}" SelectMethod="GetInstructor" 
+            TypeName="ADD_Demo.Classes.Instructor" UpdateMethod="UpdateInstructor">
+            <DeleteParameters>
+                <asp:Parameter Name="instructorID" Type="Int32" />
+            </DeleteParameters>
             <SelectParameters>
                 <asp:ControlParameter ControlID="InstructorList" Name="instructorID" 
                     PropertyName="SelectedValue" Type="Int32" />

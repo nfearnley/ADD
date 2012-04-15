@@ -115,6 +115,7 @@
     <Compile Include="Classes\ClientSession.cs" />
     <Compile Include="Classes\Company.cs" />
     <Compile Include="Classes\Course.cs" />
+    <Compile Include="Classes\DatabaseConnection.cs" />
     <Compile Include="Classes\Instructor.cs" />
     <Compile Include="Classes\InstructorQualification.cs" />
     <Compile Include="Classes\Invoice.cs" />
