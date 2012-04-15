@@ -13,7 +13,7 @@
         <asp:Label ID="lblCompany" runat="server" Text="Company Information"></asp:Label>
         <br />
         <asp:DropDownList ID="ddlCompanies" runat="server" AutoPostBack="True" 
-            DataSourceID="SDSCompanies" DataTextField="BillingName" 
+            DataSourceID="GetCompanies" DataTextField="BillingName" 
             DataValueField="CompanyID">
         </asp:DropDownList>
         <asp:SqlDataSource ID="SDSCompanies" runat="server" 
@@ -21,7 +21,30 @@
             SelectCommand="SELECT [CompanyID], [BillingName] FROM [Companys]">
         </asp:SqlDataSource>
     
-        <asp:ObjectDataSource ID="GetCompanies" runat="server"></asp:ObjectDataSource>
+        <asp:ObjectDataSource ID="GetCompanies" runat="server" 
+            SelectMethod="GetCompanies" TypeName="ADD_Demo.Classes.Company">
+            <SelectParameters>
+                <asp:Parameter Name="companyID" Type="Int32" />
+            </SelectParameters>
+        </asp:ObjectDataSource>
+        <asp:ObjectDataSource ID="GetCompany" runat="server" 
+            DataObjectTypeName="ADD_Demo.Classes.Company" DeleteMethod="RemoveCompany" 
+            InsertMethod="AddCompany" SelectMethod="GetCompany" 
+            TypeName="ADD_Demo.Classes.Company" UpdateMethod="UpdateCompany">
+            <DeleteParameters>
+                <asp:Parameter Name="companyID" Type="Int32" />
+            </DeleteParameters>
+            <SelectParameters>
+                <asp:ControlParameter ControlID="ddlCompanies" Name="companyID" 
+                    PropertyName="SelectedValue" Type="Int32" />
+            </SelectParameters>
+        </asp:ObjectDataSource>
+        <asp:ObjectDataSource ID="GetClientsByCompany" runat="server" 
+            SelectMethod="GetCompanies" TypeName="ADD_Demo.Classes.Company">
+            <SelectParameters>
+                <asp:Parameter Name="companyID" Type="Int32" />
+            </SelectParameters>
+        </asp:ObjectDataSource>
     
     </div>
     <asp:DetailsView ID="dvCompanyInfo" runat="server" AutoGenerateRows="False" 
