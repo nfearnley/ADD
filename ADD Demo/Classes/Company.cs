@@ -67,11 +67,21 @@ namespace ADD_Demo.Classes
                     company.CompanyID = (int)reader["CompanyID"];
                 }                
             }
-            catch 
+            catch
             {
-                conn.Close();
             }
-            conn.Close();
+            finally
+            {
+                // Close Connection
+                if (conn.State == ConnectionState.Open)
+                    conn.Close();
+
+                // Dispose of Command
+                comm.Dispose();
+
+                // Dispose of Connection
+                conn.Dispose();
+            }
             return company;
         }
 
@@ -112,9 +122,19 @@ namespace ADD_Demo.Classes
             }
             catch
             {
-                conn.Close();
             }
-            conn.Close();
+            finally
+            {
+                // Close Connection
+                if (conn.State == ConnectionState.Open)
+                    conn.Close();
+
+                // Dispose of Command
+                comm.Dispose();
+
+                // Dispose of Connection
+                conn.Dispose();
+            }
             return companies;
         }
 
@@ -140,7 +160,6 @@ namespace ADD_Demo.Classes
             comm.Parameters.AddWithValue("@BillingAddressRegion", company.BillingAddressRegion);
             comm.Parameters.AddWithValue("@BillingName", company.BillingName);
             comm.Connection = conn;
-            List<Company> companies = new List<Company>();
             try
             {
                 // Open Connection
@@ -149,9 +168,19 @@ namespace ADD_Demo.Classes
             }
             catch
             {
-                conn.Close();
             }
-            conn.Close();
+            finally
+            {
+                // Close Connection
+                if (conn.State == ConnectionState.Open)
+                    conn.Close();
+
+                // Dispose of Command
+                comm.Dispose();
+
+                // Dispose of Connection
+                conn.Dispose();
+            }
         }
 
         public static bool RemoveCompany(int companyID)
@@ -177,10 +206,19 @@ namespace ADD_Demo.Classes
             }
             catch
             {
-                conn.Close();
-                return false;
             }
-            conn.Close();
+            finally
+            {
+                // Close Connection
+                if (conn.State == ConnectionState.Open)
+                    conn.Close();
+
+                // Dispose of Command
+                comm.Dispose();
+
+                // Dispose of Connection
+                conn.Dispose();
+            }
             return true;
         }
 
@@ -207,7 +245,6 @@ namespace ADD_Demo.Classes
             comm.Parameters.AddWithValue("@BillingName", company.BillingName);
             comm.Parameters.AddWithValue("@CompanyID", company.CompanyID);
             comm.Connection = conn;
-            List<Company> companies = new List<Company>();
             try
             {
                 // Open Connection
@@ -216,10 +253,19 @@ namespace ADD_Demo.Classes
             }
             catch
             {
-                conn.Close();
-                return false;
             }
-            conn.Close();
+            finally
+            {
+                // Close Connection
+                if (conn.State == ConnectionState.Open)
+                    conn.Close();
+
+                // Dispose of Command
+                comm.Dispose();
+
+                // Dispose of Connection
+                conn.Dispose();
+            }
             return true;
         }
     }
