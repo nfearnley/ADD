@@ -146,7 +146,7 @@ namespace ADD_Demo.Classes
             return instructors;
         }
 
-        public static void AddInstructor(Instructor inst)
+        public static void AddInstructor(Instructor instructor)
         {
             throw new NotSupportedException();
         }
@@ -156,7 +156,7 @@ namespace ADD_Demo.Classes
             throw new NotSupportedException();
         }
 
-        public static bool UpdateInstructor(Instructor inst)
+        public static bool UpdateInstructor(Instructor instructor)
         {
             throw new NotSupportedException();
         }

@@ -37,7 +37,7 @@ namespace ADD_Demo {
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.SqlDataSource InstructorsDataSource;
+        protected global::System.Web.UI.WebControls.ObjectDataSource InstructorsDataSource;
         
         /// <summary>
         /// DetailsView1 control.
@@ -55,7 +55,7 @@ namespace ADD_Demo {
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.SqlDataSource InstructorDetailsDataSource;
+        protected global::System.Web.UI.WebControls.ObjectDataSource InstructorDetailsDataSource;
         
         /// <summary>
         /// InstructorQualificationsDataSource control.
