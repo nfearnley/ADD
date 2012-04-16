@@ -22,42 +22,6 @@ namespace ADD_Demo {
         protected global::System.Web.UI.HtmlControls.HtmlForm form1;
         
         /// <summary>
-        /// SDSClient control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.SqlDataSource SDSClient;
-        
-        /// <summary>
-        /// ODSGetClients control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.ObjectDataSource ODSGetClients;
-        
-        /// <summary>
-        /// ODSGetClient control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.ObjectDataSource ODSGetClient;
-        
-        /// <summary>
-        /// ODSGetCompany control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.ObjectDataSource ODSGetCompany;
-        
-        /// <summary>
         /// lblClientSearch control.
         /// </summary>
         /// <remarks>
@@ -74,6 +38,15 @@ namespace ADD_Demo {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList ddlClientSearch;
+        
+        /// <summary>
+        /// ODSGetClients control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.ObjectDataSource ODSGetClients;
         
         /// <summary>
         /// lblClientInfo control.
@@ -94,13 +67,13 @@ namespace ADD_Demo {
         protected global::System.Web.UI.WebControls.DetailsView dvClientDetails;
         
         /// <summary>
-        /// SDSClientDetails control.
+        /// ODSGetClient control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.SqlDataSource SDSClientDetails;
+        protected global::System.Web.UI.WebControls.ObjectDataSource ODSGetClient;
         
         /// <summary>
         /// dvClientCompany control.
@@ -112,12 +85,12 @@ namespace ADD_Demo {
         protected global::System.Web.UI.WebControls.DetailsView dvClientCompany;
         
         /// <summary>
-        /// SDSClientCompany control.
+        /// ODSGetCompany control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.SqlDataSource SDSClientCompany;
+        protected global::System.Web.UI.WebControls.ObjectDataSource ODSGetCompany;
     }
 }
