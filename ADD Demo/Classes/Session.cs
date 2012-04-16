@@ -25,8 +25,8 @@ namespace ADD_Demo.Classes
         }
 
         public static Session GetSession(int sessionID)
-        { 
-            return new Session()
+        {
+            return new Session();
         }
 
         public static List<Session> GetSessionsByInstructorID(int instructorID)

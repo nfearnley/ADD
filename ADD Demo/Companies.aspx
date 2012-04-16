@@ -10,22 +10,14 @@
     <form id="form1" runat="server">
     <div>
     
-        <asp:Label ID="lblCompany" runat="server" Text="Company Information"></asp:Label>
-        <br />
+        Select a Company<br />
         <asp:DropDownList ID="ddlCompanies" runat="server" AutoPostBack="True" 
             DataSourceID="GetCompanies" DataTextField="BillingName" 
             DataValueField="CompanyID">
         </asp:DropDownList>
-        <asp:SqlDataSource ID="SDSCompanies" runat="server" 
-            ConnectionString="<%$ ConnectionStrings:ADDDatabase %>" 
-            SelectCommand="SELECT [CompanyID], [BillingName] FROM [Companys]">
-        </asp:SqlDataSource>
     
         <asp:ObjectDataSource ID="GetCompanies" runat="server" 
             SelectMethod="GetCompanies" TypeName="ADD_Demo.Classes.Company">
-            <SelectParameters>
-                <asp:Parameter Name="companyID" Type="Int32" />
-            </SelectParameters>
         </asp:ObjectDataSource>
         <asp:ObjectDataSource ID="GetCompany" runat="server" 
             DataObjectTypeName="ADD_Demo.Classes.Company" DeleteMethod="RemoveCompany" 
@@ -40,17 +32,21 @@
             </SelectParameters>
         </asp:ObjectDataSource>
         <asp:ObjectDataSource ID="GetClientsByCompany" runat="server" 
-            SelectMethod="GetCompanies" TypeName="ADD_Demo.Classes.Company">
+            SelectMethod="GetClientsByCompanyID" TypeName="ADD_Demo.Classes.Client">
             <SelectParameters>
-                <asp:Parameter Name="companyID" Type="Int32" />
+                <asp:ControlParameter ControlID="ddlCompanies" Name="companyID" 
+                    PropertyName="SelectedValue" Type="Int32" />
             </SelectParameters>
         </asp:ObjectDataSource>
     
-    </div>
+        <br />
+        Company Information</div>
     <asp:DetailsView ID="dvCompanyInfo" runat="server" AutoGenerateRows="False" 
-        DataKeyNames="CompanyID" DataSourceID="SDSCompanyInformation" Height="50px" 
+        DataSourceID="GetCompany" Height="50px" 
         Width="250px">
         <Fields>
+            <asp:BoundField DataField="CompanyID" HeaderText="CompanyID" 
+                SortExpression="CompanyID" Visible="False" />
             <asp:BoundField DataField="BillingName" HeaderText="Name" 
                 SortExpression="BillingName" />
             <asp:BoundField DataField="BillingAddressCity" HeaderText="City" 
@@ -65,63 +61,40 @@
                 SortExpression="BillingAddressPostalCode" />
             <asp:BoundField DataField="BillingAddressRegion" HeaderText="Region" 
                 SortExpression="BillingAddressRegion" />
-            <asp:CommandField ShowEditButton="True" ShowInsertButton="True" />
+            <asp:CommandField ShowDeleteButton="True" ShowEditButton="True" 
+                ShowInsertButton="True" />
         </Fields>
     </asp:DetailsView>
-    <asp:SqlDataSource ID="SDSCompanyInformation" runat="server" 
-        ConnectionString="<%$ ConnectionStrings:ADDDatabase %>" 
-        SelectCommand="SELECT * FROM [Companys] WHERE ([CompanyID] = @CompanyID)" 
-        DeleteCommand="DELETE FROM Companys WHERE (CompanyID = @CompanyID)" 
-        InsertCommand="INSERT INTO Companys(BillingAddressCity, BillingAddressCountry, BillingAddressLine1, BillingAddressLine2, BillingAddressPostalCode, BillingAddressRegion, BillingName) VALUES (@BillingAddressCity, @BillingAddressCountry, @BillingAddressLine1, @BillingAddressLine2, @BillingAddressPostalCode, @BillingAddressRegion, @BillingName)" 
-        UpdateCommand="UPDATE Companys SET BillingName = @BillingName, BillingAddressRegion = @BillingAddressRegion, BillingAddressPostalCode = @BillingAddressPostalCode, BillingAddressLine2 = @BillingAddressLine2, BillingAddressLine1 = @BillingAddressLine1, BillingAddressCountry = @BillingAddressCountry, BillingAddressCity = @BillingAddressCity WHERE CompanyID = @CompanyID">
-        <DeleteParameters>
-            <asp:Parameter Name="CompanyID" />
-        </DeleteParameters>
-        <InsertParameters>
-            <asp:Parameter Name="BillingAddressCity" />
-            <asp:Parameter Name="BillingAddressCountry" />
-            <asp:Parameter Name="BillingAddressLine1" />
-            <asp:Parameter Name="BillingAddressLine2" />
-            <asp:Parameter Name="BillingAddressPostalCode" />
-            <asp:Parameter Name="BillingAddressRegion" />
-            <asp:Parameter Name="BillingName" />
-        </InsertParameters>
-        <SelectParameters>
-            <asp:ControlParameter ControlID="ddlCompanies" Name="CompanyID" 
-                PropertyName="SelectedValue" Type="Int32" />
-        </SelectParameters>
-        <UpdateParameters>
-            <asp:Parameter Name="BillingName" />
-            <asp:Parameter Name="BillingAddressRegion" />
-            <asp:Parameter Name="BillingAddressPostalCode" />
-            <asp:Parameter Name="BillingAddressLine2" />
-            <asp:Parameter Name="BillingAddressLine1" />
-            <asp:Parameter Name="BillingAddressCountry" />
-            <asp:Parameter Name="BillingAddressCity" />
-            <asp:Parameter Name="CompanyID" />
-        </UpdateParameters>
-    </asp:SqlDataSource>
-    <asp:SqlDataSource ID="SDSCompanyClientList" runat="server" 
-        ConnectionString="<%$ ConnectionStrings:ADDDatabase %>" 
-        SelectCommand="SELECT * FROM [Companys] INNER JOIN [Clients] ON Companys.CompanyID=Clients.CompanyID WHERE Companys.CompanyID=@CompanyID">
-        <SelectParameters>
-            <asp:ControlParameter ControlID="ddlCompanies" Name="CompanyID" 
-                PropertyName="SelectedValue" />
-        </SelectParameters>
-    </asp:SqlDataSource>
-    <asp:GridView ID="GridView1" runat="server" AutoGenerateColumns="False" 
-        DataKeyNames="CompanyID,ClientID" DataSourceID="SDSCompanyClientList" 
-        Width="250px">
+    <br />
+    Clients Registered with This Company:<asp:GridView ID="GridView1" 
+        runat="server" AutoGenerateColumns="False" DataSourceID="GetClientsByCompany" 
+        Width="750px">
         <Columns>
-            <asp:BoundField DataField="BillingName" HeaderText="Company" 
-                SortExpression="BillingName" />
             <asp:BoundField DataField="FirstName" HeaderText="First Name" 
                 SortExpression="FirstName" />
             <asp:BoundField DataField="LastName" HeaderText="Last Name" 
                 SortExpression="LastName" />
+            <asp:BoundField DataField="HomePhone" HeaderText="Home Phone" 
+                SortExpression="HomePhone" />
+            <asp:BoundField DataField="WorkPhone" HeaderText="Work Phone" 
+                SortExpression="WorkPhone" />
+            <asp:BoundField DataField="FaxPhone" HeaderText="Fax" 
+                SortExpression="FaxPhone" />
+            <asp:BoundField DataField="AddressCity" HeaderText="City" 
+                SortExpression="AddressCity" />
+            <asp:BoundField DataField="AddressCountry" HeaderText="Country" 
+                SortExpression="AddressCountry" />
+            <asp:BoundField DataField="AddressRegion" HeaderText="Region" 
+                SortExpression="AddressRegion" />
+            <asp:BoundField DataField="AddressLine1" HeaderText="Address Line 1" 
+                SortExpression="AddressLine1" />
+            <asp:BoundField DataField="AddressLine2" HeaderText="Address Line 2" 
+                SortExpression="AddressLine2" />
+            <asp:BoundField DataField="AddressPostalCode" HeaderText="Postal Code" 
+                SortExpression="AddressPostalCode" />
         </Columns>
     </asp:GridView>
-    AS<br />
+    <br />
     </form>
 </body>
 </html>

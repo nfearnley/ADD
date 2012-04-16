@@ -22,15 +22,6 @@ namespace ADD_Demo {
         protected global::System.Web.UI.HtmlControls.HtmlForm form1;
         
         /// <summary>
-        /// lblCompany control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblCompany;
-        
-        /// <summary>
         /// ddlCompanies control.
         /// </summary>
         /// <remarks>
@@ -38,15 +29,6 @@ namespace ADD_Demo {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList ddlCompanies;
-        
-        /// <summary>
-        /// SDSCompanies control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.SqlDataSource SDSCompanies;
         
         /// <summary>
         /// GetCompanies control.
@@ -83,24 +65,6 @@ namespace ADD_Demo {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DetailsView dvCompanyInfo;
-        
-        /// <summary>
-        /// SDSCompanyInformation control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.SqlDataSource SDSCompanyInformation;
-        
-        /// <summary>
-        /// SDSCompanyClientList control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.SqlDataSource SDSCompanyClientList;
         
         /// <summary>
         /// GridView1 control.

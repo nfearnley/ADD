@@ -10,14 +10,14 @@ namespace ADD_Demo.Classes
 {
     public class Company
     {
-        private int CompanyID;
-        private String BillingAddressCity;
-        private String BillingAddressCountry;
-        private String BillingAddressLine1;
-        private String BillingAddressLine2;
-        private String BillingAddressPostalCode;
-        private String BillingAddressRegion;
-        private String BillingName;
+        public int CompanyID { get; set; }
+        public String BillingAddressCity { get; set; }
+        public String BillingAddressCountry { get; set; }
+        public String BillingAddressLine1 { get; set; }
+        public String BillingAddressLine2 { get; set; }
+        public String BillingAddressPostalCode { get; set; }
+        public String BillingAddressRegion { get; set; }
+        public String BillingName { get; set; }
 
         public Company(String city, String country, String line1, String line2, String code, String region, String name)
         {
@@ -39,6 +39,7 @@ namespace ADD_Demo.Classes
 
             // Setup Command
             SqlCommand comm = DatabaseConnection.GetCommand("dbo.GetCompany", conn);
+            comm.Parameters.AddWithValue("CompanyID", companyID);
             Company company = new Company();
             try
             {
@@ -75,7 +76,7 @@ namespace ADD_Demo.Classes
             return company;
         }
 
-        public static List<Company> GetCompanies(int companyID)
+        public static IEnumerable<Company> GetCompanies()
         {
             // Setup Connection
             SqlConnection conn = DatabaseConnection.GetConnection();

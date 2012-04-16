@@ -10,19 +10,19 @@ namespace ADD_Demo.Classes
 {
     public class Client
     {
-        private int ClientID;
-        private String WorkPhone;
-        private String LastName;
-        private String HomePhone;
-        private String FirstName;
-        private String FaxPhone;
-        private String AddressRegion;
-        private String AddressPostalCode;
-        private String AddressLine1;
-        private String AddressLine2;
-        private String AddressCountry;
-        private String AddressCity;
-        private int CompanyID;
+        public int ClientID { get; set; }
+        public String WorkPhone { get; set; }
+        public String LastName { get; set; }
+        public String HomePhone { get; set; }
+        public String FirstName { get; set; }
+        public String FaxPhone { get; set; }
+        public String AddressRegion { get; set; }
+        public String AddressPostalCode { get; set; }
+        public String AddressLine1 { get; set; }
+        public String AddressLine2 { get; set; }
+        public String AddressCountry { get; set; }
+        public String AddressCity { get; set; }
+        public int CompanyID { get; set; }
 
         public Client()
         { }
