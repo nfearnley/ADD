@@ -125,45 +125,34 @@
         <asp:DetailsView ID="dvClientCompany" runat="server" AutoGenerateRows="False" 
             BackColor="White" BorderColor="#999999" BorderStyle="None" BorderWidth="1px" 
             CellPadding="3" 
-            DataSourceID="SDSClientCompany" GridLines="Vertical" Height="50px" 
+            DataSourceID="ODSGetCompany" GridLines="Vertical" Height="50px" 
             Width="250px" Enabled="False">
             <AlternatingRowStyle BackColor="#DCDCDC" />
             <EditRowStyle BackColor="#008A8C" Font-Bold="True" ForeColor="White" />
+            <Fields>
+                <asp:BoundField DataField="CompanyID" HeaderText="CompanyID" 
+                    SortExpression="CompanyID" />
+                <asp:BoundField DataField="BillingAddressCity" HeaderText="BillingAddressCity" 
+                    SortExpression="BillingAddressCity" />
+                <asp:BoundField DataField="BillingAddressCountry" 
+                    HeaderText="BillingAddressCountry" SortExpression="BillingAddressCountry" />
+                <asp:BoundField DataField="BillingAddressLine1" 
+                    HeaderText="BillingAddressLine1" SortExpression="BillingAddressLine1" />
+                <asp:BoundField DataField="BillingAddressLine2" 
+                    HeaderText="BillingAddressLine2" SortExpression="BillingAddressLine2" />
+                <asp:BoundField DataField="BillingAddressPostalCode" 
+                    HeaderText="BillingAddressPostalCode" 
+                    SortExpression="BillingAddressPostalCode" />
+                <asp:BoundField DataField="BillingAddressRegion" 
+                    HeaderText="BillingAddressRegion" SortExpression="BillingAddressRegion" />
+                <asp:BoundField DataField="BillingName" HeaderText="BillingName" 
+                    SortExpression="BillingName" />
+            </Fields>
             <FooterStyle BackColor="#CCCCCC" ForeColor="Black" />
             <HeaderStyle BackColor="#000084" Font-Bold="True" ForeColor="White" />
             <PagerStyle BackColor="#999999" ForeColor="Black" HorizontalAlign="Center" />
             <RowStyle BackColor="#EEEEEE" ForeColor="Black" />
         </asp:DetailsView>
-        <asp:SqlDataSource ID="SDSClientCompany" runat="server" 
-            ConnectionString="<%$ ConnectionStrings:ADDDatabase %>" 
-            InsertCommand="INSERT INTO Companys(BillingAddressCity, BillingAddressCountry, BillingAddressLine1, BillingAddressLine2, BillingAddressPostalCode, BillingAddressRegion, BillingName) VALUES (@BillingAddressCity, @BillingAddressCountry, @BillingAddressLine1, @BillingAddressLine2, @BillingAddressPostalCode, @BillingAddressRegion, @BillingName)" 
-            SelectCommand="SELECT Companys.BillingAddressCity, Companys.BillingAddressCountry, Companys.BillingAddressLine1, Companys.BillingAddressLine2, Companys.BillingAddressPostalCode, Companys.BillingAddressRegion, Companys.BillingName, Companys.CompanyID, Clients.ClientID, Clients.CompanyID AS Expr1 FROM Companys INNER JOIN Clients ON Clients.CompanyID = Companys.CompanyID WHERE (Clients.ClientID = @ClientID)" 
-            
-            UpdateCommand="UPDATE Companys SET BillingAddressCity = @BillingAddressCity, BillingAddressCountry = @BillingAddressCountry, BillingAddressLine1 = @BillingAddressLine1, BillingAddressLine2 = @BillingAddress2, BillingAddressPostalCode = @BillingAddressPostalCode, BillingAddressRegion = @BillingAddressRegion, BillingName = @BillingName WHERE EXISTS (SELECT ClientID, CompanyID FROM Clients WHERE ClientID = @ClientID)">
-            <InsertParameters>
-                <asp:Parameter Name="BillingAddressCity" />
-                <asp:Parameter Name="BillingAddressCountry" />
-                <asp:Parameter Name="BillingAddressLine1" />
-                <asp:Parameter Name="BillingAddressLine2" />
-                <asp:Parameter Name="BillingAddressPostalCode" />
-                <asp:Parameter Name="BillingAddressRegion" />
-                <asp:Parameter Name="BillingName" />
-            </InsertParameters>
-            <SelectParameters>
-                <asp:ControlParameter ControlID="ddlClientSearch" Name="ClientID" 
-                    PropertyName="SelectedValue" />
-            </SelectParameters>
-            <UpdateParameters>
-                <asp:Parameter Name="BillingAddressCity" />
-                <asp:Parameter Name="BillingAddressCountry" />
-                <asp:Parameter Name="BillingAddressLine1" />
-                <asp:Parameter Name="BillingAddress2" />
-                <asp:Parameter Name="BillingAddressPostalCode" />
-                <asp:Parameter Name="BillingAddressRegion" />
-                <asp:Parameter Name="BillingName" />
-                <asp:Parameter Name="ClientID" />
-            </UpdateParameters>
-        </asp:SqlDataSource>
         <br />
         <br />
     
