@@ -29,7 +29,13 @@
                     PropertyName="SelectedValue" Type="Int32" />
             </SelectParameters>
         </asp:ObjectDataSource>
-        <asp:ObjectDataSource ID="ODSGetCompany" runat="server"></asp:ObjectDataSource>
+        <asp:ObjectDataSource ID="ODSGetCompany" runat="server" 
+            SelectMethod="GetCompany" TypeName="ADD_Demo.Classes.Company">
+            <SelectParameters>
+                <asp:ControlParameter ControlID="dvClientDetails" Direction="Output" 
+                    Name="companyID" PropertyName="Rows" Type="Int32" />
+            </SelectParameters>
+        </asp:ObjectDataSource>
         <asp:Label ID="lblClientSearch" runat="server" Text="Search for a Client"></asp:Label>
         <br />
         <asp:DropDownList ID="ddlClientSearch" runat="server" AutoPostBack="True" 
@@ -118,29 +124,11 @@
         Company Information<br />
         <asp:DetailsView ID="dvClientCompany" runat="server" AutoGenerateRows="False" 
             BackColor="White" BorderColor="#999999" BorderStyle="None" BorderWidth="1px" 
-            CellPadding="3" DataKeyNames="CompanyID,ClientID" 
+            CellPadding="3" 
             DataSourceID="SDSClientCompany" GridLines="Vertical" Height="50px" 
-            Width="250px">
+            Width="250px" Enabled="False">
             <AlternatingRowStyle BackColor="#DCDCDC" />
             <EditRowStyle BackColor="#008A8C" Font-Bold="True" ForeColor="White" />
-            <Fields>
-                <asp:BoundField DataField="BillingName" HeaderText="Name" 
-                    SortExpression="BillingName" />
-                <asp:BoundField DataField="BillingAddressLine1" HeaderText="Address Line 1" 
-                    SortExpression="BillingAddressLine1" />
-                <asp:BoundField DataField="BillingAddressLine2" HeaderText="Address Line 2" 
-                    SortExpression="BillingAddressLine2" />
-                <asp:BoundField DataField="BillingAddressCity" HeaderText="Address City" 
-                    SortExpression="BillingAddressCity" />
-                <asp:BoundField DataField="BillingAddressCountry" HeaderText="Address Country" 
-                    SortExpression="BillingAddressCountry" />
-                <asp:BoundField DataField="BillingAddressPostalCode" 
-                    HeaderText="Address Postal Code" SortExpression="BillingAddressPostalCode" />
-                <asp:BoundField DataField="BillingAddressRegion" HeaderText="Address Region" 
-                    SortExpression="BillingAddressRegion" />
-                <asp:CommandField ShowEditButton="True" ShowInsertButton="True">
-                </asp:CommandField>
-            </Fields>
             <FooterStyle BackColor="#CCCCCC" ForeColor="Black" />
             <HeaderStyle BackColor="#000084" Font-Bold="True" ForeColor="White" />
             <PagerStyle BackColor="#999999" ForeColor="Black" HorizontalAlign="Center" />
