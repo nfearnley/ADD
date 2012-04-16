@@ -10,8 +10,8 @@ namespace ADD_Demo.Classes
 {
     public class Status
     {
-        private int StatusID;
-        private String StatusName;
+        public int StatusID { get; set; }
+        public String StatusName { get; set; }
 
         public Status()
         { }

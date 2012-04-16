@@ -7,8 +7,8 @@ namespace ADD_Demo.Classes
 {
     public class InstructorQualification
     {
-        private int CourseID;
-        private int InstructorID;
+        public int CourseID { get; set; }
+        public int InstructorID { get; set; }
 
         public InstructorQualification()
         { }

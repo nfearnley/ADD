@@ -2,14 +2,17 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Data;
+using System.Data.SqlClient;
+using System.Web.Configuration;
 
 namespace ADD_Demo.Classes
 {
     public class Invoice
     {
-        private int CompanyID;
-        private int InvoiceID;
-        private DateTime Date;
+        public int CompanyID { get; set; }
+        public int InvoiceID { get; set; }
+        public DateTime Date { get; set; }
 
         public Invoice()
         {}
@@ -27,32 +30,212 @@ namespace ADD_Demo.Classes
 
         public static Invoice GetInvoice(int invoiceID)
         {
-            return new Invoice();
+            // Setup Connection
+            SqlConnection conn = DatabaseConnection.GetConnection();
+            // Setup Command
+            SqlCommand comm = DatabaseConnection.GetCommand("dbo.GetInvoice", conn);
+            comm.Parameters.AddWithValue("SessionID", invoiceID);
+            Invoice invoice = new Invoice();
+            try
+            {
+                conn.Open();
+                SqlDataReader reader = comm.ExecuteReader();
+                if (reader.Read())
+                {
+                    invoice.CompanyID = (int)reader["CompanyID"];
+                    invoice.Date = (DateTime)reader["Date"];
+                    invoice.InvoiceID = (int)reader["InvoiceID"];
+                }
+            }
+            catch
+            {
+            }
+            finally
+            {
+                // Close Connection
+                if (conn.State == ConnectionState.Open)
+                    conn.Close();
+
+                // Dispose of Command
+                comm.Dispose();
+
+                // Dispose of Connection
+                conn.Dispose();
+            }
+            return invoice;
         }
 
-        public static List<Invoice> GetInvoicesByCompanyID(int companyID)
+        public static IEnumerable<Invoice> GetInvoicesByCompanyID(int companyID)
         {
-            return new List<Invoice>();
+            // Setup Connection
+            SqlConnection conn = DatabaseConnection.GetConnection();
+            // Setup Command
+            SqlCommand comm = DatabaseConnection.GetCommand("dbo.GetInvoice", conn);
+            comm.Parameters.AddWithValue("CompanyID", companyID);
+            List<Invoice> invoices = new List<Invoice>();
+
+            try
+            {
+                conn.Open();
+                SqlDataReader reader = comm.ExecuteReader();
+                while (reader.Read())
+                {
+                    Invoice invoice = new Invoice();
+                    invoice.CompanyID = (int)reader["CompanyID"];
+                    invoice.Date = (DateTime)reader["Date"];
+                    invoice.InvoiceID = (int)reader["InvoiceID"];
+                }
+            }
+            catch
+            {
+            }
+            finally
+            {
+                // Close Connection
+                if (conn.State == ConnectionState.Open)
+                    conn.Close();
+
+                // Dispose of Command
+                comm.Dispose();
+
+                // Dispose of Connection
+                conn.Dispose();
+            }
+            return invoices;
         }
 
         public static List<Invoice> GetInvoices()
         {
-            return new List<Invoice>();
+            // Setup Connection
+            SqlConnection conn = DatabaseConnection.GetConnection();
+            // Setup Command
+            SqlCommand comm = DatabaseConnection.GetCommand("dbo.GetInvoice", conn);
+            List<Invoice> invoices = new List<Invoice>();
+
+            try
+            {
+                conn.Open();
+                SqlDataReader reader = comm.ExecuteReader();
+                while (reader.Read())
+                {
+                    Invoice invoice = new Invoice();
+                    invoice.CompanyID = (int)reader["CompanyID"];
+                    invoice.Date = (DateTime)reader["Date"];
+                    invoice.InvoiceID = (int)reader["InvoiceID"];
+                }
+            }
+            catch
+            {
+            }
+            finally
+            {
+                // Close Connection
+                if (conn.State == ConnectionState.Open)
+                    conn.Close();
+
+                // Dispose of Command
+                comm.Dispose();
+
+                // Dispose of Connection
+                conn.Dispose();
+            }
+            return invoices;
         }
 
         public static int AddInvoice(Invoice invoice)
         {
-            return 0;
+            int result = 0;
+            // Setup Connection
+            SqlConnection conn = DatabaseConnection.GetConnection();
+            // Setup Command
+            SqlCommand comm = DatabaseConnection.GetCommand("dbo.GetInvoice", conn);
+            comm.Parameters.AddWithValue("CompanyID", invoice.CompanyID);
+            comm.Parameters.AddWithValue("Date", invoice.Date);
+            try
+            {
+                conn.Open();
+                result = comm.ExecuteNonQuery();
+            }
+            catch
+            {
+            }
+            finally
+            {
+                // Close Connection
+                if (conn.State == ConnectionState.Open)
+                    conn.Close();
+
+                // Dispose of Command
+                comm.Dispose();
+
+                // Dispose of Connection
+                conn.Dispose();
+            }
+            return result;
         }
 
         public static int UpdateInvoice(Invoice invoice)
         {
-            return 0;
+            int result = 0;
+            // Setup Connection
+            SqlConnection conn = DatabaseConnection.GetConnection();
+            // Setup Command
+            SqlCommand comm = DatabaseConnection.GetCommand("dbo.GetInvoice", conn);
+            comm.Parameters.AddWithValue("InvoiceID", invoice.InvoiceID);
+            comm.Parameters.AddWithValue("CompanyID", invoice.CompanyID);
+            comm.Parameters.AddWithValue("Date", invoice.Date);
+            try
+            {
+                conn.Open();
+                result = comm.ExecuteNonQuery();
+            }
+            catch
+            {
+            }
+            finally
+            {
+                // Close Connection
+                if (conn.State == ConnectionState.Open)
+                    conn.Close();
+
+                // Dispose of Command
+                comm.Dispose();
+
+                // Dispose of Connection
+                conn.Dispose();
+            }
+            return result;
         }
 
         public static int RemoveInvoice(int invoiceID)
         {
-            return 0;
+            int result = 0;
+            // Setup Connection
+            SqlConnection conn = DatabaseConnection.GetConnection();
+            // Setup Command
+            SqlCommand comm = DatabaseConnection.GetCommand("dbo.GetInvoice", conn);
+            comm.Parameters.AddWithValue("InvoiceID", invoiceID);
+            try
+            {
+                conn.Open();
+                result = comm.ExecuteNonQuery();
+            }
+            catch
+            {
+            }
+            finally
+            {
+                // Close Connection
+                if (conn.State == ConnectionState.Open)
+                    conn.Close();
+
+                // Dispose of Command
+                comm.Dispose();
+
+                // Dispose of Connection
+                conn.Dispose();
+            }
+            return result;
         }
     }
 }
