@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Data;
+using System.Data.SqlClient;
+using System.Web.Configuration;
 
 namespace ADD_Demo.Classes
 {
@@ -19,34 +22,213 @@ namespace ADD_Demo.Classes
             InstructorID = instructorID;
         }
 
-        public static List<InstructorQualification> GetInstructorQualificationsByCourseID(int courseID)
+        public static IEnumerable<InstructorQualification> GetInstructorQualificationsByCourseID(int courseID)
         {
-            return new List<InstructorQualification>();
+            // Setup Connection
+            SqlConnection conn = DatabaseConnection.GetConnection();
+            // Setup Command
+            SqlCommand comm = DatabaseConnection.GetCommand("dbo.GetInstructorQualificationsByCourseID", conn);
+            comm.Parameters.AddWithValue("CourseID", courseID);
+            List<InstructorQualification> instructorQualifications = new List<InstructorQualification>();
+            try
+            {
+                conn.Open();
+                SqlDataReader reader = comm.ExecuteReader();
+                while (reader.Read())
+                {
+                    InstructorQualification instQual = new InstructorQualification();
+                    instQual.CourseID = (int)reader["CourseID"];
+                    instQual.InstructorID = (int)reader["InstructorID"];
+                }
+            }
+            catch
+            {
+            }
+            finally
+            {
+                // Close Connection
+                if (conn.State == ConnectionState.Open)
+                    conn.Close();
+
+                // Dispose of Command
+                comm.Dispose();
+
+                // Dispose of Connection
+                conn.Dispose();
+            }
+            return instructorQualifications;
         }
 
-        public static List<InstructorQualification> GetInstructorQualificationsByInstructorID(int instructorID)
+        public static IEnumerable<InstructorQualification> GetInstructorQualificationsByInstructorID(int instructorID)
         {
-            return new List<InstructorQualification>();
+            // Setup Connection
+            SqlConnection conn = DatabaseConnection.GetConnection();
+            // Setup Command
+            SqlCommand comm = DatabaseConnection.GetCommand("dbo.GetInstructorQualificationsByInstructorID", conn);
+            comm.Parameters.AddWithValue("InstructorID", instructorID);
+            List<InstructorQualification> instructorQualifications = new List<InstructorQualification>();
+            try
+            {
+                conn.Open();
+                SqlDataReader reader = comm.ExecuteReader();
+                while (reader.Read())
+                {
+                    InstructorQualification instQual = new InstructorQualification();
+                    instQual.CourseID = (int)reader["CourseID"];
+                    instQual.InstructorID = (int)reader["InstructorID"];
+                }
+            }
+            catch
+            {
+            }
+            finally
+            {
+                // Close Connection
+                if (conn.State == ConnectionState.Open)
+                    conn.Close();
+
+                // Dispose of Command
+                comm.Dispose();
+
+                // Dispose of Connection
+                conn.Dispose();
+            }
+            return instructorQualifications;
         }
 
-        public static List<InstructorQualification> GetInstructorQualifications()
+        public static IEnumerable<InstructorQualification> GetInstructorQualifications()
         {
-            return new List<InstructorQualification>();
+            // Setup Connection
+            SqlConnection conn = DatabaseConnection.GetConnection();
+            // Setup Command
+            SqlCommand comm = DatabaseConnection.GetCommand("dbo.GetInstructorQualifications", conn);
+            List<InstructorQualification> instructorQualifications = new List<InstructorQualification>();
+            try
+            {
+                conn.Open();
+                SqlDataReader reader = comm.ExecuteReader();
+                while (reader.Read())
+                {
+                    InstructorQualification instQual = new InstructorQualification();
+                    instQual.CourseID = (int)reader["CourseID"];
+                    instQual.InstructorID = (int)reader["InstructorID"];
+                }
+            }
+            catch
+            {
+            }
+            finally
+            {
+                // Close Connection
+                if (conn.State == ConnectionState.Open)
+                    conn.Close();
+
+                // Dispose of Command
+                comm.Dispose();
+
+                // Dispose of Connection
+                conn.Dispose();
+            }
+            return instructorQualifications;
         }
 
-        public static int AddInstructorQualification()
+        public static int AddInstructorQualification(InstructorQualification instQual)
         {
-            return 0;
+            int result = 0;
+            // Setup Connection
+            SqlConnection conn = DatabaseConnection.GetConnection();
+            // Setup Command
+            SqlCommand comm = DatabaseConnection.GetCommand("dbo.AddInstructorQualification", conn);
+            comm.Parameters.AddWithValue("CourseID", instQual.CourseID);
+            comm.Parameters.AddWithValue("InstructorID", instQual.InstructorID);
+            List<InstructorQualification> instructorQualifications = new List<InstructorQualification>();
+            try
+            {
+                conn.Open();
+                result = comm.ExecuteNonQuery();
+            }
+            catch
+            {
+            }
+            finally
+            {
+                // Close Connection
+                if (conn.State == ConnectionState.Open)
+                    conn.Close();
+
+                // Dispose of Command
+                comm.Dispose();
+
+                // Dispose of Connection
+                conn.Dispose();
+            }
+            return result;
         }
 
         public static int RemoveInstructorQualification(int instructorID, int courseID)
         {
-            return 0;
+            int result = 0;
+            // Setup Connection
+            SqlConnection conn = DatabaseConnection.GetConnection();
+            // Setup Command
+            SqlCommand comm = DatabaseConnection.GetCommand("dbo.RemoveInstructorQualification", conn);
+            comm.Parameters.AddWithValue("CourseID", courseID);
+            comm.Parameters.AddWithValue("InstructorID", instructorID);
+            List<InstructorQualification> instructorQualifications = new List<InstructorQualification>();
+            try
+            {
+                conn.Open();
+                result = comm.ExecuteNonQuery();
+            }
+            catch
+            {
+            }
+            finally
+            {
+                // Close Connection
+                if (conn.State == ConnectionState.Open)
+                    conn.Close();
+
+                // Dispose of Command
+                comm.Dispose();
+
+                // Dispose of Connection
+                conn.Dispose();
+            }
+            return result;
         }
 
         public static int RemoveInstructorQualification(InstructorQualification instQual)
         {
-            return 0;
+            int result = 0;
+            // Setup Connection
+            SqlConnection conn = DatabaseConnection.GetConnection();
+            // Setup Command
+            SqlCommand comm = DatabaseConnection.GetCommand("dbo.RemoveInstructorQualification", conn);
+            comm.Parameters.AddWithValue("CourseID", instQual.CourseID);
+            comm.Parameters.AddWithValue("InstructorID", instQual.InstructorID);
+            List<InstructorQualification> instructorQualifications = new List<InstructorQualification>();
+            try
+            {
+                conn.Open();
+                result = comm.ExecuteNonQuery();
+            }
+            catch
+            {
+            }
+            finally
+            {
+                // Close Connection
+                if (conn.State == ConnectionState.Open)
+                    conn.Close();
+
+                // Dispose of Command
+                comm.Dispose();
+
+                // Dispose of Connection
+                conn.Dispose();
+            }
+            return result;
         }
     }
 }
