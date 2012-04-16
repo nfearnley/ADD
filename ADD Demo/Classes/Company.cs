@@ -88,7 +88,7 @@ namespace ADD_Demo.Classes
                 // Open Connection
                 conn.Open();
                 SqlDataReader reader = comm.ExecuteReader();
-                if (reader.Read())
+                while (reader.Read())
                 {
                     Company company = new Company();
                     company.BillingAddressCity = reader["BillingAddressCity"] as String;
