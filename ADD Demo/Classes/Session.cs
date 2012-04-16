@@ -74,14 +74,14 @@ namespace ADD_Demo.Classes
             SqlConnection conn = DatabaseConnection.GetConnection();
 
             // Setup Command
-            SqlCommand comm = DatabaseConnection.GetCommand("dbo.GetSession", conn);
+            SqlCommand comm = DatabaseConnection.GetCommand("dbo.GetSessionsByInstructorID", conn);
             comm.Parameters.AddWithValue("InstructorID", instructorID);
             List<Session> sessions = new List<Session>();
             try
             {
                 conn.Open();
                 SqlDataReader reader = comm.ExecuteReader();
-                if (reader.Read())
+                while (reader.Read())
                 {
                     Session session = new Session();
                     session.Date = (DateTime)reader["DateTime"];
@@ -116,14 +116,14 @@ namespace ADD_Demo.Classes
             SqlConnection conn = DatabaseConnection.GetConnection();
 
             // Setup Command
-            SqlCommand comm = DatabaseConnection.GetCommand("dbo.GetSession", conn);
+            SqlCommand comm = DatabaseConnection.GetCommand("dbo.GetSessionsByRoomID", conn);
             comm.Parameters.AddWithValue("RoomID", roomID);
             List<Session> sessions = new List<Session>();
             try
             {
                 conn.Open();
                 SqlDataReader reader = comm.ExecuteReader();
-                if (reader.Read())
+                while (reader.Read())
                 {
                     Session session = new Session();
                     session.Date = (DateTime)reader["DateTime"];
@@ -158,14 +158,14 @@ namespace ADD_Demo.Classes
             SqlConnection conn = DatabaseConnection.GetConnection();
 
             // Setup Command
-            SqlCommand comm = DatabaseConnection.GetCommand("dbo.GetSession", conn);
+            SqlCommand comm = DatabaseConnection.GetCommand("dbo.GetSessionsByCourseID", conn);
             comm.Parameters.AddWithValue("CourseID", courseID);
             List<Session> sessions = new List<Session>();
             try
             {
                 conn.Open();
                 SqlDataReader reader = comm.ExecuteReader();
-                if (reader.Read())
+                while (reader.Read())
                 {
                     Session session = new Session();
                     session.Date = (DateTime)reader["DateTime"];
@@ -200,13 +200,13 @@ namespace ADD_Demo.Classes
             SqlConnection conn = DatabaseConnection.GetConnection();
 
             // Setup Command
-            SqlCommand comm = DatabaseConnection.GetCommand("dbo.GetSession", conn);
+            SqlCommand comm = DatabaseConnection.GetCommand("dbo.GetSessions", conn);
             List<Session> sessions = new List<Session>();
             try
             {
                 conn.Open();
                 SqlDataReader reader = comm.ExecuteReader();
-                if (reader.Read())
+                while (reader.Read())
                 {
                     Session session = new Session();
                     session.Date = (DateTime)reader["DateTime"];
@@ -242,7 +242,7 @@ namespace ADD_Demo.Classes
             SqlConnection conn = DatabaseConnection.GetConnection();
 
             // Setup Command
-            SqlCommand comm = DatabaseConnection.GetCommand("dbo.AddCompany", conn);
+            SqlCommand comm = DatabaseConnection.GetCommand("dbo.AddSession", conn);
             comm.Parameters.AddWithValue("SessionID", session.SessionID);
             comm.Parameters.AddWithValue("RoomID", session.RoomID);
             comm.Parameters.AddWithValue("Length", session.Length);
@@ -281,7 +281,7 @@ namespace ADD_Demo.Classes
             SqlConnection conn = DatabaseConnection.GetConnection();
 
             // Setup Command
-            SqlCommand comm = DatabaseConnection.GetCommand("dbo.AddCompany", conn);
+            SqlCommand comm = DatabaseConnection.GetCommand("dbo.RemoveSession", conn);
             comm.Parameters.AddWithValue("SessionID", sessionID);
             try
             {
@@ -316,7 +316,7 @@ namespace ADD_Demo.Classes
             SqlConnection conn = DatabaseConnection.GetConnection();
 
             // Setup Command
-            SqlCommand comm = DatabaseConnection.GetCommand("dbo.AddCompany", conn);
+            SqlCommand comm = DatabaseConnection.GetCommand("dbo.UpdateSession", conn);
             comm.Parameters.AddWithValue("SessionID", session.SessionID);
             comm.Parameters.AddWithValue("RoomID", session.RoomID);
             comm.Parameters.AddWithValue("Length", session.Length);
