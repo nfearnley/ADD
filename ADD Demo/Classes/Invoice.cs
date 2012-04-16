@@ -25,7 +25,23 @@ namespace ADD_Demo.Classes
 
         public static Invoice GenerateInvoice(int companyID)
         {
-            return new Invoice();
+            Invoice invoice = new Invoice(companyID, DateTime.Now);
+            AddInvoice(invoice);
+            List<Invoice> companyInvoices = GetInvoicesByCompanyID(companyID) as List<Invoice>;
+            foreach (Invoice inv in companyInvoices)
+            {
+                if (inv.Date == invoice.Date && inv.CompanyID == invoice.CompanyID)
+                {
+                    invoice = inv;
+                    break;
+                }
+            }
+            List<ClientSession> cs = ClientSession.GetUnpaidClientSessions(companyID) as List<ClientSession>;
+            foreach (ClientSession cSession in cs)
+            { 
+                InvoiceItem.AddInvoiceItem(new InvoiceItem(cSession.ClientSessionID,invoice.InvoiceID));
+            }
+            return invoice;
         }
 
         public static Invoice GetInvoice(int invoiceID)
