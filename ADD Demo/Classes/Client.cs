@@ -91,7 +91,7 @@ namespace ADD_Demo.Classes
             return client;
         }
 
-        public static List<Client> GetClientsByCompanyID(int companyID)
+        public static IEnumerable<Client> GetClientsByCompanyID(int companyID)
         {
             // Setup Connection
             SqlConnection conn = DatabaseConnection.GetConnection();
@@ -140,7 +140,7 @@ namespace ADD_Demo.Classes
             return clients;
         }
 
-        public static List<Client> GetClients()
+        public static IEnumerable<Client> GetClients()
         {
             // Setup Connection
             SqlConnection conn = DatabaseConnection.GetConnection();

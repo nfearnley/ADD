@@ -31,6 +31,33 @@ namespace ADD_Demo {
         protected global::System.Web.UI.WebControls.SqlDataSource SDSClient;
         
         /// <summary>
+        /// ODSGetClients control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.ObjectDataSource ODSGetClients;
+        
+        /// <summary>
+        /// ODSGetClient control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.ObjectDataSource ODSGetClient;
+        
+        /// <summary>
+        /// ODSGetCompany control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.ObjectDataSource ODSGetCompany;
+        
+        /// <summary>
         /// lblClientSearch control.
         /// </summary>
         /// <remarks>
