@@ -10,7 +10,7 @@ namespace ADD_Demo.Classes
     public class DatabaseConnection
     {
 
-        protected static SqlConnection GetConnection()
+        public static SqlConnection GetConnection()
         {
             // Load connection string from web.config
             System.Configuration.Configuration config = System.Web.Configuration.WebConfigurationManager.OpenWebConfiguration("/");
@@ -23,7 +23,7 @@ namespace ADD_Demo.Classes
             return conn;
         }
 
-        protected static SqlCommand GetCommand(String storedProcedure, SqlConnection conn)
+        public static SqlCommand GetCommand(String storedProcedure, SqlConnection conn)
         {
             SqlCommand comm = new SqlCommand();
             comm.CommandType = CommandType.StoredProcedure;

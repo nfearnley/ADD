@@ -45,20 +45,12 @@ namespace ADD_Demo.Classes
 
         public static Client GetClient(int clientID)
         {
-            // Load connection string from web.config
-            System.Configuration.Configuration config = System.Web.Configuration.WebConfigurationManager.OpenWebConfiguration("/");
-            System.Configuration.ConnectionStringSettings connString = config.ConnectionStrings.ConnectionStrings["ADDDatabase"];
-
             // Setup Connection
-            SqlConnection conn = new SqlConnection();
-            conn.ConnectionString = connString.ConnectionString;
+            SqlConnection conn = DatabaseConnection.GetConnection();
 
             // Setup Command
-            SqlCommand comm = new SqlCommand();
-            comm.CommandType = CommandType.StoredProcedure;
-            comm.CommandText = "dbo.GetClient";
+            SqlCommand comm = DatabaseConnection.GetCommand("dbo.GetClient", conn);
             comm.Parameters.AddWithValue("@ClientID", clientID);
-            comm.Connection = conn;
             Client client = new Client();
             try
             {
@@ -101,20 +93,11 @@ namespace ADD_Demo.Classes
 
         public static List<Client> GetClientsByCompanyID(int companyID)
         {
-            // Load connection string from web.config
-            System.Configuration.Configuration config = System.Web.Configuration.WebConfigurationManager.OpenWebConfiguration("/");
-            System.Configuration.ConnectionStringSettings connString = config.ConnectionStrings.ConnectionStrings["ADDDatabase"];
-
             // Setup Connection
-            SqlConnection conn = new SqlConnection();
-            conn.ConnectionString = connString.ConnectionString;
-
+            SqlConnection conn = DatabaseConnection.GetConnection();
             // Setup Command
-            SqlCommand comm = new SqlCommand();
-            comm.CommandType = CommandType.StoredProcedure;
-            comm.CommandText = "dbo.GetClientsByCompanyID";
+            SqlCommand comm = DatabaseConnection.GetCommand("dbo.GetClientsByCompanyID", conn);
             comm.Parameters.AddWithValue("@CompanyID", companyID);
-            comm.Connection = conn;
             List<Client> clients = new List<Client>();
             try
             {
@@ -159,19 +142,11 @@ namespace ADD_Demo.Classes
 
         public static List<Client> GetClients()
         {
-            // Load connection string from web.config
-            System.Configuration.Configuration config = System.Web.Configuration.WebConfigurationManager.OpenWebConfiguration("/");
-            System.Configuration.ConnectionStringSettings connString = config.ConnectionStrings.ConnectionStrings["ADDDatabase"];
-
             // Setup Connection
-            SqlConnection conn = new SqlConnection();
-            conn.ConnectionString = connString.ConnectionString;
+            SqlConnection conn = DatabaseConnection.GetConnection();
 
             // Setup Command
-            SqlCommand comm = new SqlCommand();
-            comm.CommandType = CommandType.StoredProcedure;
-            comm.CommandText = "dbo.GetClients";
-            comm.Connection = conn;
+            SqlCommand comm = DatabaseConnection.GetCommand("dbo.GetClients", conn);
             List<Client> clients = new List<Client>();
             try
             {
@@ -216,18 +191,10 @@ namespace ADD_Demo.Classes
 
         public static void AddClient(Client client)
         {
-            // Load connection string from web.config
-            System.Configuration.Configuration config = System.Web.Configuration.WebConfigurationManager.OpenWebConfiguration("/");
-            System.Configuration.ConnectionStringSettings connString = config.ConnectionStrings.ConnectionStrings["ADDDatabase"];
-
             // Setup Connection
-            SqlConnection conn = new SqlConnection();
-            conn.ConnectionString = connString.ConnectionString;
-
+            SqlConnection conn = DatabaseConnection.GetConnection();
             // Setup Command
-            SqlCommand comm = new SqlCommand();
-            comm.CommandType = CommandType.StoredProcedure;
-            comm.CommandText = "dbo.AddClient";
+            SqlCommand comm = DatabaseConnection.GetCommand("dbo.AddClient", conn);
             comm.Parameters.AddWithValue("@AddressCity", client.AddressCity);
             comm.Parameters.AddWithValue("@AddressCountry", client.AddressCountry);
             comm.Parameters.AddWithValue("@AddressLine1", client.AddressLine1);
@@ -240,12 +207,10 @@ namespace ADD_Demo.Classes
             comm.Parameters.AddWithValue("@FaxPhone", client.FaxPhone);
             comm.Parameters.AddWithValue("@HomePhone", client.HomePhone);
             comm.Parameters.AddWithValue("@CompanyID", client.CompanyID);
-            comm.Connection = conn;
             try
             {
                 conn.Open();
                 comm.ExecuteNonQuery();
-
             }
             catch
             {
@@ -266,25 +231,16 @@ namespace ADD_Demo.Classes
 
         public static bool RemoveClient(int clientID)
         {
-            // Load connection string from web.config
-            System.Configuration.Configuration config = System.Web.Configuration.WebConfigurationManager.OpenWebConfiguration("/");
-            System.Configuration.ConnectionStringSettings connString = config.ConnectionStrings.ConnectionStrings["ADDDatabase"];
-
             // Setup Connection
-            SqlConnection conn = new SqlConnection();
-            conn.ConnectionString = connString.ConnectionString;
+            SqlConnection conn = DatabaseConnection.GetConnection();
 
             // Setup Command
-            SqlCommand comm = new SqlCommand();
-            comm.CommandType = CommandType.StoredProcedure;
-            comm.CommandText = "dbo.RemoveClient";
+            SqlCommand comm = DatabaseConnection.GetCommand("dbo.RemoveClient", conn);
             comm.Parameters.AddWithValue("@ClientID", clientID);
-            comm.Connection = conn;
             try
             {
                 conn.Open();
                 comm.ExecuteNonQuery();
-
             }
             catch
             {
@@ -306,18 +262,11 @@ namespace ADD_Demo.Classes
 
         public static bool UpdateClient(Client client)
         {
-            // Load connection string from web.config
-            System.Configuration.Configuration config = System.Web.Configuration.WebConfigurationManager.OpenWebConfiguration("/");
-            System.Configuration.ConnectionStringSettings connString = config.ConnectionStrings.ConnectionStrings["ADDDatabase"];
-
             // Setup Connection
-            SqlConnection conn = new SqlConnection();
-            conn.ConnectionString = connString.ConnectionString;
+            SqlConnection conn = DatabaseConnection.GetConnection();
 
             // Setup Command
-            SqlCommand comm = new SqlCommand();
-            comm.CommandType = CommandType.StoredProcedure;
-            comm.CommandText = "dbo.UpdateClient";
+            SqlCommand comm = DatabaseConnection.GetCommand("dbo.UpdateClient", conn);
             comm.Parameters.AddWithValue("@AddressCity", client.AddressCity);
             comm.Parameters.AddWithValue("@AddressCountry", client.AddressCountry);
             comm.Parameters.AddWithValue("@AddressLine1", client.AddressLine1);
@@ -330,12 +279,10 @@ namespace ADD_Demo.Classes
             comm.Parameters.AddWithValue("@FaxPhone", client.FaxPhone);
             comm.Parameters.AddWithValue("@HomePhone", client.HomePhone);
             comm.Parameters.AddWithValue("@CompanyID", client.CompanyID);
-            comm.Connection = conn;
             try
             {
                 conn.Open();
                 comm.ExecuteNonQuery();
-
             }
             catch
             {

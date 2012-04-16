@@ -35,20 +35,10 @@ namespace ADD_Demo.Classes
 
         public static Company GetCompany(int companyID)
         {
-            // Load connection string from web.config
-            System.Configuration.Configuration config = System.Web.Configuration.WebConfigurationManager.OpenWebConfiguration("/");
-            System.Configuration.ConnectionStringSettings connString = config.ConnectionStrings.ConnectionStrings["ADDDatabase"];
-
-            // Setup Connection
-            SqlConnection conn = new SqlConnection();
-            conn.ConnectionString = connString.ConnectionString;
+            SqlConnection conn = DatabaseConnection.GetConnection();
 
             // Setup Command
-            SqlCommand comm = new SqlCommand();
-            comm.CommandType = CommandType.StoredProcedure;
-            comm.CommandText = "dbo.GetCompany";
-            comm.Parameters.AddWithValue("@CompanyID", companyID);
-            comm.Connection = conn;
+            SqlCommand comm = DatabaseConnection.GetCommand("dbo.GetCompany", conn);
             Company company = new Company();
             try
             {
@@ -87,19 +77,10 @@ namespace ADD_Demo.Classes
 
         public static List<Company> GetCompanies(int companyID)
         {
-            // Load connection string from web.config
-            System.Configuration.Configuration config = System.Web.Configuration.WebConfigurationManager.OpenWebConfiguration("/");
-            System.Configuration.ConnectionStringSettings connString = config.ConnectionStrings.ConnectionStrings["ADDDatabase"];
-
             // Setup Connection
-            SqlConnection conn = new SqlConnection();
-            conn.ConnectionString = connString.ConnectionString;
-
+            SqlConnection conn = DatabaseConnection.GetConnection();
             // Setup Command
-            SqlCommand comm = new SqlCommand();
-            comm.CommandType = CommandType.StoredProcedure;
-            comm.CommandText = "dbo.GetCompanies";
-            comm.Connection = conn;
+            SqlCommand comm = DatabaseConnection.GetCommand("dbo.GetCompanies", conn);
             List<Company> companies = new List<Company>();
             try
             {
@@ -140,18 +121,11 @@ namespace ADD_Demo.Classes
 
         public static void AddCompany(Company company)
         {
-            // Load connection string from web.config
-            System.Configuration.Configuration config = System.Web.Configuration.WebConfigurationManager.OpenWebConfiguration("/");
-            System.Configuration.ConnectionStringSettings connString = config.ConnectionStrings.ConnectionStrings["ADDDatabase"];
-
             // Setup Connection
-            SqlConnection conn = new SqlConnection();
-            conn.ConnectionString = connString.ConnectionString;
+            SqlConnection conn = DatabaseConnection.GetConnection();
 
             // Setup Command
-            SqlCommand comm = new SqlCommand();
-            comm.CommandType = CommandType.StoredProcedure;
-            comm.CommandText = "dbo.AddCompany";
+            SqlCommand comm = DatabaseConnection.GetCommand("dbo.AddCompany", conn);
             comm.Parameters.AddWithValue("@BillingAddressCity", company.BillingAddressCity);
             comm.Parameters.AddWithValue("@BillingAddressCountry", company.BillingAddressCountry);
             comm.Parameters.AddWithValue("@BillingAddressLine1", company.BillingAddressLine1);
@@ -159,7 +133,6 @@ namespace ADD_Demo.Classes
             comm.Parameters.AddWithValue("@BillingAddressPostalCode", company.BillingAddressPostalCode);
             comm.Parameters.AddWithValue("@BillingAddressRegion", company.BillingAddressRegion);
             comm.Parameters.AddWithValue("@BillingName", company.BillingName);
-            comm.Connection = conn;
             try
             {
                 // Open Connection
@@ -185,18 +158,10 @@ namespace ADD_Demo.Classes
 
         public static bool RemoveCompany(int companyID)
         {
-            // Load connection string from web.config
-            System.Configuration.Configuration config = System.Web.Configuration.WebConfigurationManager.OpenWebConfiguration("/");
-            System.Configuration.ConnectionStringSettings connString = config.ConnectionStrings.ConnectionStrings["ADDDatabase"];
-
             // Setup Connection
-            SqlConnection conn = new SqlConnection();
-            conn.ConnectionString = connString.ConnectionString;
-
+            SqlConnection conn = DatabaseConnection.GetConnection();
             // Setup Command
-            SqlCommand comm = new SqlCommand();
-            comm.CommandType = CommandType.StoredProcedure;
-            comm.CommandText = "dbo.RemoveCompany";
+            SqlCommand comm = DatabaseConnection.GetCommand("dbo.RemoveCompany", conn);
             comm.Parameters.AddWithValue("@CompanyID",companyID);
             try
             {
@@ -224,18 +189,11 @@ namespace ADD_Demo.Classes
 
         public static bool UpdateCompany(Company company)
         {
-            // Load connection string from web.config
-            System.Configuration.Configuration config = System.Web.Configuration.WebConfigurationManager.OpenWebConfiguration("/");
-            System.Configuration.ConnectionStringSettings connString = config.ConnectionStrings.ConnectionStrings["ADDDatabase"];
-
             // Setup Connection
-            SqlConnection conn = new SqlConnection();
-            conn.ConnectionString = connString.ConnectionString;
+            SqlConnection conn = DatabaseConnection.GetConnection();
 
             // Setup Command
-            SqlCommand comm = new SqlCommand();
-            comm.CommandType = CommandType.StoredProcedure;
-            comm.CommandText = "dbo.UpdateCompany";
+            SqlCommand comm = DatabaseConnection.GetCommand("dbo.UpdateCompany", conn);
             comm.Parameters.AddWithValue("@BillingAddressCity", company.BillingAddressCity);
             comm.Parameters.AddWithValue("@BillingAddressCountry", company.BillingAddressCountry);
             comm.Parameters.AddWithValue("@BillingAddressLine1", company.BillingAddressLine1);
@@ -244,7 +202,6 @@ namespace ADD_Demo.Classes
             comm.Parameters.AddWithValue("@BillingAddressRegion", company.BillingAddressRegion);
             comm.Parameters.AddWithValue("@BillingName", company.BillingName);
             comm.Parameters.AddWithValue("@CompanyID", company.CompanyID);
-            comm.Connection = conn;
             try
             {
                 // Open Connection
