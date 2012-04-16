@@ -119,25 +119,28 @@ namespace ADD_Demo.Classes
             return companies;
         }
 
-        public static void AddCompany(Company company)
+        public static int AddCompany(Company company)
         {
+            int result = 0;
             // Setup Connection
             SqlConnection conn = DatabaseConnection.GetConnection();
 
             // Setup Command
             SqlCommand comm = DatabaseConnection.GetCommand("dbo.AddCompany", conn);
-            comm.Parameters.AddWithValue("@BillingAddressCity", company.BillingAddressCity);
-            comm.Parameters.AddWithValue("@BillingAddressCountry", company.BillingAddressCountry);
-            comm.Parameters.AddWithValue("@BillingAddressLine1", company.BillingAddressLine1);
-            comm.Parameters.AddWithValue("@BillingAddressLine2", company.BillingAddressLine2);
-            comm.Parameters.AddWithValue("@BillingAddressPostalCode", company.BillingAddressPostalCode);
-            comm.Parameters.AddWithValue("@BillingAddressRegion", company.BillingAddressRegion);
-            comm.Parameters.AddWithValue("@BillingName", company.BillingName);
+            comm.Parameters.AddWithValue("BillingAddressCity", company.BillingAddressCity);
+            comm.Parameters.AddWithValue("BillingAddressCountry", company.BillingAddressCountry);
+            comm.Parameters.AddWithValue("BillingAddressLine1", company.BillingAddressLine1);
+            comm.Parameters.AddWithValue("BillingAddressLine2", company.BillingAddressLine2);
+            comm.Parameters.AddWithValue("BillingAddressPostalCode", company.BillingAddressPostalCode);
+            comm.Parameters.AddWithValue("BillingAddressRegion", company.BillingAddressRegion);
+            comm.Parameters.AddWithValue("BillingName", company.BillingName);
             try
             {
                 // Open Connection
                 conn.Open();
-                comm.ExecuteNonQuery();
+
+                // ExecuteCommand
+                result = comm.ExecuteNonQuery();
             }
             catch
             {
@@ -154,20 +157,24 @@ namespace ADD_Demo.Classes
                 // Dispose of Connection
                 conn.Dispose();
             }
+            return result;
         }
 
-        public static bool RemoveCompany(int companyID)
+        public static int RemoveCompany(int companyID)
         {
+            int result = 0;
             // Setup Connection
             SqlConnection conn = DatabaseConnection.GetConnection();
             // Setup Command
             SqlCommand comm = DatabaseConnection.GetCommand("dbo.RemoveCompany", conn);
-            comm.Parameters.AddWithValue("@CompanyID",companyID);
+            comm.Parameters.AddWithValue("CompanyID",companyID);
             try
             {
                 // Open Connection
                 conn.Open();
-                comm.ExecuteNonQuery();
+
+                // ExecuteCommand
+                result = comm.ExecuteNonQuery();
             }
             catch
             {
@@ -184,29 +191,32 @@ namespace ADD_Demo.Classes
                 // Dispose of Connection
                 conn.Dispose();
             }
-            return true;
+            return result;
         }
 
-        public static bool UpdateCompany(Company company)
+        public static int UpdateCompany(Company company)
         {
+            int result = 0;
             // Setup Connection
             SqlConnection conn = DatabaseConnection.GetConnection();
 
             // Setup Command
             SqlCommand comm = DatabaseConnection.GetCommand("dbo.UpdateCompany", conn);
-            comm.Parameters.AddWithValue("@BillingAddressCity", company.BillingAddressCity);
-            comm.Parameters.AddWithValue("@BillingAddressCountry", company.BillingAddressCountry);
-            comm.Parameters.AddWithValue("@BillingAddressLine1", company.BillingAddressLine1);
-            comm.Parameters.AddWithValue("@BillingAddressLine2", company.BillingAddressLine2);
-            comm.Parameters.AddWithValue("@BillingAddressPostalCode", company.BillingAddressPostalCode);
-            comm.Parameters.AddWithValue("@BillingAddressRegion", company.BillingAddressRegion);
-            comm.Parameters.AddWithValue("@BillingName", company.BillingName);
-            comm.Parameters.AddWithValue("@CompanyID", company.CompanyID);
+            comm.Parameters.AddWithValue("BillingAddressCity", company.BillingAddressCity);
+            comm.Parameters.AddWithValue("BillingAddressCountry", company.BillingAddressCountry);
+            comm.Parameters.AddWithValue("BillingAddressLine1", company.BillingAddressLine1);
+            comm.Parameters.AddWithValue("BillingAddressLine2", company.BillingAddressLine2);
+            comm.Parameters.AddWithValue("BillingAddressPostalCode", company.BillingAddressPostalCode);
+            comm.Parameters.AddWithValue("BillingAddressRegion", company.BillingAddressRegion);
+            comm.Parameters.AddWithValue("BillingName", company.BillingName);
+            comm.Parameters.AddWithValue("CompanyID", company.CompanyID);
             try
             {
                 // Open Connection
                 conn.Open();
-                comm.ExecuteNonQuery();
+
+                // ExecuteCommand
+                result = comm.ExecuteNonQuery();
             }
             catch
             {
@@ -223,7 +233,7 @@ namespace ADD_Demo.Classes
                 // Dispose of Connection
                 conn.Dispose();
             }
-            return true;
+            return result;
         }
     }
 }

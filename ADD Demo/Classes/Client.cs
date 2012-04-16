@@ -189,28 +189,32 @@ namespace ADD_Demo.Classes
             return clients;
         }
 
-        public static void AddClient(Client client)
+        public static int AddClient(Client client)
         {
+            int result = 0;
             // Setup Connection
             SqlConnection conn = DatabaseConnection.GetConnection();
             // Setup Command
             SqlCommand comm = DatabaseConnection.GetCommand("dbo.AddClient", conn);
-            comm.Parameters.AddWithValue("@AddressCity", client.AddressCity);
-            comm.Parameters.AddWithValue("@AddressCountry", client.AddressCountry);
-            comm.Parameters.AddWithValue("@AddressLine1", client.AddressLine1);
-            comm.Parameters.AddWithValue("@AddressLine2", client.AddressLine2);
-            comm.Parameters.AddWithValue("@AddressPostalCode", client.AddressPostalCode);
-            comm.Parameters.AddWithValue("@AddressRegion", client.AddressRegion);
-            comm.Parameters.AddWithValue("@FirstName", client.FirstName);
-            comm.Parameters.AddWithValue("@LastName", client.LastName);
-            comm.Parameters.AddWithValue("@WorkPhone", client.WorkPhone);
-            comm.Parameters.AddWithValue("@FaxPhone", client.FaxPhone);
-            comm.Parameters.AddWithValue("@HomePhone", client.HomePhone);
-            comm.Parameters.AddWithValue("@CompanyID", client.CompanyID);
+            comm.Parameters.AddWithValue("AddressCity", client.AddressCity);
+            comm.Parameters.AddWithValue("AddressCountry", client.AddressCountry);
+            comm.Parameters.AddWithValue("AddressLine1", client.AddressLine1);
+            comm.Parameters.AddWithValue("AddressLine2", client.AddressLine2);
+            comm.Parameters.AddWithValue("AddressPostalCode", client.AddressPostalCode);
+            comm.Parameters.AddWithValue("AddressRegion", client.AddressRegion);
+            comm.Parameters.AddWithValue("FirstName", client.FirstName);
+            comm.Parameters.AddWithValue("LastName", client.LastName);
+            comm.Parameters.AddWithValue("WorkPhone", client.WorkPhone);
+            comm.Parameters.AddWithValue("FaxPhone", client.FaxPhone);
+            comm.Parameters.AddWithValue("HomePhone", client.HomePhone);
+            comm.Parameters.AddWithValue("CompanyID", client.CompanyID);
             try
             {
+                // Open Connection
                 conn.Open();
-                comm.ExecuteNonQuery();
+
+                // ExecuteCommand
+                result = comm.ExecuteNonQuery();
             }
             catch
             {
@@ -226,21 +230,26 @@ namespace ADD_Demo.Classes
 
                 // Dispose of Connection
                 conn.Dispose();
-            }            
+            }
+            return result;
         }
 
-        public static bool RemoveClient(int clientID)
+        public static int RemoveClient(int clientID)
         {
+            int result = 0;
             // Setup Connection
             SqlConnection conn = DatabaseConnection.GetConnection();
 
             // Setup Command
             SqlCommand comm = DatabaseConnection.GetCommand("dbo.RemoveClient", conn);
-            comm.Parameters.AddWithValue("@ClientID", clientID);
+            comm.Parameters.AddWithValue("ClientID", clientID);
             try
             {
+                // Open Connection
                 conn.Open();
-                comm.ExecuteNonQuery();
+
+                // ExecuteCommand
+                result = comm.ExecuteNonQuery();
             }
             catch
             {
@@ -257,32 +266,36 @@ namespace ADD_Demo.Classes
                 // Dispose of Connection
                 conn.Dispose();
             }
-            return true;
+            return result;
         }
 
-        public static bool UpdateClient(Client client)
+        public static int UpdateClient(Client client)
         {
+            int result = 0;
             // Setup Connection
             SqlConnection conn = DatabaseConnection.GetConnection();
 
             // Setup Command
             SqlCommand comm = DatabaseConnection.GetCommand("dbo.UpdateClient", conn);
-            comm.Parameters.AddWithValue("@AddressCity", client.AddressCity);
-            comm.Parameters.AddWithValue("@AddressCountry", client.AddressCountry);
-            comm.Parameters.AddWithValue("@AddressLine1", client.AddressLine1);
-            comm.Parameters.AddWithValue("@AddressLine2", client.AddressLine2);
-            comm.Parameters.AddWithValue("@AddressPostalCode", client.AddressPostalCode);
-            comm.Parameters.AddWithValue("@AddressRegion", client.AddressRegion);
-            comm.Parameters.AddWithValue("@FirstName", client.FirstName);
-            comm.Parameters.AddWithValue("@LastName", client.LastName);
-            comm.Parameters.AddWithValue("@WorkPhone", client.WorkPhone);
-            comm.Parameters.AddWithValue("@FaxPhone", client.FaxPhone);
-            comm.Parameters.AddWithValue("@HomePhone", client.HomePhone);
-            comm.Parameters.AddWithValue("@CompanyID", client.CompanyID);
+            comm.Parameters.AddWithValue("AddressCity", client.AddressCity);
+            comm.Parameters.AddWithValue("AddressCountry", client.AddressCountry);
+            comm.Parameters.AddWithValue("AddressLine1", client.AddressLine1);
+            comm.Parameters.AddWithValue("AddressLine2", client.AddressLine2);
+            comm.Parameters.AddWithValue("AddressPostalCode", client.AddressPostalCode);
+            comm.Parameters.AddWithValue("AddressRegion", client.AddressRegion);
+            comm.Parameters.AddWithValue("FirstName", client.FirstName);
+            comm.Parameters.AddWithValue("LastName", client.LastName);
+            comm.Parameters.AddWithValue("WorkPhone", client.WorkPhone);
+            comm.Parameters.AddWithValue("FaxPhone", client.FaxPhone);
+            comm.Parameters.AddWithValue("HomePhone", client.HomePhone);
+            comm.Parameters.AddWithValue("CompanyID", client.CompanyID);
             try
             {
+                // Open Connection
                 conn.Open();
-                comm.ExecuteNonQuery();
+
+                // ExecuteCommand
+                result = comm.ExecuteNonQuery();
             }
             catch
             {
@@ -300,7 +313,7 @@ namespace ADD_Demo.Classes
                 conn.Dispose();
 
             }
-            return true;
+            return result;
         }
     }
 }
