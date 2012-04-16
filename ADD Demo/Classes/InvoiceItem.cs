@@ -10,8 +10,8 @@ namespace ADD_Demo.Classes
 {
     public class InvoiceItem
     {
-        private int ClientSessionID;
-        private int InvoiceID;
+        public int ClientSessionID { get; set; }
+        public int InvoiceID { get; set; }
 
         public InvoiceItem()
         { }
