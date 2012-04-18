@@ -66,9 +66,6 @@
             DataObjectTypeName="ADD_Demo.Classes.Client" DeleteMethod="RemoveClient" 
             InsertMethod="AddClient" SelectMethod="GetClient" 
             TypeName="ADD_Demo.Classes.Client" UpdateMethod="UpdateClient">
-            <DeleteParameters>
-                <asp:Parameter Name="clientID" Type="Int32" />
-            </DeleteParameters>
             <SelectParameters>
                 <asp:ControlParameter ControlID="ddlClientSearch" Name="clientID" 
                     PropertyName="SelectedValue" Type="Int32" />
@@ -77,45 +74,15 @@
         Company Information<br />
         <asp:DetailsView ID="dvClientCompany" runat="server" AutoGenerateRows="False" 
             BackColor="White" BorderColor="#999999" BorderStyle="None" BorderWidth="1px" 
-            CellPadding="3" 
-            DataSourceID="ODSGetCompany" GridLines="Vertical" Height="50px" 
+            CellPadding="3" GridLines="Vertical" Height="50px" 
             Width="250px">
             <AlternatingRowStyle BackColor="#DCDCDC" />
             <EditRowStyle BackColor="#008A8C" Font-Bold="True" ForeColor="White" />
-            <Fields>
-                <asp:BoundField DataField="CompanyID" HeaderText="CompanyID" 
-                    SortExpression="CompanyID" Visible="False" />
-                <asp:BoundField DataField="BillingName" HeaderText="Name" 
-                    SortExpression="BillingName" />
-                <asp:BoundField DataField="BillingAddressCity" HeaderText="City" 
-                    SortExpression="BillingAddressCity" />
-                <asp:BoundField DataField="BillingAddressCountry" HeaderText="Country" 
-                    SortExpression="BillingAddressCountry" />
-                <asp:BoundField DataField="BillingAddressLine1" HeaderText="Address Line 1" 
-                    SortExpression="BillingAddressLine1" />
-                <asp:BoundField DataField="BillingAddressLine2" 
-                    HeaderText="Address Line 2" SortExpression="BillingAddressLine2" />
-                <asp:BoundField DataField="BillingAddressPostalCode" HeaderText="Postal Code" 
-                    SortExpression="BillingAddressPostalCode" />
-                <asp:BoundField DataField="BillingAddressRegion" HeaderText="Region" 
-                    SortExpression="BillingAddressRegion" />
-                <asp:CommandField ShowEditButton="True" ShowInsertButton="True" />
-            </Fields>
             <FooterStyle BackColor="#CCCCCC" ForeColor="Black" />
             <HeaderStyle BackColor="#000084" Font-Bold="True" ForeColor="White" />
             <PagerStyle BackColor="#999999" ForeColor="Black" HorizontalAlign="Center" />
             <RowStyle BackColor="#EEEEEE" ForeColor="Black" />
         </asp:DetailsView>
-        <asp:ObjectDataSource ID="ODSGetCompany" runat="server" 
-            DataObjectTypeName="ADD_Demo.Classes.Company" DeleteMethod="RemoveCompany" 
-            InsertMethod="AddCompany" SelectMethod="GetCompany" 
-            TypeName="ADD_Demo.Classes.Company" UpdateMethod="UpdateCompany">
-            <DeleteParameters>
-                <asp:Parameter Name="companyID" Type="Int32" />
-            </DeleteParameters>
-                <asp:ControlParameter ControlID="ddlClientSearch" Name="companyID" 
-                    PropertyName="SelectedValue" Type="Int32" />
-        </asp:ObjectDataSource>
         <br />
         <br />
     

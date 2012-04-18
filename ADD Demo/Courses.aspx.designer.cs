@@ -22,6 +22,15 @@ namespace ADD_Demo.Styles {
         protected global::System.Web.UI.HtmlControls.HtmlForm form1;
         
         /// <summary>
+        /// ddlCourses control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ddlCourses;
+        
+        /// <summary>
         /// ODSGetCourses control.
         /// </summary>
         /// <remarks>
@@ -31,30 +40,57 @@ namespace ADD_Demo.Styles {
         protected global::System.Web.UI.WebControls.ObjectDataSource ODSGetCourses;
         
         /// <summary>
-        /// ObjectDataSource2 control.
+        /// dvCourseInfo control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ObjectDataSource ObjectDataSource2;
+        protected global::System.Web.UI.WebControls.DetailsView dvCourseInfo;
         
         /// <summary>
-        /// ObjectDataSource3 control.
+        /// ODSGetCourse control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ObjectDataSource ObjectDataSource3;
+        protected global::System.Web.UI.WebControls.ObjectDataSource ODSGetCourse;
         
         /// <summary>
-        /// DropDownList1 control.
+        /// ddlCompanies control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList DropDownList1;
+        protected global::System.Web.UI.WebControls.DropDownList ddlCompanies;
+        
+        /// <summary>
+        /// ODSGetCompanies control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.ObjectDataSource ODSGetCompanies;
+        
+        /// <summary>
+        /// gvClientsByCompany control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.GridView gvClientsByCompany;
+        
+        /// <summary>
+        /// ODSGetClientsByCompany control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.ObjectDataSource ODSGetClientsByCompany;
     }
 }

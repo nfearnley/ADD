@@ -83,7 +83,5 @@ namespace ADD_Demo {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DetailsView dvClientCompany;
-        /// ODSGetCompany control.
-        protected global::System.Web.UI.WebControls.ObjectDataSource ODSGetCompany;
     }
 }

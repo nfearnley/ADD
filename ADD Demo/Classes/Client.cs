@@ -234,6 +234,41 @@ namespace ADD_Demo.Classes
             return result;
         }
 
+        public static int RemoveClient(Client client)
+        {
+            int result = 0;
+            // Setup Connection
+            SqlConnection conn = DatabaseConnection.GetConnection();
+
+            // Setup Command
+            SqlCommand comm = DatabaseConnection.GetCommand("dbo.RemoveClient", conn);
+            comm.Parameters.AddWithValue("ClientID", client.ClientID);
+            try
+            {
+                // Open Connection
+                conn.Open();
+
+                // ExecuteCommand
+                result = comm.ExecuteNonQuery();
+            }
+            catch
+            {
+            }
+            finally
+            {
+                // Close Connection
+                if (conn.State == ConnectionState.Open)
+                    conn.Close();
+
+                // Dispose of Command
+                comm.Dispose();
+
+                // Dispose of Connection
+                conn.Dispose();
+            }
+            return result;
+        }
+
         public static int RemoveClient(int clientID)
         {
             int result = 0;

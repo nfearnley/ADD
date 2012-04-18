@@ -39,6 +39,11 @@
             </SelectParameters>
         </asp:ObjectDataSource>
     
+        Generate Invoice:<br />
+        <asp:Button ID="btnInvoice" runat="server" onclick="btnInvoice_Click" 
+            Text="Generate Invoice" />
+        <br />
+    
         <br />
         Company Information</div>
     <asp:DetailsView ID="dvCompanyInfo" runat="server" AutoGenerateRows="False" 
