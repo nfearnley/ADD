@@ -11,37 +11,25 @@ namespace ADD_Demo.Classes
     public class Room
     {
         public int RoomID { get; set; }
-        public int Seats { get; set; }
         public String RoomName { get; set; }
+        public int Seats { get; set; }
 
         public Room()
         { }
 
-        public Room(int seats, String roomName)
-        {
-            Seats = seats;
-            RoomName = roomName;
-        }
-
         public static Room GetRoom(int roomID)
         {
-            //Setup Connection
-            SqlConnection conn = DatabaseConnection.GetConnection();
-
-            // Setup Command
-            SqlCommand comm = DatabaseConnection.GetCommand("dbo.GetRoom", conn);
-            comm.Parameters.AddWithValue("RoomID", roomID);
             Room room = new Room();
+
+            //Setup Connection
+            DatabaseConnection db = new DatabaseConnection("dbo.GetRoom");
+            db.comm.Parameters.AddWithValue("RoomID", roomID);
             try
             {
-                conn.Open();
-                SqlDataReader reader = comm.ExecuteReader();
-                if (reader.Read())
-                {
-                    room.RoomID = (int)reader["RoomID"];
-                    room.RoomName = reader["RoomName"] as String;
-                    room.Seats = (int)reader["Seats"];
-                }
+                db.conn.Open();
+                SqlDataReader reader = db.comm.ExecuteReader();
+                IList<Room> rooms = Read(reader);
+                room = rooms[0];
             }
             catch
             {
@@ -49,37 +37,23 @@ namespace ADD_Demo.Classes
             finally
             {
                 // Close Connection
-                if (conn.State == ConnectionState.Open)
-                    conn.Close();
-
-                // Dispose of Command
-                comm.Dispose();
-
-                // Dispose of Connection
-                conn.Dispose();
+                db.Dispose();
             }
             return room;
         }
 
         public static IEnumerable<Room> GetRooms()
         {
-            //Setup Connection
-            SqlConnection conn = DatabaseConnection.GetConnection();
+            IEnumerable<Room> rooms = new List<Room>();
 
-            // Setup Command
-            SqlCommand comm = DatabaseConnection.GetCommand("dbo.GetRooms", conn);
-            List<Room> rooms = new List<Room>();
+            //Setup Connection
+            DatabaseConnection db = new DatabaseConnection("dbo.GetRooms");
+
             try
             {
-                conn.Open();
-                SqlDataReader reader = comm.ExecuteReader();
-                while (reader.Read())
-                {
-                    Room room = new Room();
-                    room.RoomID = (int)reader["RoomID"];
-                    room.RoomName = reader["RoomName"] as String;
-                    room.Seats = (int)reader["Seats"];
-                }
+                db.conn.Open();
+                SqlDataReader reader = db.comm.ExecuteReader();
+                rooms = Read(reader);
             }
             catch
             {
@@ -87,33 +61,23 @@ namespace ADD_Demo.Classes
             finally
             {
                 // Close Connection
-                if (conn.State == ConnectionState.Open)
-                    conn.Close();
-
-                // Dispose of Command
-                comm.Dispose();
-
-                // Dispose of Connection
-                conn.Dispose();
+                db.Dispose();
             }
             return rooms;
         }
 
         public static int AddRoom(Room room)
         {
-            int result = 0;
-            //Setup Connection
-            SqlConnection conn = DatabaseConnection.GetConnection();
+            int roomID = -1;
 
-            // Setup Command
-            SqlCommand comm = DatabaseConnection.GetCommand("dbo.AddRoom", conn);
-            comm.Parameters.AddWithValue("RoomID", room.RoomID);
-            comm.Parameters.AddWithValue("RoomID", room.RoomID);
-            comm.Parameters.AddWithValue("RoomID", room.RoomID);
+            //Setup Connection
+            DatabaseConnection db = new DatabaseConnection("dbo.AddRoom");
+            AddParameters(room, db.comm);
+
             try
             {
-                conn.Open();
-                result = comm.ExecuteNonQuery();
+                db.conn.Open();
+                roomID = Convert.ToInt32(db.comm.ExecuteScalar());
             }
             catch
             {
@@ -121,31 +85,23 @@ namespace ADD_Demo.Classes
             finally
             {
                 // Close Connection
-                if (conn.State == ConnectionState.Open)
-                    conn.Close();
-
-                // Dispose of Command
-                comm.Dispose();
-
-                // Dispose of Connection
-                conn.Dispose();
+                db.Dispose();
             }
-            return result;
+            return roomID;
         }
 
-        public static int RemoveRoom(int roomID)
+        public static int RemoveRoom(Room oldRoom)
         {
-            int result = 0;
-            //Setup Connection
-            SqlConnection conn = DatabaseConnection.GetConnection();
+            int rowsAffected = 0;
 
-            // Setup Command
-            SqlCommand comm = DatabaseConnection.GetCommand("dbo.RemoveRoom", conn);
-            comm.Parameters.AddWithValue("RoomID", roomID);
+            //Setup Connection
+            DatabaseConnection db = new DatabaseConnection("dbo.RemoveRoom");
+            AddOldParameters(oldRoom, db.comm);
+
             try
             {
-                conn.Open();
-                result = comm.ExecuteNonQuery();
+                db.conn.Open();
+                rowsAffected = db.comm.ExecuteNonQuery();
             }
             catch
             {
@@ -153,33 +109,25 @@ namespace ADD_Demo.Classes
             finally
             {
                 // Close Connection
-                if (conn.State == ConnectionState.Open)
-                    conn.Close();
-
-                // Dispose of Command
-                comm.Dispose();
-
-                // Dispose of Connection
-                conn.Dispose();
+                db.Dispose();
             }
-            return result;
+
+            return rowsAffected;
         }
 
-        public static int UpdateRoom(Room room)
+        public static int UpdateRoom(Room room, Room oldRoom)
         {
-            int result = 0;
-            //Setup Connection
-            SqlConnection conn = DatabaseConnection.GetConnection();
+            int rowsAffected = 0;
 
-            // Setup Command
-            SqlCommand comm = DatabaseConnection.GetCommand("dbo.UpdateRoom", conn);
-            comm.Parameters.AddWithValue("RoomID", room.RoomID);
-            comm.Parameters.AddWithValue("RoomID", room.RoomID);
-            comm.Parameters.AddWithValue("RoomID", room.RoomID);
+            //Setup Connection
+            DatabaseConnection db = new DatabaseConnection("dbo.UpdateRoom");
+            AddParameters(room, db.comm);
+            AddOldParameters(oldRoom, db.comm);
+
             try
             {
-                conn.Open();
-                result = comm.ExecuteNonQuery();
+                db.conn.Open();
+                rowsAffected = db.comm.ExecuteNonQuery();
             }
             catch
             {
@@ -187,16 +135,37 @@ namespace ADD_Demo.Classes
             finally
             {
                 // Close Connection
-                if (conn.State == ConnectionState.Open)
-                    conn.Close();
-
-                // Dispose of Command
-                comm.Dispose();
-
-                // Dispose of Connection
-                conn.Dispose();
+                db.Dispose();
             }
-            return result;
+
+            return rowsAffected;
+        }
+
+        private static IList<Room> Read(SqlDataReader reader)
+        {
+            IList<Room> rooms = new List<Room>();
+            while (reader.Read())
+            {
+                Room room = new Room();
+                room.RoomID = (int)reader["RoomID"];
+                room.RoomName = reader["RoomName"] as String;
+                room.Seats = (int)reader["Seats"];
+                rooms.Add(room);
+            }
+            return rooms;
+        }
+
+        private static void AddParameters(Room room, SqlCommand comm)
+        {
+            comm.Parameters.AddWithValue("RoomName", room.RoomName);
+            comm.Parameters.AddWithValue("Seats", room.Seats);
+        }
+
+        private static void AddOldParameters(Room room, SqlCommand comm)
+        {
+            comm.Parameters.AddWithValue("OldRoomID", room.RoomID);
+            comm.Parameters.AddWithValue("OldRoomName", room.RoomName);
+            comm.Parameters.AddWithValue("OldSeats", room.Seats);
         }
     }
 }

@@ -15,7 +15,8 @@
     
         <asp:DropDownList ID="InstructorList" runat="server" 
             DataSourceID="InstructorsDataSource" DataTextField="LastName" 
-            DataValueField="InstructorID" AutoPostBack="True">
+            DataValueField="InstructorID" AutoPostBack="True" 
+            ondatabound="InstructorList_DataBound">
         </asp:DropDownList>
         <asp:ObjectDataSource ID="InstructorsDataSource" runat="server" 
             SelectMethod="GetInstructors" TypeName="ADD_Demo.Classes.Instructor">
@@ -56,7 +57,9 @@
             DataObjectTypeName="ADD_Demo.Classes.Instructor" 
             DeleteMethod="RemoveInstructor" InsertMethod="AddInstructor" 
             OldValuesParameterFormatString="old{0}" SelectMethod="GetInstructor" 
-            TypeName="ADD_Demo.Classes.Instructor" UpdateMethod="UpdateInstructor">
+            TypeName="ADD_Demo.Classes.Instructor" UpdateMethod="UpdateInstructor" 
+            oninserted="InstructorDetailsDataSource_Inserted" 
+            ondeleted="InstructorDetailsDataSource_Deleted">
             <DeleteParameters>
                 <asp:Parameter Name="instructorID" Type="Int32" />
             </DeleteParameters>

@@ -16,30 +16,19 @@ namespace ADD_Demo.Classes
         public InstructorQualification()
         { }
 
-        public InstructorQualification(int courseID,int instructorID)
-        {
-            CourseID = courseID;
-            InstructorID = instructorID;
-        }
-
         public static IEnumerable<InstructorQualification> GetInstructorQualificationsByCourseID(int courseID)
         {
+            IEnumerable<InstructorQualification> instructorQualifications = new List<InstructorQualification>();
+
             // Setup Connection
-            SqlConnection conn = DatabaseConnection.GetConnection();
-            // Setup Command
-            SqlCommand comm = DatabaseConnection.GetCommand("dbo.GetInstructorQualificationsByCourseID", conn);
-            comm.Parameters.AddWithValue("CourseID", courseID);
-            List<InstructorQualification> instructorQualifications = new List<InstructorQualification>();
+            DatabaseConnection db = new DatabaseConnection("dbo.GetInstructorQualificationsByCourseID");
+            db.comm.Parameters.AddWithValue("CourseID", courseID);
+
             try
             {
-                conn.Open();
-                SqlDataReader reader = comm.ExecuteReader();
-                while (reader.Read())
-                {
-                    InstructorQualification instQual = new InstructorQualification();
-                    instQual.CourseID = (int)reader["CourseID"];
-                    instQual.InstructorID = (int)reader["InstructorID"];
-                }
+                db.conn.Open();
+                SqlDataReader reader = db.comm.ExecuteReader();
+                instructorQualifications = Read(reader);
             }
             catch
             {
@@ -47,36 +36,24 @@ namespace ADD_Demo.Classes
             finally
             {
                 // Close Connection
-                if (conn.State == ConnectionState.Open)
-                    conn.Close();
-
-                // Dispose of Command
-                comm.Dispose();
-
-                // Dispose of Connection
-                conn.Dispose();
+                db.Dispose();
             }
             return instructorQualifications;
         }
 
         public static IEnumerable<InstructorQualification> GetInstructorQualificationsByInstructorID(int instructorID)
         {
+            IEnumerable<InstructorQualification> instructorQualifications = new List<InstructorQualification>();
+
             // Setup Connection
-            SqlConnection conn = DatabaseConnection.GetConnection();
-            // Setup Command
-            SqlCommand comm = DatabaseConnection.GetCommand("dbo.GetInstructorQualificationsByInstructorID", conn);
-            comm.Parameters.AddWithValue("InstructorID", instructorID);
-            List<InstructorQualification> instructorQualifications = new List<InstructorQualification>();
+            DatabaseConnection db = new DatabaseConnection("dbo.GetInstructorQualificationsByCourseID");
+            db.comm.Parameters.AddWithValue("InstructorID", instructorID);
+
             try
             {
-                conn.Open();
-                SqlDataReader reader = comm.ExecuteReader();
-                while (reader.Read())
-                {
-                    InstructorQualification instQual = new InstructorQualification();
-                    instQual.CourseID = (int)reader["CourseID"];
-                    instQual.InstructorID = (int)reader["InstructorID"];
-                }
+                db.conn.Open();
+                SqlDataReader reader = db.comm.ExecuteReader();
+                instructorQualifications = Read(reader);
             }
             catch
             {
@@ -84,35 +61,23 @@ namespace ADD_Demo.Classes
             finally
             {
                 // Close Connection
-                if (conn.State == ConnectionState.Open)
-                    conn.Close();
-
-                // Dispose of Command
-                comm.Dispose();
-
-                // Dispose of Connection
-                conn.Dispose();
+                db.Dispose();
             }
             return instructorQualifications;
         }
 
         public static IEnumerable<InstructorQualification> GetInstructorQualifications()
         {
+            IEnumerable<InstructorQualification> instructorQualifications = new List<InstructorQualification>();
+
             // Setup Connection
-            SqlConnection conn = DatabaseConnection.GetConnection();
-            // Setup Command
-            SqlCommand comm = DatabaseConnection.GetCommand("dbo.GetInstructorQualifications", conn);
-            List<InstructorQualification> instructorQualifications = new List<InstructorQualification>();
+            DatabaseConnection db = new DatabaseConnection("dbo.GetInstructorQualifications");
+            
             try
             {
-                conn.Open();
-                SqlDataReader reader = comm.ExecuteReader();
-                while (reader.Read())
-                {
-                    InstructorQualification instQual = new InstructorQualification();
-                    instQual.CourseID = (int)reader["CourseID"];
-                    instQual.InstructorID = (int)reader["InstructorID"];
-                }
+                db.conn.Open();
+                SqlDataReader reader = db.comm.ExecuteReader();
+                instructorQualifications = Read(reader);
             }
             catch
             {
@@ -120,32 +85,23 @@ namespace ADD_Demo.Classes
             finally
             {
                 // Close Connection
-                if (conn.State == ConnectionState.Open)
-                    conn.Close();
-
-                // Dispose of Command
-                comm.Dispose();
-
-                // Dispose of Connection
-                conn.Dispose();
+                db.Dispose();
             }
             return instructorQualifications;
         }
 
-        public static int AddInstructorQualification(InstructorQualification instQual)
+        public static int AddInstructorQualification(InstructorQualification instructorQualification)
         {
-            int result = 0;
+            int rowsAffected = 0;
+
             // Setup Connection
-            SqlConnection conn = DatabaseConnection.GetConnection();
-            // Setup Command
-            SqlCommand comm = DatabaseConnection.GetCommand("dbo.AddInstructorQualification", conn);
-            comm.Parameters.AddWithValue("CourseID", instQual.CourseID);
-            comm.Parameters.AddWithValue("InstructorID", instQual.InstructorID);
-            List<InstructorQualification> instructorQualifications = new List<InstructorQualification>();
+            DatabaseConnection db = new DatabaseConnection("dbo.AddInstructorQualification");
+            AddParameters(instructorQualification, db.comm);
+
             try
             {
-                conn.Open();
-                result = comm.ExecuteNonQuery();
+                db.conn.Open();
+                rowsAffected = db.comm.ExecuteNonQuery();
             }
             catch
             {
@@ -153,82 +109,58 @@ namespace ADD_Demo.Classes
             finally
             {
                 // Close Connection
-                if (conn.State == ConnectionState.Open)
-                    conn.Close();
+                db.Dispose();
+            }
+            return rowsAffected;
+        }
 
-                // Dispose of Command
-                comm.Dispose();
+        public static int RemoveInstructorQualification(InstructorQualification oldInstructorQualification)
+        {
+            int result = 0;
 
-                // Dispose of Connection
-                conn.Dispose();
+            // Setup Connection
+            DatabaseConnection db = new DatabaseConnection("dbo.RemoveInstructorQualification");
+            AddOldParameters(oldInstructorQualification, db.comm);
+
+            try
+            {
+                db.conn.Open();
+                result = db.comm.ExecuteNonQuery();
+            }
+            catch
+            {
+            }
+            finally
+            {
+                // Close Connection
+                db.Dispose();
             }
             return result;
         }
 
-        public static int RemoveInstructorQualification(int instructorID, int courseID)
+        private static IList<InstructorQualification> Read(SqlDataReader reader)
         {
-            int result = 0;
-            // Setup Connection
-            SqlConnection conn = DatabaseConnection.GetConnection();
-            // Setup Command
-            SqlCommand comm = DatabaseConnection.GetCommand("dbo.RemoveInstructorQualification", conn);
-            comm.Parameters.AddWithValue("CourseID", courseID);
-            comm.Parameters.AddWithValue("InstructorID", instructorID);
-            List<InstructorQualification> instructorQualifications = new List<InstructorQualification>();
-            try
+            IList<InstructorQualification> instructorQualifications = new List<InstructorQualification>();
+            while (reader.Read())
             {
-                conn.Open();
-                result = comm.ExecuteNonQuery();
+                InstructorQualification instructorQualification = new InstructorQualification();
+                instructorQualification.CourseID = (int)reader["CourseID"];
+                instructorQualification.InstructorID = (int)reader["InstructorID"];
+                instructorQualifications.Add(instructorQualification);
             }
-            catch
-            {
-            }
-            finally
-            {
-                // Close Connection
-                if (conn.State == ConnectionState.Open)
-                    conn.Close();
-
-                // Dispose of Command
-                comm.Dispose();
-
-                // Dispose of Connection
-                conn.Dispose();
-            }
-            return result;
+            return instructorQualifications;
         }
 
-        public static int RemoveInstructorQualification(InstructorQualification instQual)
+        private static void AddParameters(InstructorQualification instQual, SqlCommand comm)
         {
-            int result = 0;
-            // Setup Connection
-            SqlConnection conn = DatabaseConnection.GetConnection();
-            // Setup Command
-            SqlCommand comm = DatabaseConnection.GetCommand("dbo.RemoveInstructorQualification", conn);
             comm.Parameters.AddWithValue("CourseID", instQual.CourseID);
             comm.Parameters.AddWithValue("InstructorID", instQual.InstructorID);
-            List<InstructorQualification> instructorQualifications = new List<InstructorQualification>();
-            try
-            {
-                conn.Open();
-                result = comm.ExecuteNonQuery();
-            }
-            catch
-            {
-            }
-            finally
-            {
-                // Close Connection
-                if (conn.State == ConnectionState.Open)
-                    conn.Close();
+        }
 
-                // Dispose of Command
-                comm.Dispose();
-
-                // Dispose of Connection
-                conn.Dispose();
-            }
-            return result;
+        private static void AddOldParameters(InstructorQualification instQual, SqlCommand comm)
+        {
+            comm.Parameters.AddWithValue("OldCourseID", instQual.CourseID);
+            comm.Parameters.AddWithValue("OldInstructorID", instQual.InstructorID);
         }
     }
 }
