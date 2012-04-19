@@ -11,202 +11,150 @@ namespace ADD_Demo.Classes
     public class Course
     {
         public int CourseID { get; set; }
-        public String CourseCode { get; set; }
-        public String Description { get; set; }
-        public String Outline { get; set; }
-        public float Price { get; set; }
+        public string CourseCode { get; set; }
+        public string Description { get; set; }
+        public string Outline { get; set; }
+        public decimal Price { get; set; }
 
         public Course()
         { }
 
-        public Course(String courseCode,String description,String outline, float price)
-        {
-            CourseCode = courseCode;
-            Description = description;
-            Outline = outline;
-            Price = price;
-        }
-
         public static Course GetCourse(int courseID)
         {
-            // Setup Connection
-            SqlConnection conn = DatabaseConnection.GetConnection();
-            // Setup Command
-            SqlCommand comm = DatabaseConnection.GetCommand("dbo.GetCourse", conn);
-            comm.Parameters.AddWithValue("CourseID", courseID);
             Course course = new Course();
-            try
-            {
-                conn.Open();
-                SqlDataReader reader = comm.ExecuteReader();
-                while (reader.Read())
-                {
 
-                    course.CourseCode = reader["CourseCode"] as String;
-                    course.Description = reader["Description"] as String;
-                    course.Outline = reader["Outline"] as String;
-                    course.Price = (float)reader["Price"];
-                    course.CourseID = (int)reader["CourseID"];
-                }
-            }
-            catch
+            // Setup Connection
+            using (DatabaseConnection db = new DatabaseConnection("dbo.GetCourse"))
             {
-            }
-            finally
-            {
-                // Close Connection
-                if (conn.State == ConnectionState.Open)
-                    conn.Close();
+                // Set Parameters
+                db.comm.Parameters.AddWithValue("CourseID", courseID);
 
-                // Dispose of Command
-                comm.Dispose();
+                // Open Connection
+                db.conn.Open();
 
-                // Dispose of Connection
-                conn.Dispose();
+                // Execute Command
+                SqlDataReader reader = db.comm.ExecuteReader();
+
+                // Read Response
+                IList<Course> courses = Read(reader);
+                course = courses[0];
             }
+
             return course;
         }
 
         public static IEnumerable<Course> GetCourses()
         {
+            IEnumerable<Course> courses = new List<Course>();
+
             // Setup Connection
-            SqlConnection conn = DatabaseConnection.GetConnection();
-            // Setup Command
-            SqlCommand comm = DatabaseConnection.GetCommand("dbo.GetCourses", conn);
-            List<Course> courses = new List<Course>();
-            try
+            using (DatabaseConnection db = new DatabaseConnection("dbo.GetCourses"))
             {
-                conn.Open();
-                SqlDataReader reader = comm.ExecuteReader();
-                while (reader.Read())
-                {
-                    Course course = new Course();
-                    course.CourseCode = reader["CourseCode"] as String;
-                    course.Description = reader["Description"] as String;
-                    course.Outline = reader["Outline"] as String;
-                    course.Price = (float)reader["Price"];
-                    course.CourseID = (int)reader["CourseID"];
-                    courses.Add(course);
-                }
-            }
-            catch
-            {
-            }
-            finally
-            {
-                // Close Connection
-                if (conn.State == ConnectionState.Open)
-                    conn.Close();
+                // Open Connection
+                db.conn.Open();
 
-                // Dispose of Command
-                comm.Dispose();
+                // Execute Command
+                SqlDataReader reader = db.comm.ExecuteReader();
 
-                // Dispose of Connection
-                conn.Dispose();
-            }            
+                // Read Response
+                courses = Read(reader);
+            }
+
             return courses;
         }
 
         public static int AddCourse(Course course)
         {
-            int result = 0;
+            int courseID = -1;
 
             // Setup Connection
-            SqlConnection conn = DatabaseConnection.GetConnection();
-            // Setup Command
-            SqlCommand comm = DatabaseConnection.GetCommand("dbo.AddCourse", conn);
-            comm.Parameters.AddWithValue("Price", course.Price);
-            comm.Parameters.AddWithValue("Outline", course.Outline);
-            comm.Parameters.AddWithValue("Description", course.Description);
-            comm.Parameters.AddWithValue("CourseCode", course.CourseCode);            
-            try
+            using (DatabaseConnection db = new DatabaseConnection("dbo.AddCourse"))
             {
-                conn.Open();
-                result = comm.ExecuteNonQuery();
-            }
-            catch
-            {
-            }
-            finally
-            {
-                // Close Connection
-                if (conn.State == ConnectionState.Open)
-                    conn.Close();
+                // Set Parameters
+                AddParameters(course, db.comm);
 
-                // Dispose of Command
-                comm.Dispose();
+                // Open Connection
+                db.conn.Open();
 
-                // Dispose of Connection
-                conn.Dispose();
+                // Execute Command and Read Response
+                courseID = Convert.ToInt32(db.comm.ExecuteScalar());
             }
-            return result;
+
+            return courseID;
         }
 
-        public static int RemoveCourse(int courseID)
+        public static int RemoveCourse(Course oldCourse)
         {
-            int result = 0;
+            int rowsAffected = 0;
 
             // Setup Connection
-            SqlConnection conn = DatabaseConnection.GetConnection();
-            // Setup Command
-            SqlCommand comm = DatabaseConnection.GetCommand("dbo.RemoveCourse", conn);
-            comm.Parameters.AddWithValue("CourseID", courseID);
-            try
+            using (DatabaseConnection db = new DatabaseConnection("dbo.RemoveCourse"))
             {
-                conn.Open();
-                result = comm.ExecuteNonQuery();
-            }
-            catch
-            {
-            }
-            finally
-            {
-                // Close Connection
-                if (conn.State == ConnectionState.Open)
-                    conn.Close();
+                // Set Parameters
+                AddOldParameters(oldCourse, db.comm);
 
-                // Dispose of Command
-                comm.Dispose();
+                // Open Connection
+                db.conn.Open();
 
-                // Dispose of Connection
-                conn.Dispose();
+                // Execute Command and Read Response
+                rowsAffected = db.comm.ExecuteNonQuery();
             }
-            return result;
+
+            return rowsAffected;
         }
 
-        public static int UpdateCourse(Course course)
+        public static int UpdateCourse(Course course, Course oldCourse)
         {
-            int result = 0;
+            int rowsAffected = 0;
 
             // Setup Connection
-            SqlConnection conn = DatabaseConnection.GetConnection();
-            // Setup Command
-            SqlCommand comm = DatabaseConnection.GetCommand("dbo.UpdateCourse", conn);
-            comm.Parameters.AddWithValue("Price", course.Price);
-            comm.Parameters.AddWithValue("Outline", course.Outline);
-            comm.Parameters.AddWithValue("Description", course.Description);
+            using (DatabaseConnection db = new DatabaseConnection("dbo.UpdateCourse"))
+            {
+                // Set Parameters
+                AddParameters(course, db.comm);
+                AddOldParameters(oldCourse, db.comm);
+
+                // Open Connection
+                db.conn.Open();
+
+                // Execute Command and Read Response
+                rowsAffected = db.comm.ExecuteNonQuery();
+            }
+
+            return rowsAffected;
+        }
+
+        private static IList<Course> Read(SqlDataReader reader)
+        {
+            IList<Course> courses = new List<Course>();
+            while (reader.Read())
+            {
+                Course course = new Course();
+                course.CourseID = (int)reader["CourseID"];
+                course.CourseCode = (string)reader["CourseCode"];
+                course.Description = (string)reader["Description"];
+                course.Outline = (string)reader["Outline"];
+                course.Price = (decimal)reader["Price"];
+                courses.Add(course);
+            }
+            return courses;
+        }
+
+        private static void AddParameters(Course course, SqlCommand comm)
+        {
             comm.Parameters.AddWithValue("CourseCode", course.CourseCode);
-            try
-            {
-                conn.Open();
-                result = comm.ExecuteNonQuery();
-            }
-            catch
-            {
-            }
-            finally
-            {
-                // Close Connection
-                if (conn.State == ConnectionState.Open)
-                    conn.Close();
+            comm.Parameters.AddWithValue("Description", course.Description);
+            comm.Parameters.AddWithValue("Outline", course.Outline);
+            comm.Parameters.AddWithValue("Price", course.Price);
+        }
 
-                // Dispose of Command
-                comm.Dispose();
-
-                // Dispose of Connection
-                conn.Dispose();
-            }
-            return result;
+        private static void AddOldParameters(Course course, SqlCommand comm)
+        {
+            comm.Parameters.AddWithValue("OldCourseID", course.Price);
+            comm.Parameters.AddWithValue("OldCourseCode", course.CourseCode);
+            comm.Parameters.AddWithValue("OldDescription", course.Description);
+            comm.Parameters.AddWithValue("OldOutline", course.Outline);
+            comm.Parameters.AddWithValue("OldPrice", course.Price);
         }
     }
 }

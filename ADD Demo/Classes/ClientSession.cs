@@ -11,331 +11,223 @@ namespace ADD_Demo.Classes
     public class ClientSession
     {
         public int ClientSessionID { get; set; }
+        public int ClientID { get; set; }
         public int SessionID { get; set; }
         public int StatusID { get; set; }
-        public int ClientID { get; set; }
         public bool Paid { get; set; }
-        public float Price { get; set; }
+        public decimal Price { get; set; }
 
         public ClientSession()
         { }
 
-        public ClientSession(int sessionID, int statusID, int clientID, bool paid, float price)
-        { 
-            SessionID = sessionID;
-            StatusID = statusID;
-            ClientID = clientID;
-            Paid = paid;
-            Price = price;
-        }
-
-        public static IEnumerable<ClientSession> GetUnpaidClientSessions(int companyID)
+        public static IEnumerable<ClientSession> GetUnpaidClientSessionsByCompanyID(int companyID)
         {
+            IEnumerable<ClientSession> clientSessions = new List<ClientSession>();
+            
             // Setup Connection
-            SqlConnection conn = DatabaseConnection.GetConnection();
-            // Setup Command
-            SqlCommand comm = DatabaseConnection.GetCommand("dbo.GetUnpaidClientSessions", conn);
-            comm.Parameters.AddWithValue("CompanyID", companyID);
-            List<ClientSession> clientSessions = new List<ClientSession>();
-            try
+            using (DatabaseConnection db = new DatabaseConnection("dbo.GetUnpaidClientSessions"))
             {
-                conn.Open();
-                SqlDataReader reader = comm.ExecuteReader();
-                while (reader.Read())
-                {
-                    ClientSession clientSession = new ClientSession();
-                    clientSession.ClientID = (int)reader["ClientID"];
-                    clientSession.ClientSessionID = (int)reader["ClientSessionID"];
-                    clientSession.SessionID = (int)reader["SessionID"];
-                    clientSession.StatusID = (int)reader["StatusID"];
-                    clientSession.Paid = (bool)reader["Paid"];
-                    clientSession.Price = (float)reader["Price"];
-                    clientSessions.Add(clientSession);
-                }
-            }
-            catch
-            {
-            }
-            finally
-            {
-                // Close Connection
-                if (conn.State == ConnectionState.Open)
-                    conn.Close();
+                // Set Parameters
+                db.comm.Parameters.AddWithValue("CompanyID", companyID);
 
-                // Dispose of Command
-                comm.Dispose();
+                // Open Connection
+                db.conn.Open();
 
-                // Dispose of Connection
-                conn.Dispose();
+                // Execute Command
+                SqlDataReader reader = db.comm.ExecuteReader();
+
+                // Read Response
+                clientSessions = Read(reader);
             }
+
             return clientSessions;
         }
 
         public static ClientSession GetClientSession(int clientSessionID)
         {
-            // Setup Connection
-            SqlConnection conn = DatabaseConnection.GetConnection();
-            // Setup Command
-            SqlCommand comm = DatabaseConnection.GetCommand("dbo.GetClientSession", conn);
-            comm.Parameters.AddWithValue("ClientSessionID", clientSessionID);
             ClientSession clientSession = new ClientSession();
-            try
-            {
-                conn.Open();
-                SqlDataReader reader = comm.ExecuteReader();
-                if (reader.Read())
-                {
-                    clientSession.ClientID = (int)reader["ClientID"];
-                    clientSession.ClientSessionID = (int)reader["ClientSessionID"];
-                    clientSession.SessionID = (int)reader["SessionID"];
-                    clientSession.StatusID = (int)reader["StatusID"];
-                    clientSession.Paid = (bool)reader["Paid"];
-                    clientSession.Price = (float)reader["Price"];
-                }
-            }
-            catch
-            {
-            }
-            finally
-            {
-                // Close Connection
-                if (conn.State == ConnectionState.Open)
-                    conn.Close();
 
-                // Dispose of Command
-                comm.Dispose();
+            // Setup Connection
+            using (DatabaseConnection db = new DatabaseConnection("dbo.GetClientSession"))
+            {
+                // Open Connection
+                db.conn.Open();
 
-                // Dispose of Connection
-                conn.Dispose();
+                // Execute Command
+                SqlDataReader reader = db.comm.ExecuteReader();
+
+                // Read Response
+                IList<ClientSession> clientSessions = Read(reader);
+                clientSession = clientSessions[0];
             }
+
             return clientSession;
         }
 
-        public static List<ClientSession> GetClientSessionsByClientID(int clientID)
+        public static IEnumerable<ClientSession> GetClientSessionsByClientID(int clientID)
         {
+            IEnumerable<ClientSession> clientSessions = new List<ClientSession>();
+
             // Setup Connection
-            SqlConnection conn = DatabaseConnection.GetConnection();
-            // Setup Command
-            SqlCommand comm = DatabaseConnection.GetCommand("dbo.GetClientSessionsByClientID", conn);
-            comm.Parameters.AddWithValue("ClientID", clientID);
-            List<ClientSession> clientSessions = new List<ClientSession>();
-            try
+            using (DatabaseConnection db = new DatabaseConnection("dbo.GetClientSessionsByClientID"))
             {
-                conn.Open();
-                SqlDataReader reader = comm.ExecuteReader();
-                while (reader.Read())
-                {
-                    ClientSession clientSession = new ClientSession();
-                    clientSession.ClientID = (int)reader["ClientID"];
-                    clientSession.ClientSessionID = (int)reader["ClientSessionID"];
-                    clientSession.SessionID = (int)reader["SessionID"];
-                    clientSession.StatusID = (int)reader["StatusID"];
-                    clientSession.Paid = (bool)reader["Paid"];
-                    clientSession.Price = (float)reader["Price"];
-                    clientSessions.Add(clientSession);
-                }
-            }
-            catch
-            {
-            }
-            finally
-            {
-                // Close Connection
-                if (conn.State == ConnectionState.Open)
-                    conn.Close();
+                // Set Parameters
+                db.comm.Parameters.AddWithValue("ClientID", clientID);
 
-                // Dispose of Command
-                comm.Dispose();
+                // Open Connection
+                db.conn.Open();
 
-                // Dispose of Connection
-                conn.Dispose();
+                // Execute Command
+                SqlDataReader reader = db.comm.ExecuteReader();
+
+                // Read Response
+                clientSessions = Read(reader);
+            }
+
+            return clientSessions;
+        }
+
+        public static IEnumerable<ClientSession> GetClientSessionsBySessionID(int sessionID)
+        {
+            IEnumerable<ClientSession> clientSessions = new List<ClientSession>();
+
+            // Setup Connection
+            using (DatabaseConnection db = new DatabaseConnection("dbo.GetClientSessionsBySessionID"))
+            {
+                // Set Parameters
+                db.comm.Parameters.AddWithValue("SessionID", sessionID);
+
+                // Open Connection
+                db.conn.Open();
+
+                // Execute Command
+                SqlDataReader reader = db.comm.ExecuteReader();
+
+                // Read Response
+                clientSessions = Read(reader);
+            }
+
+            return clientSessions;
+        }
+
+        public static IEnumerable<ClientSession> GetClientSessionsByStatusID(int statusID)
+        {
+            IEnumerable<ClientSession> clientSessions = new List<ClientSession>();
+
+            // Setup Connection
+            using (DatabaseConnection db = new DatabaseConnection("dbo.GetClientSessionsByStatusID"))
+            {
+                // Set Parameters
+                db.comm.Parameters.AddWithValue("StatusID", statusID);
+
+                // Open Connection
+                db.conn.Open();
+
+                // Execute Command
+                SqlDataReader reader = db.comm.ExecuteReader();
+
+                // Read Response
+                clientSessions = Read(reader);
+            }
+
+            return clientSessions;
+        }
+
+        public static int AddClientSession(ClientSession clientSession)
+        {
+            int clientSessionID = -1;
+
+            // Setup Connection
+            using (DatabaseConnection db = new DatabaseConnection("dbo.AddClientSession"))
+            {
+                // Set Parameters
+                AddParameters(clientSession, db.comm);
+
+                // Open Connection
+                db.conn.Open();
+
+                // Execute Command and Read Response
+                clientSessionID = Convert.ToInt32(db.comm.ExecuteScalar());
+            }
+
+            return clientSessionID;
+        }
+
+        public static int UpdateClientSession(ClientSession clientSession, ClientSession oldClientSession)
+        {
+            int rowsAffected = 0;
+
+            // Setup Connection
+            using (DatabaseConnection db = new DatabaseConnection("dbo.UpdateClientSesssion"))
+            {
+                // Set Parameters
+                AddParameters(clientSession, db.comm);
+                AddOldParameters(oldClientSession, db.comm);
+
+                // Open Connection
+                db.conn.Open();
+
+                // Execute Command and Read Response
+                rowsAffected = db.comm.ExecuteNonQuery();
+            }
+
+            return rowsAffected;
+        }
+
+        public static int RemoveClientSession(ClientSession oldClientSession)
+        {
+            int rowsAffected = 0;
+
+            // Setup Connection
+            using (DatabaseConnection db = new DatabaseConnection("dbo.RemoveClientSession"))
+            {
+                // Set Parameters
+                AddOldParameters(oldClientSession, db.comm);
+
+                // Open Connection
+                db.conn.Open();
+
+                // Execute Command and Read Response
+                rowsAffected = db.comm.ExecuteNonQuery();
+            }
+
+            return rowsAffected;
+        }
+
+        private static IList<ClientSession> Read(SqlDataReader reader)
+        {
+            IList<ClientSession> clientSessions = new List<ClientSession>();
+            while (reader.Read())
+            {
+                ClientSession clientSession = new ClientSession();
+                clientSession.ClientSessionID = (int)reader["ClientSessionID"];
+                clientSession.ClientID = (int)reader["ClientID"];
+                clientSession.SessionID = (int)reader["SessionID"];
+                clientSession.StatusID = (int)reader["StatusID"];
+                clientSession.Paid = (bool)reader["Paid"];
+                clientSession.Price = (decimal)reader["Price"];
+                clientSessions.Add(clientSession);
             }
             return clientSessions;
         }
 
-        public static List<ClientSession> GetClientSessionsBySessionID(int sessionID)
+        private static void AddParameters(ClientSession clientSession, SqlCommand comm)
         {
-            // Setup Connection
-            SqlConnection conn = DatabaseConnection.GetConnection();
-            // Setup Command
-            SqlCommand comm = DatabaseConnection.GetCommand("dbo.GetClientSessionsBySessionID", conn);
-            comm.Parameters.AddWithValue("SessionID", sessionID);
-            List<ClientSession> clientSessions = new List<ClientSession>();
-            try
-            {
-                conn.Open();
-                SqlDataReader reader = comm.ExecuteReader();
-                while (reader.Read())
-                {
-                    ClientSession clientSession = new ClientSession();
-                    clientSession.ClientID = (int)reader["ClientID"];
-                    clientSession.ClientSessionID = (int)reader["ClientSessionID"];
-                    clientSession.SessionID = (int)reader["SessionID"];
-                    clientSession.StatusID = (int)reader["StatusID"];
-                    clientSession.Paid = (bool)reader["Paid"];
-                    clientSession.Price = (float)reader["Price"];
-                    clientSessions.Add(clientSession);
-                }
-            }
-            catch
-            {
-            }
-            finally
-            {
-                // Close Connection
-                if (conn.State == ConnectionState.Open)
-                    conn.Close();
-
-                // Dispose of Command
-                comm.Dispose();
-
-                // Dispose of Connection
-                conn.Dispose();
-            }
-            return clientSessions;
+            comm.Parameters.AddWithValue("ClientID", clientSession.ClientID);
+            comm.Parameters.AddWithValue("SessionID", clientSession.SessionID);
+            comm.Parameters.AddWithValue("StatusID", clientSession.StatusID);
+            comm.Parameters.AddWithValue("Paid", clientSession.Paid);
+            comm.Parameters.AddWithValue("Price", clientSession.Price);
         }
 
-        public static List<ClientSession> GetClientSessionsByStatusID(int statusID)
+        private static void AddOldParameters(ClientSession clientSession, SqlCommand comm)
         {
-            // Setup Connection
-            SqlConnection conn = DatabaseConnection.GetConnection();
-            // Setup Command
-            SqlCommand comm = DatabaseConnection.GetCommand("dbo.GetClientSessionsByStatusID", conn);
-            comm.Parameters.AddWithValue("StatusID", statusID);
-            List<ClientSession> clientSessions = new List<ClientSession>();
-            try
-            {
-                conn.Open();
-                SqlDataReader reader = comm.ExecuteReader();
-                while (reader.Read())
-                {
-                    ClientSession clientSession = new ClientSession();
-                    clientSession.ClientID = (int)reader["ClientID"];
-                    clientSession.ClientSessionID = (int)reader["ClientSessionID"];
-                    clientSession.SessionID = (int)reader["SessionID"];
-                    clientSession.StatusID = (int)reader["StatusID"];
-                    clientSession.Paid = (bool)reader["Paid"];
-                    clientSession.Price = (float)reader["Price"];
-                    clientSessions.Add(clientSession);
-                }
-            }
-            catch
-            {
-            }
-            finally
-            {
-                // Close Connection
-                if (conn.State == ConnectionState.Open)
-                    conn.Close();
-
-                // Dispose of Command
-                comm.Dispose();
-
-                // Dispose of Connection
-                conn.Dispose();
-            }
-            return clientSessions;
-        }
-
-        public static int AddClientSession(ClientSession cs)
-        {
-            int result = 0;
-            // Setup Connection
-            SqlConnection conn = DatabaseConnection.GetConnection();
-            // Setup Command
-            SqlCommand comm = DatabaseConnection.GetCommand("dbo.AddClientSession", conn);
-            comm.Parameters.AddWithValue("SessionID", cs.SessionID);
-            comm.Parameters.AddWithValue("StatusID", cs.StatusID);
-            comm.Parameters.AddWithValue("PriceID", cs.Price);
-            comm.Parameters.AddWithValue("PaidID", cs.Paid);
-            comm.Parameters.AddWithValue("ClientID", cs.ClientID);
-            try
-            {
-                conn.Open();
-                result = comm.ExecuteNonQuery();
-            }
-            catch
-            {
-            }
-            finally
-            {
-                // Close Connection
-                if (conn.State == ConnectionState.Open)
-                    conn.Close();
-
-                // Dispose of Command
-                comm.Dispose();
-
-                // Dispose of Connection
-                conn.Dispose();
-            }
-            return result;
-        }
-
-        public static int UpdateClientSession(ClientSession cs)
-        {
-            int result = 0;
-            // Setup Connection
-            SqlConnection conn = DatabaseConnection.GetConnection();
-            // Setup Command
-            SqlCommand comm = DatabaseConnection.GetCommand("dbo.UpdateClientSession", conn);
-            comm.Parameters.AddWithValue("SessionID", cs.SessionID);
-            comm.Parameters.AddWithValue("StatusID", cs.StatusID);
-            comm.Parameters.AddWithValue("PriceID", cs.Price);
-            comm.Parameters.AddWithValue("PaidID", cs.Paid);
-            comm.Parameters.AddWithValue("ClientID", cs.ClientID);
-            try
-            {
-                conn.Open();
-                result = comm.ExecuteNonQuery();
-            }
-            catch
-            {
-            }
-            finally
-            {
-                // Close Connection
-                if (conn.State == ConnectionState.Open)
-                    conn.Close();
-
-                // Dispose of Command
-                comm.Dispose();
-
-                // Dispose of Connection
-                conn.Dispose();
-            }
-            return result;
-        }
-
-        public static int RemoveClientSession(int clientSessionID)
-        {
-            int result = 0;
-            // Setup Connection
-            SqlConnection conn = DatabaseConnection.GetConnection();
-            // Setup Command
-            SqlCommand comm = DatabaseConnection.GetCommand("dbo.RemoveClientSession", conn);
-            comm.Parameters.AddWithValue("ClientSessionID", clientSessionID);
-            try
-            {
-                conn.Open();
-                result = comm.ExecuteNonQuery();
-            }
-            catch
-            {
-            }
-            finally
-            {
-                // Close Connection
-                if (conn.State == ConnectionState.Open)
-                    conn.Close();
-
-                // Dispose of Command
-                comm.Dispose();
-
-                // Dispose of Connection
-                conn.Dispose();
-            }
-            return result;
+            comm.Parameters.AddWithValue("OldClientSessionID", clientSession.ClientSessionID);
+            comm.Parameters.AddWithValue("OldClientID", clientSession.ClientID);
+            comm.Parameters.AddWithValue("OldSessionID", clientSession.SessionID);
+            comm.Parameters.AddWithValue("OldStatusID", clientSession.StatusID);
+            comm.Parameters.AddWithValue("OldPaid", clientSession.Paid);
+            comm.Parameters.AddWithValue("OldPrice", clientSession.Price);
         }
     }
 }

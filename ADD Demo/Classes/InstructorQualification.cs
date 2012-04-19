@@ -16,128 +16,114 @@ namespace ADD_Demo.Classes
         public InstructorQualification()
         { }
 
+        // Get InstructorQualifications by CourseID
         public static IEnumerable<InstructorQualification> GetInstructorQualificationsByCourseID(int courseID)
         {
             IEnumerable<InstructorQualification> instructorQualifications = new List<InstructorQualification>();
 
             // Setup Connection
-            DatabaseConnection db = new DatabaseConnection("dbo.GetInstructorQualificationsByCourseID");
-            db.comm.Parameters.AddWithValue("CourseID", courseID);
-
-            try
+            using (DatabaseConnection db = new DatabaseConnection("dbo.GetInstructorQualificationsByCourseID"))
             {
+                // Set Parameters
+                db.comm.Parameters.AddWithValue("CourseID", courseID);
+
+                // Open Connection
                 db.conn.Open();
+
+                // Execute Command
                 SqlDataReader reader = db.comm.ExecuteReader();
+
+                // Read Response
                 instructorQualifications = Read(reader);
             }
-            catch
-            {
-            }
-            finally
-            {
-                // Close Connection
-                db.Dispose();
-            }
+
             return instructorQualifications;
         }
 
+        // Get InstructorQualifications by InstructorID
         public static IEnumerable<InstructorQualification> GetInstructorQualificationsByInstructorID(int instructorID)
         {
             IEnumerable<InstructorQualification> instructorQualifications = new List<InstructorQualification>();
 
             // Setup Connection
-            DatabaseConnection db = new DatabaseConnection("dbo.GetInstructorQualificationsByCourseID");
-            db.comm.Parameters.AddWithValue("InstructorID", instructorID);
-
-            try
+            using (DatabaseConnection db = new DatabaseConnection("dbo.GetInstructorQualificationsByCourseID"))
             {
+                // Set Parameters
+                db.comm.Parameters.AddWithValue("InstructorID", instructorID);
+
+                // Open Connection
                 db.conn.Open();
+
+                // Execute Command
                 SqlDataReader reader = db.comm.ExecuteReader();
+
+                // Read Response
                 instructorQualifications = Read(reader);
             }
-            catch
-            {
-            }
-            finally
-            {
-                // Close Connection
-                db.Dispose();
-            }
+
             return instructorQualifications;
         }
 
+        // Get all InstructorQualifications
         public static IEnumerable<InstructorQualification> GetInstructorQualifications()
         {
             IEnumerable<InstructorQualification> instructorQualifications = new List<InstructorQualification>();
 
             // Setup Connection
-            DatabaseConnection db = new DatabaseConnection("dbo.GetInstructorQualifications");
-            
-            try
+            using (DatabaseConnection db = new DatabaseConnection("dbo.GetInstructorQualifications"))
             {
+                // Open Connection
                 db.conn.Open();
                 SqlDataReader reader = db.comm.ExecuteReader();
                 instructorQualifications = Read(reader);
             }
-            catch
-            {
-            }
-            finally
-            {
-                // Close Connection
-                db.Dispose();
-            }
+
             return instructorQualifications;
         }
 
+        // Add InstructorQualification, return number of rows affected
         public static int AddInstructorQualification(InstructorQualification instructorQualification)
         {
             int rowsAffected = 0;
 
             // Setup Connection
-            DatabaseConnection db = new DatabaseConnection("dbo.AddInstructorQualification");
-            AddParameters(instructorQualification, db.comm);
-
-            try
+            using (DatabaseConnection db = new DatabaseConnection("dbo.AddInstructorQualification"))
             {
+                // Set Parameters
+                AddParameters(instructorQualification, db.comm);
+
+                // Open Connection
                 db.conn.Open();
+
+                // Execute Command and Read Response
                 rowsAffected = db.comm.ExecuteNonQuery();
             }
-            catch
-            {
-            }
-            finally
-            {
-                // Close Connection
-                db.Dispose();
-            }
+
             return rowsAffected;
         }
 
+        // Remove InstructorQualification, return number of rows affected
         public static int RemoveInstructorQualification(InstructorQualification oldInstructorQualification)
         {
-            int result = 0;
+            int rowsAffected = 0;
 
             // Setup Connection
-            DatabaseConnection db = new DatabaseConnection("dbo.RemoveInstructorQualification");
-            AddOldParameters(oldInstructorQualification, db.comm);
+            using (DatabaseConnection db = new DatabaseConnection("dbo.RemoveInstructorQualification"))
+            {
+                // Set Parameters
+                AddOldParameters(oldInstructorQualification, db.comm);
 
-            try
-            {
+                // Open Connection
                 db.conn.Open();
-                result = db.comm.ExecuteNonQuery();
+
+                // Execute Command and Read Response
+                rowsAffected = db.comm.ExecuteNonQuery();
             }
-            catch
-            {
-            }
-            finally
-            {
-                // Close Connection
-                db.Dispose();
-            }
-            return result;
+
+            return rowsAffected;
         }
 
+        // Read Response
         private static IList<InstructorQualification> Read(SqlDataReader reader)
         {
             IList<InstructorQualification> instructorQualifications = new List<InstructorQualification>();
@@ -151,16 +137,18 @@ namespace ADD_Demo.Classes
             return instructorQualifications;
         }
 
-        private static void AddParameters(InstructorQualification instQual, SqlCommand comm)
+        // Set Parameters
+        private static void AddParameters(InstructorQualification instructorQualification, SqlCommand comm)
         {
-            comm.Parameters.AddWithValue("CourseID", instQual.CourseID);
-            comm.Parameters.AddWithValue("InstructorID", instQual.InstructorID);
+            comm.Parameters.AddWithValue("CourseID", instructorQualification.CourseID);
+            comm.Parameters.AddWithValue("InstructorID", instructorQualification.InstructorID);
         }
 
-        private static void AddOldParameters(InstructorQualification instQual, SqlCommand comm)
+        // Set Parameters
+        private static void AddOldParameters(InstructorQualification instructorQualification, SqlCommand comm)
         {
-            comm.Parameters.AddWithValue("OldCourseID", instQual.CourseID);
-            comm.Parameters.AddWithValue("OldInstructorID", instQual.InstructorID);
+            comm.Parameters.AddWithValue("OldCourseID", instructorQualification.CourseID);
+            comm.Parameters.AddWithValue("OldInstructorID", instructorQualification.InstructorID);
         }
     }
 }

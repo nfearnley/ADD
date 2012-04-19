@@ -11,344 +11,205 @@ namespace ADD_Demo.Classes
     public class Client
     {
         public int ClientID { get; set; }
-        public String WorkPhone { get; set; }
-        public String LastName { get; set; }
-        public String HomePhone { get; set; }
-        public String FirstName { get; set; }
-        public String FaxPhone { get; set; }
-        public String AddressRegion { get; set; }
-        public String AddressPostalCode { get; set; }
-        public String AddressLine1 { get; set; }
-        public String AddressLine2 { get; set; }
-        public String AddressCountry { get; set; }
-        public String AddressCity { get; set; }
         public int CompanyID { get; set; }
+        public string AddressRegion { get; set; }
+        public string AddressPostalCode { get; set; }
+        public string AddressLine1 { get; set; }
+        public string AddressLine2 { get; set; } // Can be null
+        public string AddressCountry { get; set; }
+        public string AddressCity { get; set; }
+        public string FaxPhone { get; set; }  // Can be null
+        public string FirstName { get; set; }
+        public string HomePhone { get; set; }
+        public string LastName { get; set; }
+        public string WorkPhone { get; set; }
 
         public Client()
         { }
 
-        public Client(String wPhone, String lName, String hPhone, String fName, String fPhone, String region, String code, String line1, String line2, String country, String city, int companyID)
-        { 
-            WorkPhone = wPhone;
-            LastName = lName;
-            HomePhone = hPhone;
-            FirstName = fName;
-            FaxPhone = fPhone;
-            AddressRegion = region;
-            AddressPostalCode = code;
-            AddressLine1 = line1;
-            AddressLine2 = line2;
-            AddressCountry = country;
-            AddressCity = city;
-            CompanyID = companyID;
-        }
-
         public static Client GetClient(int clientID)
         {
-            // Setup Connection
-            SqlConnection conn = DatabaseConnection.GetConnection();
-
-            // Setup Command
-            SqlCommand comm = DatabaseConnection.GetCommand("dbo.GetClient", conn);
-            comm.Parameters.AddWithValue("@ClientID", clientID);
             Client client = new Client();
-            try
-            {
-                conn.Open();
-                SqlDataReader reader = comm.ExecuteReader();
-                if (reader.Read())
-                {
-                    client.WorkPhone = reader["WorkPhone"] as String;
-                    client.LastName = reader["LastName"] as String; ;
-                    client.HomePhone = reader["HomePhone"] as String;
-                    client.FirstName = reader["FirstName"] as String;
-                    client.FaxPhone = reader["FaxPhone"] as String;
-                    client.AddressRegion = reader["AddressRegion"] as String;
-                    client.AddressPostalCode = reader["AddressPostalCode"] as String;
-                    client.AddressLine1 = reader["AddressLine1"] as String;
-                    client.AddressLine2 = reader["AddressLine2"] as String;
-                    client.AddressCountry = reader["AddressCountry"] as String;
-                    client.AddressCity = reader["AddressCountry"] as String;
-                    client.CompanyID = (int)reader["CompanyID"];
-                    client.ClientID = (int)reader["ClientID"];
-                }
-            }
-            catch
-            {
-            }
-            finally
-            {
-                // Close Connection
-                if (conn.State == ConnectionState.Open)
-                    conn.Close();
 
-                // Dispose of Command
-                comm.Dispose();
+            // Setup Connection
+            using (DatabaseConnection db = new DatabaseConnection("dbo.GetClient"))
+            {
+                // Set Parameters
+                db.comm.Parameters.AddWithValue("ClientID", clientID);
 
-                // Dispose of Connection
-                conn.Dispose();
+                // Open Connection
+                db.conn.Open();
+
+                // Execute Command
+                SqlDataReader reader = db.comm.ExecuteReader();
+
+                // Read Response
+                IList<Client> clients = Read(reader);
+                client = clients[0];
             }
+            
             return client;
         }
 
         public static IEnumerable<Client> GetClientsByCompanyID(int companyID)
         {
+            IEnumerable<Client> clients = new List<Client>();
+
             // Setup Connection
-            SqlConnection conn = DatabaseConnection.GetConnection();
-            // Setup Command
-            SqlCommand comm = DatabaseConnection.GetCommand("dbo.GetClientsByCompanyID", conn);
-            comm.Parameters.AddWithValue("@CompanyID", companyID);
-            List<Client> clients = new List<Client>();
-            try
+            using (DatabaseConnection db = new DatabaseConnection("dbo.GetClientsByCompanyID"))
             {
-                conn.Open();
-                SqlDataReader reader = comm.ExecuteReader();
-                while (reader.Read())
-                {
-                    Client client = new Client();
-                    client.WorkPhone = reader["WorkPhone"] as String;
-                    client.LastName = reader["LastName"] as String; ;
-                    client.HomePhone = reader["HomePhone"] as String;
-                    client.FirstName = reader["FirstName"] as String;
-                    client.FaxPhone = reader["FaxPhone"] as String;
-                    client.AddressRegion = reader["AddressRegion"] as String;
-                    client.AddressPostalCode = reader["AddressPostalCode"] as String;
-                    client.AddressLine1 = reader["AddressLine1"] as String;
-                    client.AddressLine2 = reader["AddressLine2"] as String;
-                    client.AddressCountry = reader["AddressCountry"] as String;
-                    client.AddressCity = reader["AddressCountry"] as String;
-                    client.CompanyID = (int)reader["CompanyID"];
-                    client.ClientID = (int)reader["ClientID"];
-                    clients.Add(client);
-                }
-            }
-            catch
-            {
-            }
-            finally
-            {
-                // Close Connection
-                if (conn.State == ConnectionState.Open)
-                    conn.Close();
+                // Set Parameters
+                db.comm.Parameters.AddWithValue("CompanyID", companyID);
 
-                // Dispose of Command
-                comm.Dispose();
+                // Open Connection
+                db.conn.Open();
 
-                // Dispose of Connection
-                conn.Dispose();
+                // Execute Command
+                SqlDataReader reader = db.comm.ExecuteReader();
+
+                // Read Response
+                clients = Read(reader);
             }
+
             return clients;
         }
 
         public static IEnumerable<Client> GetClients()
         {
+            IEnumerable<Client> clients = new List<Client>();
+
             // Setup Connection
-            SqlConnection conn = DatabaseConnection.GetConnection();
-
-            // Setup Command
-            SqlCommand comm = DatabaseConnection.GetCommand("dbo.GetClients", conn);
-            List<Client> clients = new List<Client>();
-            try
+            using (DatabaseConnection db = new DatabaseConnection("dbo.GetClients"))
             {
-                conn.Open();
-                SqlDataReader reader = comm.ExecuteReader();
-                while (reader.Read())
-                {
-                    Client client = new Client();
-                    client.WorkPhone = reader["WorkPhone"] as String;
-                    client.LastName = reader["LastName"] as String; ;
-                    client.HomePhone = reader["HomePhone"] as String;
-                    client.FirstName = reader["FirstName"] as String;
-                    client.FaxPhone = reader["FaxPhone"] as String;
-                    client.AddressRegion = reader["AddressRegion"] as String;
-                    client.AddressPostalCode = reader["AddressPostalCode"] as String;
-                    client.AddressLine1 = reader["AddressLine1"] as String;
-                    client.AddressLine2 = reader["AddressLine2"] as String;
-                    client.AddressCountry = reader["AddressCountry"] as String;
-                    client.AddressCity = reader["AddressCountry"] as String;
-                    client.CompanyID = (int)reader["CompanyID"];
-                    client.ClientID = (int)reader["ClientID"];
-                    clients.Add(client);
-                }
-            }
-            catch
-            {
-            }
-            finally
-            {
-                // Close Connection
-                if (conn.State == ConnectionState.Open)
-                    conn.Close();
+                // Open Connection
+                db.conn.Open();
 
-                // Dispose of Command
-                comm.Dispose();
+                // Execute Command
+                SqlDataReader reader = db.comm.ExecuteReader();
 
-                // Dispose of Connection
-                conn.Dispose();
+                // Read Response
+                clients = Read(reader);
             }
+
             return clients;
         }
 
         public static int AddClient(Client client)
         {
-            int result = 0;
+            int clientID = -1;
+
             // Setup Connection
-            SqlConnection conn = DatabaseConnection.GetConnection();
-            // Setup Command
-            SqlCommand comm = DatabaseConnection.GetCommand("dbo.AddClient", conn);
+            using (DatabaseConnection db = new DatabaseConnection("dbo.AddClient"))
+            {
+                // Set Parameters
+                AddParameters(client, db.comm);
+
+                // Open Connection
+                db.conn.Open();
+
+                // Execute Command and Read Response
+                clientID = Convert.ToInt32(db.comm.ExecuteScalar());
+            }
+
+            return clientID;
+        }
+
+        public static int RemoveClient(Client oldClient)
+        {
+            int rowsAffected = 0;
+
+            // Setup Connection
+            using (DatabaseConnection db = new DatabaseConnection("dbo.RemoveClient"))
+            {
+                // Set Parameters
+                AddOldParameters(oldClient, db.comm);
+
+                // Open Connection
+                db.conn.Open();
+
+                // Execute Command and Read Response
+                rowsAffected = db.comm.ExecuteNonQuery();
+            }
+
+            return rowsAffected;
+        }
+
+        public static int UpdateClient(Client client, Client oldClient)
+        {
+            int rowsAffected = 0;
+
+            // Setup Connection
+            using (DatabaseConnection db = new DatabaseConnection("dbo.UpdateClient"))
+            {
+                // Set Parameters
+                AddParameters(client, db.comm);
+                AddOldParameters(oldClient, db.comm);
+
+                // Open Connection
+                db.conn.Open();
+
+                // Execute Command and Read Response
+                rowsAffected = db.comm.ExecuteNonQuery();
+            }
+
+            return rowsAffected;
+        }
+
+        private static IList<Client> Read(SqlDataReader reader)
+        {
+            IList<Client> clients = new List<Client>();
+            while (reader.Read())
+            {
+                Client client = new Client();
+                client.ClientID = (int)reader["ClientID"];
+                client.CompanyID = (int)reader["CompanyID"];
+                client.AddressCity = (string)reader["AddressCity"];
+                client.AddressCountry = (string)reader["AddressCountry"];
+                client.AddressLine1 = (string)reader["AddressLine1"];
+                client.AddressLine2 = reader["AddressLine2"] as string; // Allow null
+                client.AddressPostalCode = (string)reader["AddressPostalCode"];
+                client.AddressRegion = (string)reader["AddressRegion"];
+                client.FaxPhone = reader["FaxPhone"] as string; // Allow null
+                client.FirstName = (string)reader["FirstName"];
+                client.HomePhone = (string)reader["HomePhone"];
+                client.LastName = (string)reader["LastName"];
+                client.WorkPhone = (string)reader["WorkPhone"];
+                clients.Add(client);
+            }
+            return clients;
+        }
+
+        private static void AddParameters(Client client, SqlCommand comm)
+        {
+            comm.Parameters.AddWithValue("CompanyID", client.CompanyID);
             comm.Parameters.AddWithValue("AddressCity", client.AddressCity);
             comm.Parameters.AddWithValue("AddressCountry", client.AddressCountry);
             comm.Parameters.AddWithValue("AddressLine1", client.AddressLine1);
-            comm.Parameters.AddWithValue("AddressLine2", client.AddressLine2);
+            comm.Parameters.AddWithValue("AddressLine2", client.AddressLine2 == null ? (object)DBNull.Value :  client.AddressLine2); // Check for null
             comm.Parameters.AddWithValue("AddressPostalCode", client.AddressPostalCode);
             comm.Parameters.AddWithValue("AddressRegion", client.AddressRegion);
+            comm.Parameters.AddWithValue("FaxPhone", client.FaxPhone == null ? (object)DBNull.Value : client.FaxPhone); // Check for null
             comm.Parameters.AddWithValue("FirstName", client.FirstName);
+            comm.Parameters.AddWithValue("HomePhone", client.HomePhone);
             comm.Parameters.AddWithValue("LastName", client.LastName);
             comm.Parameters.AddWithValue("WorkPhone", client.WorkPhone);
-            comm.Parameters.AddWithValue("FaxPhone", client.FaxPhone);
-            comm.Parameters.AddWithValue("HomePhone", client.HomePhone);
-            comm.Parameters.AddWithValue("CompanyID", client.CompanyID);
-            try
-            {
-                // Open Connection
-                conn.Open();
-
-                // ExecuteCommand
-                result = comm.ExecuteNonQuery();
-            }
-            catch
-            {
-            }
-            finally
-            {
-                // Close Connection
-                if (conn.State == ConnectionState.Open)
-                    conn.Close();
-
-                // Dispose of Command
-                comm.Dispose();
-
-                // Dispose of Connection
-                conn.Dispose();
-            }
-            return result;
         }
 
-        public static int RemoveClient(Client client)
+        private static void AddOldParameters(Client client, SqlCommand comm)
         {
-            int result = 0;
-            // Setup Connection
-            SqlConnection conn = DatabaseConnection.GetConnection();
-
-            // Setup Command
-            SqlCommand comm = DatabaseConnection.GetCommand("dbo.RemoveClient", conn);
-            comm.Parameters.AddWithValue("ClientID", client.ClientID);
-            try
-            {
-                // Open Connection
-                conn.Open();
-
-                // ExecuteCommand
-                result = comm.ExecuteNonQuery();
-            }
-            catch
-            {
-            }
-            finally
-            {
-                // Close Connection
-                if (conn.State == ConnectionState.Open)
-                    conn.Close();
-
-                // Dispose of Command
-                comm.Dispose();
-
-                // Dispose of Connection
-                conn.Dispose();
-            }
-            return result;
-        }
-
-        public static int RemoveClient(int clientID)
-        {
-            int result = 0;
-            // Setup Connection
-            SqlConnection conn = DatabaseConnection.GetConnection();
-
-            // Setup Command
-            SqlCommand comm = DatabaseConnection.GetCommand("dbo.RemoveClient", conn);
-            comm.Parameters.AddWithValue("ClientID", clientID);
-            try
-            {
-                // Open Connection
-                conn.Open();
-
-                // ExecuteCommand
-                result = comm.ExecuteNonQuery();
-            }
-            catch
-            {
-            }
-            finally
-            {
-                // Close Connection
-                if (conn.State == ConnectionState.Open)
-                    conn.Close();
-
-                // Dispose of Command
-                comm.Dispose();
-
-                // Dispose of Connection
-                conn.Dispose();
-            }
-            return result;
-        }
-
-        public static int UpdateClient(Client client)
-        {
-            int result = 0;
-            // Setup Connection
-            SqlConnection conn = DatabaseConnection.GetConnection();
-
-            // Setup Command
-            SqlCommand comm = DatabaseConnection.GetCommand("dbo.UpdateClient", conn);
-            comm.Parameters.AddWithValue("AddressCity", client.AddressCity);
-            comm.Parameters.AddWithValue("AddressCountry", client.AddressCountry);
-            comm.Parameters.AddWithValue("AddressLine1", client.AddressLine1);
-            comm.Parameters.AddWithValue("AddressLine2", client.AddressLine2);
-            comm.Parameters.AddWithValue("AddressPostalCode", client.AddressPostalCode);
-            comm.Parameters.AddWithValue("AddressRegion", client.AddressRegion);
-            comm.Parameters.AddWithValue("FirstName", client.FirstName);
-            comm.Parameters.AddWithValue("LastName", client.LastName);
-            comm.Parameters.AddWithValue("WorkPhone", client.WorkPhone);
-            comm.Parameters.AddWithValue("FaxPhone", client.FaxPhone);
-            comm.Parameters.AddWithValue("HomePhone", client.HomePhone);
-            comm.Parameters.AddWithValue("CompanyID", client.CompanyID);
-            try
-            {
-                // Open Connection
-                conn.Open();
-
-                // ExecuteCommand
-                result = comm.ExecuteNonQuery();
-            }
-            catch
-            {
-            }
-            finally
-            {
-                // Close Connection
-                if (conn.State == ConnectionState.Open)
-                    conn.Close();
-
-                // Dispose of Command
-                comm.Dispose();
-
-                // Dispose of Connection
-                conn.Dispose();
-
-            }
-            return result;
+            comm.Parameters.AddWithValue("OldClientID", client.ClientID);
+            comm.Parameters.AddWithValue("OldCompanyID", client.CompanyID);
+            comm.Parameters.AddWithValue("OldAddressCity", client.AddressCity);
+            comm.Parameters.AddWithValue("OldAddressCountry", client.AddressCountry);
+            comm.Parameters.AddWithValue("OldAddressLine1", client.AddressLine1);
+            comm.Parameters.AddWithValue("OldAddressLine2", client.AddressLine2 == null ? (object)DBNull.Value : client.AddressLine2); // Check for null
+            comm.Parameters.AddWithValue("OldAddressPostalCode", client.AddressPostalCode);
+            comm.Parameters.AddWithValue("OldAddressRegion", client.AddressRegion);
+            comm.Parameters.AddWithValue("OldFaxPhone", client.FaxPhone == null ? (object)DBNull.Value : client.FaxPhone); // Check for null
+            comm.Parameters.AddWithValue("OldFirstName", client.FirstName);
+            comm.Parameters.AddWithValue("OldHomePhone", client.HomePhone);
+            comm.Parameters.AddWithValue("OldLastName", client.LastName);
+            comm.Parameters.AddWithValue("OldWorkPhone", client.WorkPhone);
         }
     }
 }

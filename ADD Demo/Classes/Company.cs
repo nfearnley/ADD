@@ -11,230 +11,162 @@ namespace ADD_Demo.Classes
     public class Company
     {
         public int CompanyID { get; set; }
-        public String BillingAddressCity { get; set; }
-        public String BillingAddressCountry { get; set; }
-        public String BillingAddressLine1 { get; set; }
-        public String BillingAddressLine2 { get; set; }
-        public String BillingAddressPostalCode { get; set; }
-        public String BillingAddressRegion { get; set; }
-        public String BillingName { get; set; }
-
-        public Company(String city, String country, String line1, String line2, String code, String region, String name)
-        {
-            BillingAddressCity = city;
-            BillingAddressCountry = country;
-            BillingAddressLine1 = line1;
-            BillingAddressLine2 = line2;
-            BillingAddressPostalCode = code;
-            BillingAddressRegion = region;
-            BillingName = name;
-        }
+        public string BillingAddressCity { get; set; }
+        public string BillingAddressCountry { get; set; }
+        public string BillingAddressLine1 { get; set; }
+        public string BillingAddressLine2 { get; set; } // can be null
+        public string BillingAddressPostalCode { get; set; }
+        public string BillingAddressRegion { get; set; }
+        public string BillingName { get; set; }
 
         public Company()
         {}
 
         public static Company GetCompany(int companyID)
         {
-            SqlConnection conn = DatabaseConnection.GetConnection();
-
-            // Setup Command
-            SqlCommand comm = DatabaseConnection.GetCommand("dbo.GetCompany", conn);
-            comm.Parameters.AddWithValue("CompanyID", companyID);
             Company company = new Company();
-            try
+
+            // Setup Connection
+            using (DatabaseConnection db = new DatabaseConnection("dbo.GetCompany"))
             {
+                // Set Parameters
+                db.comm.Parameters.AddWithValue("CompanyID", companyID);
+
                 // Open Connection
-                conn.Open();
-                SqlDataReader reader = comm.ExecuteReader();
-                if(reader.Read())
-                {
-                    company.BillingAddressCity = reader["BillingAddressCity"] as String;
-                    company.BillingAddressCountry = reader["BillingAddressCountry"] as String;
-                    company.BillingAddressPostalCode = reader["BillingAddressPostalCode"] as String;
-                    company.BillingAddressLine1 = reader["BillingAddressLine1"] as String;
-                    company.BillingAddressLine2 = reader["BillingAddressLine2"] as String;
-                    company.BillingAddressRegion = reader["BillingAddressRegion"] as String;
-                    company.BillingName = reader["BillingName"] as String;
-                    company.CompanyID = (int)reader["CompanyID"];
-                }                
-            }
-            catch
-            {
-            }
-            finally
-            {
-                // Close Connection
-                if (conn.State == ConnectionState.Open)
-                    conn.Close();
+                db.conn.Open();
 
-                // Dispose of Command
-                comm.Dispose();
+                // Execute Command
+                SqlDataReader reader = db.comm.ExecuteReader();
 
-                // Dispose of Connection
-                conn.Dispose();
+                // Read Response
+                IList<Company> companies = Read(reader);
+                company = companies[0];
             }
+
             return company;
         }
 
         public static IEnumerable<Company> GetCompanies()
         {
+            IEnumerable<Company> companies = new List<Company>();
+
             // Setup Connection
-            SqlConnection conn = DatabaseConnection.GetConnection();
-            // Setup Command
-            SqlCommand comm = DatabaseConnection.GetCommand("dbo.GetCompanies", conn);
-            List<Company> companies = new List<Company>();
-            try
+            using (DatabaseConnection db = new DatabaseConnection("dbo.GetCompanies"))
             {
                 // Open Connection
-                conn.Open();
-                SqlDataReader reader = comm.ExecuteReader();
-                while (reader.Read())
-                {
-                    Company company = new Company();
-                    company.BillingAddressCity = reader["BillingAddressCity"] as String;
-                    company.BillingAddressCountry = reader["BillingAddressCountry"] as String;
-                    company.BillingAddressPostalCode = reader["BillingAddressPostalCode"] as String;
-                    company.BillingAddressLine1 = reader["BillingAddressLine1"] as String;
-                    company.BillingAddressLine2 = reader["BillingAddressLine2"] as String;
-                    company.BillingAddressRegion = reader["BillingAddressRegion"] as String;
-                    company.BillingName = reader["BillingName"] as String;
-                    company.CompanyID = (int)reader["CompanyID"];
-                    companies.Add(company);
-                }
-            }
-            catch
-            {
-            }
-            finally
-            {
-                // Close Connection
-                if (conn.State == ConnectionState.Open)
-                    conn.Close();
+                db.conn.Open();
 
-                // Dispose of Command
-                comm.Dispose();
+                // Execute Command
+                SqlDataReader reader = db.comm.ExecuteReader();
 
-                // Dispose of Connection
-                conn.Dispose();
+                // Read Response
+                companies = Read(reader);
             }
+
             return companies;
         }
 
         public static int AddCompany(Company company)
         {
-            int result = 0;
-            // Setup Connection
-            SqlConnection conn = DatabaseConnection.GetConnection();
+            int companyID = -1;
 
-            // Setup Command
-            SqlCommand comm = DatabaseConnection.GetCommand("dbo.AddCompany", conn);
+            // Setup Connection
+            using (DatabaseConnection db = new DatabaseConnection("dbo.AddCompany"))
+            {
+                // Set Parameters
+                AddParameters(company, db.comm);
+
+                // Open Connection
+                db.conn.Open();
+
+                // Execute Command and Read Response
+                companyID = Convert.ToInt32(db.comm.ExecuteScalar());
+            }
+
+            return companyID;
+        }
+
+        public static int RemoveCompany(Company oldCompany)
+        {
+            int rowsAffected = 0;
+
+            // Setup Connection
+            using (DatabaseConnection db = new DatabaseConnection("dbo.RemoveCompany"))
+            {
+                // Set Parameters
+                AddOldParameters(oldCompany, db.comm);
+
+                // Open Connection
+                db.conn.Open();
+
+                // Execute Command and Read Response
+                rowsAffected = db.comm.ExecuteNonQuery();
+            }
+
+            return rowsAffected;
+        }
+
+        public static int UpdateCompany(Company company, Company oldCompany)
+        {
+            int rowsAffected = 0;
+
+            // Setup Connection
+            using (DatabaseConnection db = new DatabaseConnection("dbo.UpdateCompany"))
+            {
+                // Set Parameters
+                AddParameters(company, db.comm);
+                AddOldParameters(oldCompany, db.comm);
+
+                // Open Connection
+                db.conn.Open();
+
+                // Execute Command and Read Response
+                rowsAffected = db.comm.ExecuteNonQuery();
+            }
+
+            return rowsAffected;
+        }
+
+        private static IList<Company> Read(SqlDataReader reader)
+        {
+            IList<Company> companies = new List<Company>();
+            while (reader.Read())
+            {
+                Company company = new Company();
+                company.CompanyID = (int)reader["CompanyID"];
+                company.BillingAddressCity = (string)reader["BillingAddressCity"];
+                company.BillingAddressCountry = (string)reader["BillingAddressCountry"];
+                company.BillingAddressPostalCode = (string)reader["BillingAddressPostalCode"];
+                company.BillingAddressLine1 = (string)reader["BillingAddressLine1"];
+                company.BillingAddressLine2 = reader["BillingAddressLine2"] as string; // Allow null
+                company.BillingAddressRegion = (string)reader["BillingAddressRegion"];
+                company.BillingName = (string)reader["BillingName"];
+                companies.Add(company);
+            }
+            return companies;
+        }
+
+        private static void AddParameters(Company company, SqlCommand comm)
+        {
             comm.Parameters.AddWithValue("BillingAddressCity", company.BillingAddressCity);
             comm.Parameters.AddWithValue("BillingAddressCountry", company.BillingAddressCountry);
             comm.Parameters.AddWithValue("BillingAddressLine1", company.BillingAddressLine1);
-            comm.Parameters.AddWithValue("BillingAddressLine2", company.BillingAddressLine2);
+            comm.Parameters.AddWithValue("BillingAddressLine2", company.BillingAddressLine2 == null ? (object)DBNull.Value : company.BillingAddressLine2); // Check for null
             comm.Parameters.AddWithValue("BillingAddressPostalCode", company.BillingAddressPostalCode);
             comm.Parameters.AddWithValue("BillingAddressRegion", company.BillingAddressRegion);
             comm.Parameters.AddWithValue("BillingName", company.BillingName);
-            try
-            {
-                // Open Connection
-                conn.Open();
-
-                // ExecuteCommand
-                result = comm.ExecuteNonQuery();
-            }
-            catch
-            {
-            }
-            finally
-            {
-                // Close Connection
-                if (conn.State == ConnectionState.Open)
-                    conn.Close();
-
-                // Dispose of Command
-                comm.Dispose();
-
-                // Dispose of Connection
-                conn.Dispose();
-            }
-            return result;
         }
 
-        public static int RemoveCompany(int companyID)
+        private static void AddOldParameters(Company company, SqlCommand comm)
         {
-            int result = 0;
-            // Setup Connection
-            SqlConnection conn = DatabaseConnection.GetConnection();
-            // Setup Command
-            SqlCommand comm = DatabaseConnection.GetCommand("dbo.RemoveCompany", conn);
-            comm.Parameters.AddWithValue("CompanyID",companyID);
-            try
-            {
-                // Open Connection
-                conn.Open();
-
-                // ExecuteCommand
-                result = comm.ExecuteNonQuery();
-            }
-            catch
-            {
-            }
-            finally
-            {
-                // Close Connection
-                if (conn.State == ConnectionState.Open)
-                    conn.Close();
-
-                // Dispose of Command
-                comm.Dispose();
-
-                // Dispose of Connection
-                conn.Dispose();
-            }
-            return result;
-        }
-
-        public static int UpdateCompany(Company company)
-        {
-            int result = 0;
-            // Setup Connection
-            SqlConnection conn = DatabaseConnection.GetConnection();
-
-            // Setup Command
-            SqlCommand comm = DatabaseConnection.GetCommand("dbo.UpdateCompany", conn);
-            comm.Parameters.AddWithValue("BillingAddressCity", company.BillingAddressCity);
-            comm.Parameters.AddWithValue("BillingAddressCountry", company.BillingAddressCountry);
-            comm.Parameters.AddWithValue("BillingAddressLine1", company.BillingAddressLine1);
-            comm.Parameters.AddWithValue("BillingAddressLine2", company.BillingAddressLine2);
-            comm.Parameters.AddWithValue("BillingAddressPostalCode", company.BillingAddressPostalCode);
-            comm.Parameters.AddWithValue("BillingAddressRegion", company.BillingAddressRegion);
-            comm.Parameters.AddWithValue("BillingName", company.BillingName);
-            comm.Parameters.AddWithValue("CompanyID", company.CompanyID);
-            try
-            {
-                // Open Connection
-                conn.Open();
-
-                // ExecuteCommand
-                result = comm.ExecuteNonQuery();
-            }
-            catch
-            {
-            }
-            finally
-            {
-                // Close Connection
-                if (conn.State == ConnectionState.Open)
-                    conn.Close();
-
-                // Dispose of Command
-                comm.Dispose();
-
-                // Dispose of Connection
-                conn.Dispose();
-            }
-            return result;
+            comm.Parameters.AddWithValue("OldCompanyID", company.CompanyID);
+            comm.Parameters.AddWithValue("OldBillingAddressCity", company.BillingAddressCity);
+            comm.Parameters.AddWithValue("OldBillingAddressCountry", company.BillingAddressCountry);
+            comm.Parameters.AddWithValue("OldBillingAddressLine1", company.BillingAddressLine1);
+            comm.Parameters.AddWithValue("OldBillingAddressLine2", company.BillingAddressLine2 == null ? (object)DBNull.Value : company.BillingAddressLine2); // Check for null
+            comm.Parameters.AddWithValue("OldBillingAddressPostalCode", company.BillingAddressPostalCode);
+            comm.Parameters.AddWithValue("OldBillingAddressRegion", company.BillingAddressRegion);
+            comm.Parameters.AddWithValue("OldBillingName", company.BillingName);
         }
     }
 }

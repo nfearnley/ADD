@@ -10,166 +10,131 @@ namespace ADD_Demo.Classes
     public class Instructor
     {
         public int InstructorID { get; set; }
-        public String AddressCity { get; set; }
-        public String AddressCountry { get; set; }
-        public String AddressLine1 { get; set; }
-        public String AddressLine2 { get; set; }
-        public String AddressPostalCode { get; set; }
-        public String AddressRegion { get; set; }
-        public String AltPhone { get; set; }
-        public String FirstName { get; set; }
-        public String HomePhone { get; set; }
-        public String LastName { get; set; }
+        public string AddressCity { get; set; }
+        public string AddressCountry { get; set; }
+        public string AddressLine1 { get; set; }
+        public string AddressLine2 { get; set; } // Can be null
+        public string AddressPostalCode { get; set; }
+        public string AddressRegion { get; set; }
+        public string AltPhone { get; set; } // Can be null
+        public string FirstName { get; set; }
+        public string HomePhone { get; set; }
+        public string LastName { get; set; }
 
         public Instructor()
         { }
 
+        // Get Instructor
         public static Instructor GetInstructor(int instructorID)
         {
             Instructor instructor = new Instructor();
 
-            // Get Connection
-            DatabaseConnection db = new DatabaseConnection("dbo.GetInstructor");
-            db.comm.Parameters.AddWithValue("InstructorID", instructorID);
-
-            try
+            // Setup Connection
+            using (DatabaseConnection db = new DatabaseConnection("dbo.GetInstructor"))
             {
+                // Set Parameters
+                db.comm.Parameters.AddWithValue("InstructorID", instructorID);
+
                 // Open Connection
                 db.conn.Open();
 
-                // ExecuteCommand
+                // Execute Command
                 SqlDataReader reader = db.comm.ExecuteReader();
 
+                // Read Response
                 IList<Instructor> instructors = Read(reader);
                 instructor = instructors[0];
-            }
-            catch
-            {
-            }
-            finally
-            {
-                // Close Connection
-                db.Dispose();
             }
 
             return instructor;
         }
 
+        // Get all Instructors
         public static IEnumerable<Instructor> GetInstructors()
         {
             IEnumerable<Instructor> instructors = new List<Instructor>();
 
-            // Get Connection
-            DatabaseConnection db = new DatabaseConnection("dbo.GetInstructors");
-
-            try
+            // Setup Connection
+            using (DatabaseConnection db = new DatabaseConnection("dbo.GetInstructors"))
             {
                 // Open Connection
                 db.conn.Open();
 
-                // ExecuteCommand
+                // Execute Command
                 SqlDataReader reader = db.comm.ExecuteReader();
 
+                // Read Response
                 instructors = Read(reader);
-            }
-            catch
-            {
-            }
-            finally
-            {
-                // Close Connection
-                db.Dispose();
             }
 
             return instructors;
         }
 
+        // Add Instructor, return InstructorID
         public static int AddInstructor(Instructor instructor)
         {
-            int InstructorID = -1;
+            int instructorID = -1;
 
-            // Get Connection
-            DatabaseConnection db = new DatabaseConnection("dbo.AddInstructor");
-
-            // Get Command
-            AddParameters(instructor, db.comm);
-
-            try
+            // Setup Connection
+            using (DatabaseConnection db = new DatabaseConnection("dbo.AddInstructor"))
             {
+                // Set Parameters
+                AddParameters(instructor, db.comm);
+
                 // Open Connection
                 db.conn.Open();
 
-                // ExecuteCommand
-                InstructorID = Convert.ToInt32(db.comm.ExecuteScalar());
-            }
-            catch
-            {
-            }
-            finally
-            {
-                db.Dispose();
+                // Execute Command and Read Response
+                instructorID = Convert.ToInt32(db.comm.ExecuteScalar());
             }
 
-            return InstructorID;
+            return instructorID;
         }
 
+        // Remove Instructor, return number of rows affected
         public static int RemoveInstructor(Instructor oldInstructor)
         {
             int rowsAffected = 0;
 
-            // Get Connection
-            DatabaseConnection db = new DatabaseConnection("dbo.RemoveInstructor");
-            AddOldParameters(oldInstructor, db.comm);
-
-            try
+            // Setup Connection
+            using (DatabaseConnection db = new DatabaseConnection("dbo.RemoveInstructor"))
             {
+                // Set Parameters
+                AddOldParameters(oldInstructor, db.comm);
+
                 // Open Connection
                 db.conn.Open();
 
-                // ExecuteCommand
+                // Execute Command and Read Response
                 rowsAffected = db.comm.ExecuteNonQuery();
-            }
-            catch
-            {
-            }
-            finally
-            {
-                // Close Connection
-                db.Dispose();
             }
 
             return rowsAffected;
         }
 
+        // Update Instructor, return number of rows affected
         public static int UpdateInstructor(Instructor instructor, Instructor oldInstructor)
         {
             int rowsAffected = 0;
 
-            // Get Connection
-            DatabaseConnection db = new DatabaseConnection("dbo.UpdateInstructor");
-            AddParameters(instructor, db.comm);
-            AddOldParameters(oldInstructor, db.comm);
-
-            try
+            // Setup Connection
+            using (DatabaseConnection db = new DatabaseConnection("dbo.UpdateInstructor"))
             {
+                // Set Parameters
+                AddParameters(instructor, db.comm);
+                AddOldParameters(oldInstructor, db.comm);
+
                 // Open Connection
                 db.conn.Open();
 
-                // ExecuteCommand
+                // Execute Command and Read Response
                 rowsAffected = db.comm.ExecuteNonQuery();
-            }
-            catch
-            {
-            }
-            finally
-            {
-                // Close Connection
-                db.Dispose();
             }
 
             return rowsAffected;
         }
 
+        // Read Response
         private static IList<Instructor> Read(SqlDataReader reader)
         {
             IList<Instructor> instructors = new List<Instructor>();
@@ -177,45 +142,47 @@ namespace ADD_Demo.Classes
             {
                 Instructor instructor = new Instructor();
                 instructor.InstructorID = (int)reader["InstructorID"];
-                instructor.AddressCity = reader["AddressCity"] as String;
-                instructor.AddressCountry = reader["AddressCountry"] as String;
-                instructor.AddressLine1 = reader["AddressLine1"] as String;
-                instructor.AddressLine2 = reader["AddressLine2"] as String;
-                instructor.AddressPostalCode = reader["AddressPostalCode"] as String;
-                instructor.AddressRegion = reader["AddressRegion"] as String;
-                instructor.AltPhone = reader["AltPhone"] as String;
-                instructor.FirstName = reader["FirstName"] as String;
-                instructor.HomePhone = reader["HomePhone"] as String;
-                instructor.LastName = reader["LastName"] as String;
+                instructor.AddressCity = (string)reader["AddressCity"];
+                instructor.AddressCountry = (string)reader["AddressCountry"];
+                instructor.AddressLine1 = (string)reader["AddressLine1"];
+                instructor.AddressLine2 = reader["AddressLine2"] as string; // Allow null
+                instructor.AddressPostalCode = (string)reader["AddressPostalCode"];
+                instructor.AddressRegion = (string)reader["AddressRegion"];
+                instructor.AltPhone = reader["AltPhone"] as string; // Allow null
+                instructor.FirstName = (string)reader["FirstName"];
+                instructor.HomePhone = (string)reader["HomePhone"];
+                instructor.LastName = (string)reader["LastName"];
                 instructors.Add(instructor);
             }
             return instructors;
         }
 
+        // Set Parameters
         private static void AddParameters(Instructor instructor, SqlCommand comm)
         {
             comm.Parameters.AddWithValue("AddressCity", instructor.AddressCity);
             comm.Parameters.AddWithValue("AddressCountry", instructor.AddressCountry);
             comm.Parameters.AddWithValue("AddressLine1", instructor.AddressLine1);
-            comm.Parameters.AddWithValue("AddressLine2", instructor.AddressLine2 == null ? (object)DBNull.Value : instructor.AddressLine2);
+            comm.Parameters.AddWithValue("AddressLine2", instructor.AddressLine2 == null ? (object)DBNull.Value : instructor.AddressLine2); // Check for null
             comm.Parameters.AddWithValue("AddressPostalCode", instructor.AddressPostalCode);
             comm.Parameters.AddWithValue("AddressRegion", instructor.AddressRegion);
-            comm.Parameters.AddWithValue("AltPhone", instructor.AltPhone == null ? (object)DBNull.Value : instructor.AltPhone);
+            comm.Parameters.AddWithValue("AltPhone", instructor.AltPhone == null ? (object)DBNull.Value : instructor.AltPhone); // Check for null
             comm.Parameters.AddWithValue("FirstName", instructor.FirstName);
             comm.Parameters.AddWithValue("HomePhone", instructor.HomePhone);
             comm.Parameters.AddWithValue("LastName", instructor.LastName);
         }
 
+        // Set Parameters
         private static void AddOldParameters(Instructor instructor, SqlCommand comm)
         {
             comm.Parameters.AddWithValue("OldInstructorID", instructor.InstructorID);
             comm.Parameters.AddWithValue("OldAddressCity", instructor.AddressCity);
             comm.Parameters.AddWithValue("OldAddressCountry", instructor.AddressCountry);
             comm.Parameters.AddWithValue("OldAddressLine1", instructor.AddressLine1);
-            comm.Parameters.AddWithValue("OldAddressLine2", instructor.AddressLine2 == null ? (object)DBNull.Value : instructor.AddressLine2);
+            comm.Parameters.AddWithValue("OldAddressLine2", instructor.AddressLine2 == null ? (object)DBNull.Value : instructor.AddressLine2); // Check for null
             comm.Parameters.AddWithValue("OldAddressPostalCode", instructor.AddressPostalCode);
             comm.Parameters.AddWithValue("OldAddressRegion", instructor.AddressRegion);
-            comm.Parameters.AddWithValue("OldAltPhone", instructor.AltPhone == null ? (object)DBNull.Value : instructor.AltPhone);
+            comm.Parameters.AddWithValue("OldAltPhone", instructor.AltPhone == null ? (object)DBNull.Value : instructor.AltPhone); // Check for null
             comm.Parameters.AddWithValue("OldFirstName", instructor.FirstName);
             comm.Parameters.AddWithValue("OldHomePhone", instructor.HomePhone);
             comm.Parameters.AddWithValue("OldLastName", instructor.LastName);

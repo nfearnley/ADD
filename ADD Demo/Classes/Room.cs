@@ -11,7 +11,7 @@ namespace ADD_Demo.Classes
     public class Room
     {
         public int RoomID { get; set; }
-        public String RoomName { get; set; }
+        public string RoomName { get; set; }
         public int Seats { get; set; }
 
         public Room()
@@ -39,6 +39,7 @@ namespace ADD_Demo.Classes
                 // Close Connection
                 db.Dispose();
             }
+
             return room;
         }
 
@@ -63,6 +64,7 @@ namespace ADD_Demo.Classes
                 // Close Connection
                 db.Dispose();
             }
+
             return rooms;
         }
 
@@ -87,6 +89,7 @@ namespace ADD_Demo.Classes
                 // Close Connection
                 db.Dispose();
             }
+
             return roomID;
         }
 
@@ -148,7 +151,7 @@ namespace ADD_Demo.Classes
             {
                 Room room = new Room();
                 room.RoomID = (int)reader["RoomID"];
-                room.RoomName = reader["RoomName"] as String;
+                room.RoomName = (string)reader["RoomName"];
                 room.Seats = (int)reader["Seats"];
                 rooms.Add(room);
             }

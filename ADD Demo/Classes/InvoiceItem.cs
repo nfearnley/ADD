@@ -16,219 +16,135 @@ namespace ADD_Demo.Classes
         public InvoiceItem()
         { }
 
-        public InvoiceItem(int clientSessionID,int invoiceID)
+        public static IEnumerable<InvoiceItem> GetInvoiceItemsByInvoiceID(int invoiceID)
         {
-            ClientSessionID = clientSessionID;
-            InvoiceID = invoiceID;
-        }
+            IEnumerable<InvoiceItem> invoiceItems = new List<InvoiceItem>();
 
-        public static IEnumerable<InvoiceItem> GetInvoiceItemsByInvoice(int invoiceID)
-        {
             // Setup Connection
-            SqlConnection conn = DatabaseConnection.GetConnection();
-            // Setup Command
-            SqlCommand comm = DatabaseConnection.GetCommand("dbo.GetInvoiceItemsByInvoice", conn);
-            comm.Parameters.AddWithValue("InvoiceID", invoiceID);
-            List<InvoiceItem> invoiceItems = new List<InvoiceItem>();
-            try
+            using (DatabaseConnection db = new DatabaseConnection("dbo.GetInvoiceItemsByInvoiceID"))
             {
-                conn.Open();
-                SqlDataReader reader = comm.ExecuteReader();
-                while (reader.Read())
-                { 
-                    InvoiceItem invoiceItem = new InvoiceItem();
-                    invoiceItem.ClientSessionID = (int)reader["ClientSessionID"];
-                    invoiceItem.InvoiceID = (int)reader["InvoiceID"];
-                    invoiceItems.Add(invoiceItem);
-                }
-            }
-            catch
-            {
-            }
-            finally
-            {
-                // Close Connection
-                if (conn.State == ConnectionState.Open)
-                    conn.Close();
+                // Set Parameters
+                db.comm.Parameters.AddWithValue("InvoiceID", invoiceID);
 
-                // Dispose of Command
-                comm.Dispose();
+                // Open Connection
+                db.conn.Open();
 
-                // Dispose of Connection
-                conn.Dispose();
+                // Execute Command
+                SqlDataReader reader = db.comm.ExecuteReader();
+
+                // Read Response
+                invoiceItems = Read(reader);
             }
+            
             return invoiceItems;
         }
 
-        public static List<InvoiceItem> GetInvoiceItemsByClientSessionID(int clientSessionID)
+        public static IEnumerable<InvoiceItem> GetInvoiceItemsByClientSessionID(int clientSessionID)
         {
+            IEnumerable<InvoiceItem> invoiceItems = new List<InvoiceItem>();
+
             // Setup Connection
-            SqlConnection conn = DatabaseConnection.GetConnection();
-            // Setup Command
-            SqlCommand comm = DatabaseConnection.GetCommand("dbo.GetInvoiceItemsBySessionID", conn);
-            comm.Parameters.AddWithValue("ClientSessionID", clientSessionID);
-            List<InvoiceItem> invoiceItems = new List<InvoiceItem>();
-            try
+            using (DatabaseConnection db = new DatabaseConnection("dbo.GetInvoiceItemsByClientSessionID"))
             {
-                conn.Open();
-                SqlDataReader reader = comm.ExecuteReader();
-                while (reader.Read())
-                {
-                    InvoiceItem invoiceItem = new InvoiceItem();
-                    invoiceItem.ClientSessionID = (int)reader["ClientSessionID"];
-                    invoiceItem.InvoiceID = (int)reader["InvoiceID"];
-                    invoiceItems.Add(invoiceItem);
-                }
-            }
-            catch
-            {
-            }
-            finally
-            {
-                // Close Connection
-                if (conn.State == ConnectionState.Open)
-                    conn.Close();
+                // Set Parameters
+                db.comm.Parameters.AddWithValue("ClientSessionID", clientSessionID);
 
-                // Dispose of Command
-                comm.Dispose();
+                // Open Connection
+                db.conn.Open();
 
-                // Dispose of Connection
-                conn.Dispose();
+                // Execute Command
+                SqlDataReader reader = db.comm.ExecuteReader();
+
+                // Read Response
+                invoiceItems = Read(reader);
             }
+
             return invoiceItems;
         }
 
-        public static List<InvoiceItem> GetInvoiceItems()
+        public static IEnumerable<InvoiceItem> GetInvoiceItems()
         {
+            IEnumerable<InvoiceItem> invoiceItems = new List<InvoiceItem>();
+
             // Setup Connection
-            SqlConnection conn = DatabaseConnection.GetConnection();
-            // Setup Command
-            SqlCommand comm = DatabaseConnection.GetCommand("dbo.GetInvoiceItems", conn);
-            List<InvoiceItem> invoiceItems = new List<InvoiceItem>();
-            try
+            using (DatabaseConnection db = new DatabaseConnection("dbo.GetInvoiceItems"))
             {
-                conn.Open();
-                SqlDataReader reader = comm.ExecuteReader();
-                while (reader.Read())
-                {
-                    InvoiceItem invoiceItem = new InvoiceItem();
-                    invoiceItem.ClientSessionID = (int)reader["ClientSessionID"];
-                    invoiceItem.InvoiceID = (int)reader["InvoiceID"];
-                    invoiceItems.Add(invoiceItem);
-                }
-            }
-            catch
-            {
-            }
-            finally
-            {
-                // Close Connection
-                if (conn.State == ConnectionState.Open)
-                    conn.Close();
+                // Open Connection
+                db.conn.Open();
 
-                // Dispose of Command
-                comm.Dispose();
+                // Execute Command
+                SqlDataReader reader = db.comm.ExecuteReader();
 
-                // Dispose of Connection
-                conn.Dispose();
+                // Read Response
+                invoiceItems = Read(reader);
             }
+
             return invoiceItems;
         }
 
         public static int AddInvoiceItem(InvoiceItem invoiceItem)
         {
-            int result = 0;
+            int invoiceItemID = -1;
+
             // Setup Connection
-            SqlConnection conn = DatabaseConnection.GetConnection();
-            // Setup Command
-            SqlCommand comm = DatabaseConnection.GetCommand("dbo.AddInvoiceItem", conn);
-            comm.Parameters.AddWithValue("ClientSessionID", invoiceItem.ClientSessionID);
-            comm.Parameters.AddWithValue("InvoiceID", invoiceItem.InvoiceID);
-            try
+            using (DatabaseConnection db = new DatabaseConnection("dbo.AddInvoiceItem"))
             {
-                conn.Open();
-                result = comm.ExecuteNonQuery();
-            }
-            catch
-            {
-            }
-            finally
-            {
-                // Close Connection
-                if (conn.State == ConnectionState.Open)
-                    conn.Close();
+                // Set Parameters
+                AddParameters(invoiceItem, db.comm);
 
-                // Dispose of Command
-                comm.Dispose();
+                // Open Connection
+                db.conn.Open();
 
-                // Dispose of Connection
-                conn.Dispose();
+                // Execute Command and Read Response
+                invoiceItemID = Convert.ToInt32(db.comm.ExecuteScalar());
             }
-            return result;
+
+            return invoiceItemID;
         }
 
-        public static int RemoveInvoiceItem(InvoiceItem invoiceItem)
+        public static int RemoveInvoiceItem(InvoiceItem oldInvoiceItem)
         {
-            int result = 0;
+            int rowsAffected = 0;
+
             // Setup Connection
-            SqlConnection conn = DatabaseConnection.GetConnection();
-            // Setup Command
-            SqlCommand comm = DatabaseConnection.GetCommand("dbo.RemoveInvoiceItem", conn);
-            comm.Parameters.AddWithValue("ClientSessionID", invoiceItem.ClientSessionID);
-            comm.Parameters.AddWithValue("InvoiceID", invoiceItem.InvoiceID);
-            try
+            using (DatabaseConnection db = new DatabaseConnection("dbo.RemoveInvoiceItem"))
             {
-                conn.Open();
-                result = comm.ExecuteNonQuery();
-            }
-            catch
-            {
-            }
-            finally
-            {
-                // Close Connection
-                if (conn.State == ConnectionState.Open)
-                    conn.Close();
+                // Set Parameters
+                AddOldParameters(oldInvoiceItem, db.comm);
 
-                // Dispose of Command
-                comm.Dispose();
+                // Open Connection
+                db.conn.Open();
 
-                // Dispose of Connection
-                conn.Dispose();
+                // Execute Command and Read Response
+                rowsAffected = db.comm.ExecuteNonQuery();
             }
-            return result;
+
+            return rowsAffected;
         }
 
-        public static int RemoveInvoiceItem(int invoiceID, int clientSessionID)
+        private static IList<InvoiceItem> Read(SqlDataReader reader)
         {
-            int result = 0;
-            // Setup Connection
-            SqlConnection conn = DatabaseConnection.GetConnection();
-            // Setup Command
-            SqlCommand comm = DatabaseConnection.GetCommand("dbo.RemoveInvoiceItem", conn);
-            comm.Parameters.AddWithValue("ClientSessionID", clientSessionID);
-            comm.Parameters.AddWithValue("InvoiceID", invoiceID);
-            try
+            IList<InvoiceItem> invoiceItems = new List<InvoiceItem>();
+            while (reader.Read())
             {
-                conn.Open();
-                result = comm.ExecuteNonQuery();
+                InvoiceItem invoiceItem = new InvoiceItem();
+                invoiceItem.ClientSessionID = (int)reader["ClientSessionID"];
+                invoiceItem.InvoiceID = (int)reader["InvoiceID"];
+                invoiceItems.Add(invoiceItem);
             }
-            catch
-            {
-            }
-            finally
-            {
-                // Close Connection
-                if (conn.State == ConnectionState.Open)
-                    conn.Close();
+            return invoiceItems;
+        }
 
-                // Dispose of Command
-                comm.Dispose();
+        private static void AddParameters(InvoiceItem invoiceItem, SqlCommand comm)
+        {
+            comm.Parameters.AddWithValue("ClientSessionID", invoiceItem.ClientSessionID);
+            comm.Parameters.AddWithValue("InvoiceID", invoiceItem.InvoiceID);
+        }
 
-                // Dispose of Connection
-                conn.Dispose();
-            }
-            return result;
+        private static void AddOldParameters(InvoiceItem invoiceItem, SqlCommand comm)
+        {
+            comm.Parameters.AddWithValue("OldClientSessionID", invoiceItem.ClientSessionID);
+            comm.Parameters.AddWithValue("OldInvoiceID", invoiceItem.InvoiceID);
         }
     }
 }

@@ -11,154 +11,117 @@ namespace ADD_Demo.Classes
     public class Status
     {
         public int StatusID { get; set; }
-        public String StatusName { get; set; }
+        public string StatusName { get; set; }
 
         public Status()
         { }
 
-        public Status(String statusName)
-        {
-            StatusName = statusName;
-        }
-
         public static Status GetStatus(int statusID)
         {
-            //Setup Connection
-            SqlConnection conn = DatabaseConnection.GetConnection();
-
-            // Setup Command
-            SqlCommand comm = DatabaseConnection.GetCommand("dbo.GetCompany", conn);
-            comm.Parameters.AddWithValue("StatusID", statusID);
             Status status = new Status();
-            try
-            {
-                conn.Open();
-                SqlDataReader reader = comm.ExecuteReader();
-                if (reader.Read())
-                {
-                    status.StatusID = (int)reader["StatusID"];
-                    status.StatusName = reader["StatusName"] as String;
-                }
-            }
-            catch
-            {
-            }
-            finally
-            {
-                // Close Connection
-                if (conn.State == ConnectionState.Open)
-                    conn.Close();
 
-                // Dispose of Command
-                comm.Dispose();
+            // Setup Connection
+            using (DatabaseConnection db = new DatabaseConnection("dbo.GetStatus"))
+            {
+                // Set Parameters
+                db.comm.Parameters.AddWithValue("StatusID", statusID);
 
-                // Dispose of Connection
-                conn.Dispose();
+                // Open Connection
+                db.conn.Open();
+
+                // Execute Command
+                SqlDataReader reader = db.comm.ExecuteReader();
+
+                // Read Response
+                IList<Status> statuses = Read(reader);
+                status = statuses[0];
             }
+
             return status;
         }
 
         public static IEnumerable<Status> GetStatuses()
         {
-            //Setup Connection
-            SqlConnection conn = DatabaseConnection.GetConnection();
+            IEnumerable<Status> statuses = new List<Status>();
 
-            // Setup Command
-            SqlCommand comm = DatabaseConnection.GetCommand("dbo.GetCompany", conn);
-            List<Status> statuses = new List<Status>();
-            try
+            // Setup Connection
+            using (DatabaseConnection db = new DatabaseConnection("dbo.GetStatuses"))
             {
-                conn.Open();
-                SqlDataReader reader = comm.ExecuteReader();
-                while (reader.Read())
-                {
-                    Status status = new Status();
-                    status.StatusID = (int)reader["StatusID"];
-                    status.StatusName = reader["StatusName"] as String;
-                    statuses.Add(status);
-                }
-            }
-            catch
-            {
-            }
-            finally
-            {
-                // Close Connection
-                if (conn.State == ConnectionState.Open)
-                    conn.Close();
+                // Open Connection
+                db.conn.Open();
 
-                // Dispose of Command
-                comm.Dispose();
+                // Execute Command
+                SqlDataReader reader = db.comm.ExecuteReader();
 
-                // Dispose of Connection
-                conn.Dispose();
+                // Read Response
+                statuses = Read(reader);
             }
+
             return statuses;
         }
 
         public static int AddStatus(Status status)
         {
-            int result = 0;
-            //Setup Connection
-            SqlConnection conn = DatabaseConnection.GetConnection();
+            int statusID = -1;
 
-            // Setup Command
-            SqlCommand comm = DatabaseConnection.GetCommand("dbo.GetCompany", conn);
-            comm.Parameters.AddWithValue("StatusID", status.StatusID);
-            comm.Parameters.AddWithValue("StatusName", status.StatusName);
-            try
+            // Setup Connection
+            using (DatabaseConnection db = new DatabaseConnection("dbo.AddStatus"))
             {
-                conn.Open();
-                result = comm.ExecuteNonQuery();
-            }
-            catch
-            {
-            }
-            finally
-            {
-                // Close Connection
-                if (conn.State == ConnectionState.Open)
-                    conn.Close();
+                // Set Parameters
+                AddParameters(status, db.comm);
 
-                // Dispose of Command
-                comm.Dispose();
+                // Open Connection
+                db.conn.Open();
 
-                // Dispose of Connection
-                conn.Dispose();
+                // Execute Command and Read Response
+                statusID = Convert.ToInt32(db.comm.ExecuteScalar());
             }
-            return result;            
+
+            return statusID;            
         }
 
-        public static int RemoveStatus(int statusID)
+        public static int RemoveStatus(Status oldStatus)
         {
-            int result = 0;
-            //Setup Connection
-            SqlConnection conn = DatabaseConnection.GetConnection();
+            int rowsAffected = 0;
 
-            // Setup Command
-            SqlCommand comm = DatabaseConnection.GetCommand("dbo.GetCompany", conn);
-            comm.Parameters.AddWithValue("StatusID", statusID);
-            try
+            // Setup Connection
+            using (DatabaseConnection db = new DatabaseConnection("dbo.RemoveStatus"))
             {
-                conn.Open();
-                result = comm.ExecuteNonQuery();
-            }
-            catch
-            {
-            }
-            finally
-            {
-                // Close Connection
-                if (conn.State == ConnectionState.Open)
-                    conn.Close();
+                // Set Parameters
+                AddOldParameters(oldStatus, db.comm);
 
-                // Dispose of Command
-                comm.Dispose();
+                // Open Connection
+                db.conn.Open();
 
-                // Dispose of Connection
-                conn.Dispose();
+                // Execute Command and Read Response
+                rowsAffected = db.comm.ExecuteNonQuery();
             }
-            return result;
+
+            return rowsAffected;
+        }
+
+        private static IList<Status> Read(SqlDataReader reader)
+        {
+            IList<Status> statuses = new List<Status>();
+            while (reader.Read())
+            {
+                Status status = new Status();
+                status.StatusID = (int)reader["StatusID"];
+                status.StatusName = (string)reader["StatusName"];
+                statuses.Add(status);
+            }
+            return statuses;
+        }
+
+        private static void AddParameters(Status status, SqlCommand comm)
+        {
+            comm.Parameters.AddWithValue("StatusName", status.StatusName);
+        }
+
+        private static void AddOldParameters(Status status, SqlCommand comm)
+        {
+            comm.Parameters.AddWithValue("OldStatusID", status.StatusID);
+            comm.Parameters.AddWithValue("OldStatusName", status.StatusName);
         }
     }
 }

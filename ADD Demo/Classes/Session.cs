@@ -13,339 +13,260 @@ namespace ADD_Demo.Classes
         public int SessionID { get; set; }
         public int InstructorID { get; set; }
         public int RoomID { get; set; }
-        public String Length { get; set; }
+        public int Length { get; set; }
         public DateTime Date { get; set; }
 
         public Session()
         { }
 
-        public Session(int instructorID, int roomID, String length, DateTime datetime)
-        {
-            InstructorID = instructorID;
-            RoomID = roomID;
-            Length = length;
-            Date = datetime;
-        }
-
         public static Session GetSession(int sessionID)
         {
-            //Setup Connection
-            SqlConnection conn = DatabaseConnection.GetConnection();
-
-            // Setup Command
-            SqlCommand comm = DatabaseConnection.GetCommand("dbo.GetSession", conn);
-            comm.Parameters.AddWithValue("SessionID", sessionID);
             Session session = new Session();
-            try
-            {
-                conn.Open();
-                SqlDataReader reader = comm.ExecuteReader();
-                if (reader.Read())
-                {
-                    session.Date = (DateTime)reader["DateTime"];
-                    session.InstructorID = (int)reader["InstructorID"];
-                    session.Length = reader["Length"] as String;
-                    session.RoomID = (int)reader["RoomID"];
-                    session.SessionID = (int)reader["SessionID"];
-                }
-            }
-            catch
-            {
-            }
-            finally
-            {
-                // Close Connection
-                if (conn.State == ConnectionState.Open)
-                    conn.Close();
 
-                // Dispose of Command
-                comm.Dispose();
+            // Setup Connection
+            using (DatabaseConnection db = new DatabaseConnection("dbo.GetSession"))
+            {
+                // Set Parameters
+                db.comm.Parameters.AddWithValue("SessionID", sessionID);
 
-                // Dispose of Connection
-                conn.Dispose();
+                // Open Connection
+                db.conn.Open();
+
+                // Execute Command
+                SqlDataReader reader = db.comm.ExecuteReader();
+
+                // Read Response
+                IList<Session> sessions = Read(reader);
+                session = sessions[0];
             }
+
             return session;
         }
 
         public static IEnumerable<Session> GetSessionsByInstructorID(int instructorID)
         {
+            IEnumerable<Session> sessions = new List<Session>();
 
-            //Setup Connection
-            SqlConnection conn = DatabaseConnection.GetConnection();
-
-            // Setup Command
-            SqlCommand comm = DatabaseConnection.GetCommand("dbo.GetSessionsByInstructorID", conn);
-            comm.Parameters.AddWithValue("InstructorID", instructorID);
-            List<Session> sessions = new List<Session>();
-            try
+            // Setup Connection
+            using (DatabaseConnection db = new DatabaseConnection("dbo.GetSessionsByInstructorID"))
             {
-                conn.Open();
-                SqlDataReader reader = comm.ExecuteReader();
-                while (reader.Read())
-                {
-                    Session session = new Session();
-                    session.Date = (DateTime)reader["DateTime"];
-                    session.InstructorID = (int)reader["InstructorID"];
-                    session.Length = reader["Length"] as String;
-                    session.RoomID = (int)reader["RoomID"];
-                    session.SessionID = (int)reader["SessionID"];
-                    sessions.Add(session);
-                }
-            }
-            catch
-            {
-            }
-            finally
-            {
-                // Close Connection
-                if (conn.State == ConnectionState.Open)
-                    conn.Close();
+                // Set Parameters
+                db.comm.Parameters.AddWithValue("InstructorID", instructorID);
 
-                // Dispose of Command
-                comm.Dispose();
+                // Open Connection
+                db.conn.Open();
 
-                // Dispose of Connection
-                conn.Dispose();
+                // Execute Command
+                SqlDataReader reader = db.comm.ExecuteReader();
+
+                // Read Response
+                sessions = Read(reader);
             }
+
             return sessions;
         }
 
         public static IEnumerable<Session> GetSessionsByRoomID(int roomID)
         {
-            //Setup Connection
-            SqlConnection conn = DatabaseConnection.GetConnection();
+            IEnumerable<Session> sessions = new List<Session>();
 
-            // Setup Command
-            SqlCommand comm = DatabaseConnection.GetCommand("dbo.GetSessionsByRoomID", conn);
-            comm.Parameters.AddWithValue("RoomID", roomID);
-            List<Session> sessions = new List<Session>();
-            try
+            // Setup Connection
+            using (DatabaseConnection db = new DatabaseConnection("dbo.GetSessionsByRoomID"))
             {
-                conn.Open();
-                SqlDataReader reader = comm.ExecuteReader();
-                while (reader.Read())
-                {
-                    Session session = new Session();
-                    session.Date = (DateTime)reader["DateTime"];
-                    session.InstructorID = (int)reader["InstructorID"];
-                    session.Length = reader["Length"] as String;
-                    session.RoomID = (int)reader["RoomID"];
-                    session.SessionID = (int)reader["SessionID"];
-                    sessions.Add(session);
-                }
-            }
-            catch
-            {
-            }
-            finally
-            {
-                // Close Connection
-                if (conn.State == ConnectionState.Open)
-                    conn.Close();
+                // Set Parameters
+                db.comm.Parameters.AddWithValue("RoomID", roomID);
 
-                // Dispose of Command
-                comm.Dispose();
+                // Open Connection
+                db.conn.Open();
 
-                // Dispose of Connection
-                conn.Dispose();
+                // Execute Command
+                SqlDataReader reader = db.comm.ExecuteReader();
+
+                // Read Response
+                sessions = Read(reader);
             }
+
             return sessions;
         }
 
-        public static List<Session> GetSessionsByCourseID(int courseID)
+        public static IEnumerable<Session> GetSessionsByCourseID(int courseID)
         {
-            //Setup Connection
-            SqlConnection conn = DatabaseConnection.GetConnection();
+            IEnumerable<Session> sessions = new List<Session>();
 
-            // Setup Command
-            SqlCommand comm = DatabaseConnection.GetCommand("dbo.GetSessionsByCourseID", conn);
-            comm.Parameters.AddWithValue("CourseID", courseID);
-            List<Session> sessions = new List<Session>();
-            try
+            // Setup Connection
+            using (DatabaseConnection db = new DatabaseConnection("dbo.GetSessionsByCourseID"))
             {
-                conn.Open();
-                SqlDataReader reader = comm.ExecuteReader();
-                while (reader.Read())
-                {
-                    Session session = new Session();
-                    session.Date = (DateTime)reader["DateTime"];
-                    session.InstructorID = (int)reader["InstructorID"];
-                    session.Length = reader["Length"] as String;
-                    session.RoomID = (int)reader["RoomID"];
-                    session.SessionID = (int)reader["SessionID"];
-                    sessions.Add(session);
-                }
-            }
-            catch
-            {
-            }
-            finally
-            {
-                // Close Connection
-                if (conn.State == ConnectionState.Open)
-                    conn.Close();
+                // Set Parameters
+                db.comm.Parameters.AddWithValue("CourseID", courseID);
 
-                // Dispose of Command
-                comm.Dispose();
+                // Open Connection
+                db.conn.Open();
 
-                // Dispose of Connection
-                conn.Dispose();
+                // Execute Command
+                SqlDataReader reader = db.comm.ExecuteReader();
+
+                // Read Response
+                sessions = Read(reader);
             }
+
             return sessions;
         }
 
-        public static List<Session> GetSessions()
+        public static IEnumerable<Session> GetSessions()
         {
-            //Setup Connection
-            SqlConnection conn = DatabaseConnection.GetConnection();
+            IEnumerable<Session> sessions = new List<Session>();
 
-            // Setup Command
-            SqlCommand comm = DatabaseConnection.GetCommand("dbo.GetSessions", conn);
-            List<Session> sessions = new List<Session>();
-            try
+            // Setup Connection
+            using (DatabaseConnection db = new DatabaseConnection("dbo.GetSessions"))
             {
-                conn.Open();
-                SqlDataReader reader = comm.ExecuteReader();
-                while (reader.Read())
-                {
-                    Session session = new Session();
-                    session.Date = (DateTime)reader["DateTime"];
-                    session.InstructorID = (int)reader["InstructorID"];
-                    session.Length = reader["Length"] as String;
-                    session.RoomID = (int)reader["RoomID"];
-                    session.SessionID = (int)reader["SessionID"];
-                    sessions.Add(session);
-                }
-            }
-            catch
-            {
-            }
-            finally
-            {
-                // Close Connection
-                if (conn.State == ConnectionState.Open)
-                    conn.Close();
+                // Open Connection
+                db.conn.Open();
 
-                // Dispose of Command
-                comm.Dispose();
+                // Execute Command
+                SqlDataReader reader = db.comm.ExecuteReader();
 
-                // Dispose of Connection
-                conn.Dispose();
+                // Read Response
+                sessions = Read(reader);
             }
+
             return sessions;
         }
 
         public static int AddSession(Session session)
         {
-            int result = 0;
+            int sessionID = -1;
+
             // Setup Connection
-            SqlConnection conn = DatabaseConnection.GetConnection();
-
-            // Setup Command
-            SqlCommand comm = DatabaseConnection.GetCommand("dbo.AddSession", conn);
-            comm.Parameters.AddWithValue("SessionID", session.SessionID);
-            comm.Parameters.AddWithValue("RoomID", session.RoomID);
-            comm.Parameters.AddWithValue("Length", session.Length);
-            comm.Parameters.AddWithValue("InstructorID", session.InstructorID);
-            comm.Parameters.AddWithValue("DateTime", session.Date);
-            try
+            using (DatabaseConnection db = new DatabaseConnection("dbo.AddSession"))
             {
+                // Set Parameters
+                AddParameters(session, db.comm);
+
                 // Open Connection
-                conn.Open();
+                db.conn.Open();
 
-                // ExecuteCommand
-                result = comm.ExecuteNonQuery();
+                // Execute Command and Read Response
+                sessionID = Convert.ToInt32(db.comm.ExecuteScalar());
             }
-            catch
-            {
-            }
-            finally
-            {
-                // Close Connection
-                if (conn.State == ConnectionState.Open)
-                    conn.Close();
 
-                // Dispose of Command
-                comm.Dispose();
-
-                // Dispose of Connection
-                conn.Dispose();
-            }
-            return result;
+            return sessionID;
         }
 
-        public static int RemoveSession(int sessionID)
+        public static int RemoveSession(Session oldSession)
         {
-            int result = 0;
+            int rowsAffected = 0;
+
             // Setup Connection
-            SqlConnection conn = DatabaseConnection.GetConnection();
-
-            // Setup Command
-            SqlCommand comm = DatabaseConnection.GetCommand("dbo.RemoveSession", conn);
-            comm.Parameters.AddWithValue("SessionID", sessionID);
-            try
+            using (DatabaseConnection db = new DatabaseConnection("dbo.RemoveSession"))
             {
+                // Set Parameters
+                AddOldParameters(oldSession, db.comm);
+
                 // Open Connection
-                conn.Open();
+                db.conn.Open();
 
-                // ExecuteCommand
-                result = comm.ExecuteNonQuery();
+                // Execute Command and Read Response
+                rowsAffected = db.comm.ExecuteNonQuery();
             }
-            catch
-            {
-            }
-            finally
-            {
-                // Close Connection
-                if (conn.State == ConnectionState.Open)
-                    conn.Close();
 
-                // Dispose of Command
-                comm.Dispose();
-
-                // Dispose of Connection
-                conn.Dispose();
-            }
-            return result;
+            return rowsAffected;
         }
 
-        public static int UpdateSession(Session session)
+        public static int UpdateSession(Session session, Session oldSession)
         {
-            int result = 0;
+            int rowsAffected = 0;
+
             // Setup Connection
-            SqlConnection conn = DatabaseConnection.GetConnection();
-
-            // Setup Command
-            SqlCommand comm = DatabaseConnection.GetCommand("dbo.UpdateSession", conn);
-            comm.Parameters.AddWithValue("SessionID", session.SessionID);
-            comm.Parameters.AddWithValue("RoomID", session.RoomID);
-            comm.Parameters.AddWithValue("Length", session.Length);
-            comm.Parameters.AddWithValue("InstructorID", session.InstructorID);
-            comm.Parameters.AddWithValue("DateTime", session.Date);
-            try
+            using (DatabaseConnection db = new DatabaseConnection("dbo.UpdateSession"))
             {
+                // Set Parameters
+                AddParameters(session, db.comm);
+                AddOldParameters(oldSession, db.comm);
+
                 // Open Connection
-                conn.Open();
+                db.conn.Open();
 
-                // ExecuteCommand
-                result = comm.ExecuteNonQuery();
+                // Execute Command and Read Response
+                rowsAffected = db.comm.ExecuteNonQuery();
             }
-            catch
+
+            return rowsAffected;
+        }
+
+        public static int CalculateNumberOfAvailableSeatsForSession(int sessionID)
+        {
+            int numOfAvailableSeats = 0;
+
+            // Setup Connection
+            using (DatabaseConnection db = new DatabaseConnection("dbo.CalculateNumberOfAvailableSeatsForSession"))
             {
+                // Set Parameters
+                db.comm.Parameters.AddWithValue("SessionID", sessionID);
+
+                // Open Connection
+                db.conn.Open();
+
+                // Execute Command and Read Response
+                numOfAvailableSeats = Convert.ToInt32(db.comm.ExecuteScalar());
             }
-            finally
+
+            return numOfAvailableSeats;
+        }
+
+        public static IEnumerable<Session> GetSessionsWithinNext6WeeksByCourseID(int courseID)
+        {
+            IEnumerable<Session> sessions = new List<Session>();
+
+            // Setup Connection
+            using (DatabaseConnection db = new DatabaseConnection("dbo.GetSessionsWithinNext6WeeksByCourseID"))
             {
-                // Close Connection
-                if (conn.State == ConnectionState.Open)
-                    conn.Close();
+                // Set Parameters
+                db.comm.Parameters.AddWithValue("CourseID", courseID);
 
-                // Dispose of Command
-                comm.Dispose();
+                // Open Connection
+                db.conn.Open();
 
-                // Dispose of Connection
-                conn.Dispose();
+                // Execute Command
+                SqlDataReader reader = db.comm.ExecuteReader();
+
+                // Read Response
+                sessions = Read(reader);
             }
-            return result;
+
+            return sessions;
+        }
+
+        private static IList<Session> Read(SqlDataReader reader)
+        {
+            IList<Session> sessions = new List<Session>();
+            while (reader.Read())
+            {
+                Session session = new Session();
+                session.SessionID = (int)reader["SessionID"];
+                session.InstructorID = (int)reader["InstructorID"];
+                session.RoomID = (int)reader["RoomID"];
+                session.Length = (int)reader["Length"];
+                session.Date = (DateTime)reader["Date"];
+                sessions.Add(session);
+            }
+            return sessions;
+        }
+
+        private static void AddParameters(Session session, SqlCommand comm)
+        {
+            comm.Parameters.AddWithValue("InstructorID", session.InstructorID);
+            comm.Parameters.AddWithValue("RoomID", session.RoomID);
+            comm.Parameters.AddWithValue("DateTime", session.Date);
+            comm.Parameters.AddWithValue("Length", session.Length);
+        }
+
+        private static void AddOldParameters(Session session, SqlCommand comm)
+        {
+            comm.Parameters.AddWithValue("OldSessionID", session.SessionID);
+            comm.Parameters.AddWithValue("OldInstructorID", session.InstructorID);
+            comm.Parameters.AddWithValue("OldRoomID", session.RoomID);
+            comm.Parameters.AddWithValue("OldDateTime", session.Date);
+            comm.Parameters.AddWithValue("OldLength", session.Length);
         }
     }
 }
