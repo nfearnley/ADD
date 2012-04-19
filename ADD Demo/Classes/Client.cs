@@ -27,9 +27,9 @@ namespace ADD_Demo.Classes
         public Client()
         { }
 
-        public static Client GetClient(int clientID)
+        public static IEnumerable<Client> GetClient(int clientID)
         {
-            Client client = new Client();
+            IEnumerable<Client> clients = new List<Client>();
 
             // Setup Connection
             using (DatabaseConnection db = new DatabaseConnection("dbo.GetClient"))
@@ -44,11 +44,10 @@ namespace ADD_Demo.Classes
                 SqlDataReader reader = db.comm.ExecuteReader();
 
                 // Read Response
-                IList<Client> clients = Read(reader);
-                client = clients[0];
+                clients = Read(reader);
             }
             
-            return client;
+            return clients;
         }
 
         public static IEnumerable<Client> GetClientsByCompanyID(int companyID)

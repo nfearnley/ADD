@@ -25,9 +25,9 @@ namespace ADD_Demo.Classes
         { }
 
         // Get Instructor
-        public static Instructor GetInstructor(int instructorID)
+        public static IEnumerable<Instructor> GetInstructor(int instructorID)
         {
-            Instructor instructor = new Instructor();
+            IEnumerable<Instructor> instructors = new List<Instructor>();
 
             // Setup Connection
             using (DatabaseConnection db = new DatabaseConnection("dbo.GetInstructor"))
@@ -42,11 +42,10 @@ namespace ADD_Demo.Classes
                 SqlDataReader reader = db.comm.ExecuteReader();
 
                 // Read Response
-                IList<Instructor> instructors = Read(reader);
-                instructor = instructors[0];
+                instructors = Read(reader);
             }
 
-            return instructor;
+            return instructors;
         }
 
         // Get all Instructors

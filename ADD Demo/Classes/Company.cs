@@ -22,9 +22,9 @@ namespace ADD_Demo.Classes
         public Company()
         {}
 
-        public static Company GetCompany(int companyID)
+        public static IEnumerable<Company> GetCompany(int companyID)
         {
-            Company company = new Company();
+            IEnumerable<Company> companies = new List<Company>();
 
             // Setup Connection
             using (DatabaseConnection db = new DatabaseConnection("dbo.GetCompany"))
@@ -39,11 +39,10 @@ namespace ADD_Demo.Classes
                 SqlDataReader reader = db.comm.ExecuteReader();
 
                 // Read Response
-                IList<Company> companies = Read(reader);
-                company = companies[0];
+                companies = Read(reader);
             }
 
-            return company;
+            return companies;
         }
 
         public static IEnumerable<Company> GetCompanies()

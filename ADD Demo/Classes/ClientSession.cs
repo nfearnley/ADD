@@ -43,9 +43,9 @@ namespace ADD_Demo.Classes
             return clientSessions;
         }
 
-        public static ClientSession GetClientSession(int clientSessionID)
+        public static IEnumerable<ClientSession> GetClientSession(int clientSessionID)
         {
-            ClientSession clientSession = new ClientSession();
+            IEnumerable<ClientSession> clientSessions = new List<ClientSession>();
 
             // Setup Connection
             using (DatabaseConnection db = new DatabaseConnection("dbo.GetClientSession"))
@@ -57,11 +57,10 @@ namespace ADD_Demo.Classes
                 SqlDataReader reader = db.comm.ExecuteReader();
 
                 // Read Response
-                IList<ClientSession> clientSessions = Read(reader);
-                clientSession = clientSessions[0];
+                clientSessions = Read(reader);
             }
 
-            return clientSession;
+            return clientSessions;
         }
 
         public static IEnumerable<ClientSession> GetClientSessionsByClientID(int clientID)

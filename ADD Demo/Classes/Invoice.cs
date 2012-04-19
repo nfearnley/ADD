@@ -38,9 +38,9 @@ namespace ADD_Demo.Classes
             return invoiceID;
         }
 
-        public static Invoice GetInvoice(int invoiceID)
+        public static IEnumerable<Invoice> GetInvoice(int invoiceID)
         {
-            Invoice invoice = new Invoice();
+            IEnumerable<Invoice> invoices = new List<Invoice>();
 
             // Setup Connection
             using (DatabaseConnection db = new DatabaseConnection("dbo.GetInvoice"))
@@ -55,11 +55,10 @@ namespace ADD_Demo.Classes
                 SqlDataReader reader = db.comm.ExecuteReader();
 
                 // Read Response
-                IList<Invoice> invoices = Read(reader);
-                invoice = invoices[0];
+                invoices = Read(reader);
             }
 
-            return invoice;
+            return invoices;
         }
 
         public static IEnumerable<Invoice> GetInvoicesByCompanyID(int companyID)

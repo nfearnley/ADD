@@ -16,9 +16,9 @@ namespace ADD_Demo.Classes
         public Status()
         { }
 
-        public static Status GetStatus(int statusID)
+        public static IEnumerable<Status> GetStatus(int statusID)
         {
-            Status status = new Status();
+            IEnumerable<Status> statuses = new List<Status>();
 
             // Setup Connection
             using (DatabaseConnection db = new DatabaseConnection("dbo.GetStatus"))
@@ -33,11 +33,10 @@ namespace ADD_Demo.Classes
                 SqlDataReader reader = db.comm.ExecuteReader();
 
                 // Read Response
-                IList<Status> statuses = Read(reader);
-                status = statuses[0];
+                statuses = Read(reader);
             }
 
-            return status;
+            return statuses;
         }
 
         public static IEnumerable<Status> GetStatuses()

@@ -19,9 +19,9 @@ namespace ADD_Demo.Classes
         public Course()
         { }
 
-        public static Course GetCourse(int courseID)
+        public static IEnumerable<Course> GetCourse(int courseID)
         {
-            Course course = new Course();
+            IEnumerable<Course> courses = new List<Course>();
 
             // Setup Connection
             using (DatabaseConnection db = new DatabaseConnection("dbo.GetCourse"))
@@ -36,11 +36,10 @@ namespace ADD_Demo.Classes
                 SqlDataReader reader = db.comm.ExecuteReader();
 
                 // Read Response
-                IList<Course> courses = Read(reader);
-                course = courses[0];
+                courses = Read(reader);
             }
 
-            return course;
+            return courses;
         }
 
         public static IEnumerable<Course> GetCourses()

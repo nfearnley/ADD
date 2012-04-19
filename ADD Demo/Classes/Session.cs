@@ -19,9 +19,9 @@ namespace ADD_Demo.Classes
         public Session()
         { }
 
-        public static Session GetSession(int sessionID)
+        public static IEnumerable<Session> GetSession(int sessionID)
         {
-            Session session = new Session();
+            IEnumerable<Session> sessions = new List<Session>();
 
             // Setup Connection
             using (DatabaseConnection db = new DatabaseConnection("dbo.GetSession"))
@@ -36,11 +36,10 @@ namespace ADD_Demo.Classes
                 SqlDataReader reader = db.comm.ExecuteReader();
 
                 // Read Response
-                IList<Session> sessions = Read(reader);
-                session = sessions[0];
+                sessions = Read(reader);
             }
 
-            return session;
+            return sessions;
         }
 
         public static IEnumerable<Session> GetSessionsByInstructorID(int instructorID)

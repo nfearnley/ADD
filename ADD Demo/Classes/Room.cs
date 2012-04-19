@@ -17,52 +17,44 @@ namespace ADD_Demo.Classes
         public Room()
         { }
 
-        public static Room GetRoom(int roomID)
+        public static IEnumerable<Room> GetRoom(int roomID)
         {
-            Room room = new Room();
+            IEnumerable<Room> rooms = new List<Room>();
 
-            //Setup Connection
-            DatabaseConnection db = new DatabaseConnection("dbo.GetRoom");
-            db.comm.Parameters.AddWithValue("RoomID", roomID);
-            try
+            // Setup Connection
+            using (DatabaseConnection db = new DatabaseConnection("dbo.GetRoom"))
             {
+                // Set Parameters
+                db.comm.Parameters.AddWithValue("RoomID", roomID);
+
+                // Open Connection
                 db.conn.Open();
+
+                // Execute Command
                 SqlDataReader reader = db.comm.ExecuteReader();
-                IList<Room> rooms = Read(reader);
-                room = rooms[0];
-            }
-            catch
-            {
-            }
-            finally
-            {
-                // Close Connection
-                db.Dispose();
+
+                // Read Response
+                rooms = Read(reader);
             }
 
-            return room;
+            return rooms;
         }
 
         public static IEnumerable<Room> GetRooms()
         {
             IEnumerable<Room> rooms = new List<Room>();
 
-            //Setup Connection
-            DatabaseConnection db = new DatabaseConnection("dbo.GetRooms");
-
-            try
+            // Setup Connection
+            using (DatabaseConnection db = new DatabaseConnection("dbo.GetRooms"))
             {
+                // Open Connection
                 db.conn.Open();
+
+                // Execute Command
                 SqlDataReader reader = db.comm.ExecuteReader();
+
+                // Read Response
                 rooms = Read(reader);
-            }
-            catch
-            {
-            }
-            finally
-            {
-                // Close Connection
-                db.Dispose();
             }
 
             return rooms;
@@ -72,22 +64,17 @@ namespace ADD_Demo.Classes
         {
             int roomID = -1;
 
-            //Setup Connection
-            DatabaseConnection db = new DatabaseConnection("dbo.AddRoom");
-            AddParameters(room, db.comm);
+            // Setup Connection
+            using (DatabaseConnection db = new DatabaseConnection("dbo.AddRoom"))
+            {
+                // Set Parameters
+                AddParameters(room, db.comm);
 
-            try
-            {
+                // Open Connection
                 db.conn.Open();
+
+                // Execute Command and Read Response
                 roomID = Convert.ToInt32(db.comm.ExecuteScalar());
-            }
-            catch
-            {
-            }
-            finally
-            {
-                // Close Connection
-                db.Dispose();
             }
 
             return roomID;
@@ -97,22 +84,17 @@ namespace ADD_Demo.Classes
         {
             int rowsAffected = 0;
 
-            //Setup Connection
-            DatabaseConnection db = new DatabaseConnection("dbo.RemoveRoom");
-            AddOldParameters(oldRoom, db.comm);
+            // Setup Connection
+            using (DatabaseConnection db = new DatabaseConnection("dbo.RemoveRoom"))
+            {
+                // Set Parameters
+                AddOldParameters(oldRoom, db.comm);
 
-            try
-            {
+                // Open Connection
                 db.conn.Open();
+
+                // Execute Command and Read Response
                 rowsAffected = db.comm.ExecuteNonQuery();
-            }
-            catch
-            {
-            }
-            finally
-            {
-                // Close Connection
-                db.Dispose();
             }
 
             return rowsAffected;
@@ -122,23 +104,18 @@ namespace ADD_Demo.Classes
         {
             int rowsAffected = 0;
 
-            //Setup Connection
+            // Setup Connection
             DatabaseConnection db = new DatabaseConnection("dbo.UpdateRoom");
-            AddParameters(room, db.comm);
-            AddOldParameters(oldRoom, db.comm);
+            {
+                // Set Parameters
+                AddParameters(room, db.comm);
+                AddOldParameters(oldRoom, db.comm);
 
-            try
-            {
+                // Open Connection
                 db.conn.Open();
+
+                // Execute Command and Read Response
                 rowsAffected = db.comm.ExecuteNonQuery();
-            }
-            catch
-            {
-            }
-            finally
-            {
-                // Close Connection
-                db.Dispose();
             }
 
             return rowsAffected;
