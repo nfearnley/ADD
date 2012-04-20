@@ -14,8 +14,7 @@
         <div class="header">
             <div class="title">
                 <h1>
-                    My ASP.NET Application
-                </h1>
+                    Computer Training Inc.</h1>
             </div>
             <div class="loginDisplay">
                 <asp:LoginView ID="HeadLoginView" runat="server" EnableViewState="false">
@@ -32,7 +31,13 @@
                 <asp:Menu ID="NavigationMenu" runat="server" CssClass="menu" EnableViewState="false" IncludeStyleBlock="false" Orientation="Horizontal">
                     <Items>
                         <asp:MenuItem NavigateUrl="~/Default.aspx" Text="Home"/>
-                        <asp:MenuItem NavigateUrl="~/About.aspx" Text="About"/>
+                        <asp:MenuItem Text="Clients" Value="Clients" NavigateUrl="~/Clients.aspx"/>
+                        <asp:MenuItem Text="Companies" Value="Companies" NavigateUrl="~/Companies.aspx"></asp:MenuItem>
+                        <asp:MenuItem Text="Sessions" Value="Sessions" NavigateUrl="~/Sessions.aspx"></asp:MenuItem>
+                        <asp:MenuItem Text="Courses" Value="Courses" NavigateUrl="~/Courses.aspx"></asp:MenuItem>
+                        <asp:MenuItem Text="Instructors" Value="Instructors" 
+                            NavigateUrl="~/Instructors.aspx"></asp:MenuItem>
+                        <asp:MenuItem Text="Rooms" Value="Rooms" NavigateUrl="~/Rooms.aspx"></asp:MenuItem>
                     </Items>
                 </asp:Menu>
             </div>

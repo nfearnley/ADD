@@ -5,7 +5,7 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
-namespace ADD_Demo.Styles
+namespace ADD_Demo
 {
     public partial class Courses : System.Web.UI.Page
     {

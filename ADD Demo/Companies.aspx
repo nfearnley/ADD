@@ -1,13 +1,10 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Companies.aspx.cs" Inherits="ADD_Demo.Companies" %>
+﻿<%@ Page Title="Companies" Language="C#" MasterPageFile="~/Site.master" AutoEventWireup="true"
+    CodeBehind="Companies.aspx.cs" Inherits="ADD_Demo.Companies" %>
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<asp:Content ID="HeaderContent" runat="server" ContentPlaceHolderID="HeadContent">
+</asp:Content>
+<asp:Content ID="BodyContent" runat="server" ContentPlaceHolderID="MainContent">
 
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head runat="server">
-    <title></title>
-</head>
-<body>
-    <form id="form1" runat="server">
     <div>
     
         Select a Company<br />
@@ -100,6 +97,4 @@
         </Columns>
     </asp:GridView>
     <br />
-    </form>
-</body>
-</html>
+</asp:Content>

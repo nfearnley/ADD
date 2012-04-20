@@ -1,14 +1,9 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Courses.aspx.cs" Inherits="ADD_Demo.Styles.Courses" %>
+﻿<%@ Page Title="Courses" Language="C#" MasterPageFile="~/Site.master" AutoEventWireup="true"
+    CodeBehind="Courses.aspx.cs" Inherits="ADD_Demo.Courses" %>
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head runat="server">
-    <title></title>
-</head>
-<body>
-    <form id="form1" runat="server">
-    <div>
+<asp:Content ID="HeaderContent" runat="server" ContentPlaceHolderID="HeadContent">
+</asp:Content>
+<asp:Content ID="BodyContent" runat="server" ContentPlaceHolderID="MainContent"><div>
     
         Choose a Course:<br />
         <asp:DropDownList ID="ddlCourses" runat="server" 
@@ -80,6 +75,4 @@
         <br />
     
     </div>
-    </form>
-</body>
-</html>
+</asp:Content>
