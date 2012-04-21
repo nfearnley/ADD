@@ -1,12 +1,12 @@
 <<<<<<< HEAD
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Sessions.aspx.cs" Inherits="ADD_Demo.Sessions" %>
-<asp:Content ID="Content1" ContentPlaceHolderID="HeadContent" runat="server">
-=======
 ﻿<%@ Page Title="Sessions" Language="C#" MasterPageFile="~/Site.master" AutoEventWireup="true"
     CodeBehind="Sessions.aspx.cs" Inherits="ADD_Demo.Sessions" %>
 
 <asp:Content ID="HeaderContent" runat="server" ContentPlaceHolderID="HeadContent">
->>>>>>> aae848a75d241084a1c8e981c59303089492482a
+=======
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Sessions.aspx.cs" Inherits="ADD_Demo.Sessions" %>
+<asp:Content ID="Content1" ContentPlaceHolderID="HeadContent" runat="server">
+>>>>>>> b91d66f... Dropped the details view of the Sessions page to introduce individual textboxes. Built an Edit mode to update the information of the session. with redirect of a get request.
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
     <p>
@@ -21,6 +21,9 @@
         <asp:ObjectDataSource ID="ODSGetSessions" runat="server" 
             SelectMethod="GetSessions" TypeName="ADD_Demo.Classes.Session">
         </asp:ObjectDataSource>
+<<<<<<< HEAD
+        <asp:ObjectDataSource ID="ODSSession" runat="server" 
+=======
     </p>
     <p>
         Course Code:&nbsp;&nbsp;&nbsp;&nbsp;
@@ -58,6 +61,7 @@
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         <asp:Button ID="btnDelete" runat="server" Text="Delete" />
         <asp:ObjectDataSource ID="ODSSessionInfoEdit" runat="server" 
+>>>>>>> b91d66f... Dropped the details view of the Sessions page to introduce individual textboxes. Built an Edit mode to update the information of the session. with redirect of a get request.
             DataObjectTypeName="ADD_Demo.Classes.Session" DeleteMethod="RemoveSession" 
             InsertMethod="AddSession" SelectMethod="GetSession" 
             TypeName="ADD_Demo.Classes.Session" UpdateMethod="UpdateSession">
@@ -70,12 +74,42 @@
                 <asp:Parameter Name="oldSession" Type="Object" />
             </UpdateParameters>
         </asp:ObjectDataSource>
+<<<<<<< HEAD
+        <asp:DetailsView ID="DetailsView1" runat="server" AutoGenerateRows="False" 
+            DataSourceID="ODSSession" Height="50px" Width="125px">
+            <Fields>
+                <asp:BoundField DataField="CourseID" HeaderText="CourseID" 
+                    SortExpression="CourseID" />
+                <asp:BoundField DataField="SessionID" HeaderText="SessionID" 
+                    SortExpression="SessionID" />
+                <asp:BoundField DataField="InstructorID" HeaderText="InstructorID" 
+                    SortExpression="InstructorID" />
+                <asp:BoundField DataField="RoomID" HeaderText="RoomID" 
+                    SortExpression="RoomID" />
+                <asp:BoundField DataField="Length" HeaderText="Length" 
+                    SortExpression="Length" />
+                <asp:BoundField DataField="Date" HeaderText="Date" SortExpression="Date" />
+            </Fields>
+        </asp:DetailsView>
+        <asp:ObjectDataSource ID="InstructorDetailsDataSource" runat="server" 
+            ConflictDetection="CompareAllValues" 
+            DataObjectTypeName="ADD_Demo.Classes.Instructor" 
+            DeleteMethod="RemoveInstructor" InsertMethod="AddInstructor" 
+            OldValuesParameterFormatString="old{0}" SelectMethod="GetInstructor" 
+            TypeName="ADD_Demo.Classes.Instructor" UpdateMethod="UpdateInstructor" 
+            oninserted="InstructorDetailsDataSource_Inserted" 
+            ondeleted="InstructorDetailsDataSource_Deleted">
+            <DeleteParameters>
+                <asp:Parameter Name="instructorID" Type="Int32" />
+            </DeleteParameters>
+=======
         <asp:ObjectDataSource ID="ODSCourse" runat="server" SelectMethod="GetCourses" 
             TypeName="ADD_Demo.Classes.Course"></asp:ObjectDataSource>
         <asp:ObjectDataSource ID="ODSRoom" runat="server" SelectMethod="GetRooms" 
             TypeName="ADD_Demo.Classes.Room"></asp:ObjectDataSource>
         <asp:ObjectDataSource ID="ODSInstructor" runat="server" 
             SelectMethod="GetInstructorsByCourseID" TypeName="ADD_Demo.Classes.Instructor">
+>>>>>>> b91d66f... Dropped the details view of the Sessions page to introduce individual textboxes. Built an Edit mode to update the information of the session. with redirect of a get request.
             <SelectParameters>
                 <asp:ControlParameter ControlID="ddlCourseCode" Name="courseID" 
                     PropertyName="SelectedValue" Type="Int32" />

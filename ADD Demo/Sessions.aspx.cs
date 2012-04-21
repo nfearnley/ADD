@@ -13,15 +13,15 @@ namespace ADD_Demo
         bool EditMode = false;
         protected void Page_Load(object sender, EventArgs e)
         {
-                // InstructorList.DataBind();
-                // InstructorList.SelectedValue = instructorID;
+            EditMode = false;
+            ddlSessions.SelectedValue = Request.Params.Get("SessionID");
             session = Classes.Session.GetSession(int.Parse(ddlSessions.SelectedValue)).ElementAt(0);
             tbCourseCode.Text = Course.GetCourse(session.CourseID).ElementAt(0).CourseCode;
             tbInstructor.Text = Instructor.GetInstructor(session.InstructorID).ElementAt(0).FullName;
             tbRoomName.Text = Room.GetRoom(session.RoomID).ElementAt(0).RoomName;
             tbLength.Text = session.Length.ToString();
-            tbDate.Text = session.DateTime.ToShortDateString();
-            calDate.SelectedDate = session.DateTime;
+            tbDate.Text = session.Date.ToShortDateString();
+            calDate.SelectedDate = session.Date;
 
         }
 
@@ -40,15 +40,14 @@ namespace ADD_Demo
             ddlSessions.Visible = !ddlSessions.Visible;
             if (EditMode)
             {                
-                //InstructorList.DataBind();
+                btnEdit.Text = "Update";                
             }
             else 
             {
                 btnEdit.Text = "Edit";
-            //InstructorList.Items.Insert(0, item);
-            //InstructorList.SelectedIndex = 0;
                 Classes.Session newSession = new Classes.Session();
-                newSession.DateTime = calDate.SelectedDate;
+                newSession.CourseID = int.Parse(ddlCourseCode.SelectedValue);
+                newSession.Date = calDate.SelectedDate;
                 newSession.InstructorID = int.Parse(ddlCourseCode.SelectedValue);
                 newSession.Length = int.Parse(tbLength.Text);
                 newSession.RoomID = int.Parse(ddlRoomName.SelectedValue);

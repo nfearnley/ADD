@@ -31,13 +31,21 @@ namespace ADD_Demo {
         protected global::System.Web.UI.WebControls.ObjectDataSource ODSGetSessions;
         
         /// <summary>
+<<<<<<< HEAD
+        /// ODSSession control.
+=======
         /// tbCourseCode control.
+>>>>>>> b91d66f... Dropped the details view of the Sessions page to introduce individual textboxes. Built an Edit mode to update the information of the session. with redirect of a get request.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
+<<<<<<< HEAD
+        protected global::System.Web.UI.WebControls.ObjectDataSource ODSSession;
+=======
         protected global::System.Web.UI.WebControls.TextBox tbCourseCode;
+>>>>>>> b91d66f... Dropped the details view of the Sessions page to introduce individual textboxes. Built an Edit mode to update the information of the session. with redirect of a get request.
         
         /// <summary>
         /// ddlCourseCode control.
