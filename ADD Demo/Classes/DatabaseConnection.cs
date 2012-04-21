@@ -18,6 +18,12 @@ namespace ADD_Demo.Classes
             comm = GetCommand(storedProcedure, conn);
         }
 
+        public DatabaseConnection(String command, int one)
+        {
+            conn = GetConnection();
+            comm = SetCommand(command, conn);
+        }
+
         private static SqlConnection GetConnection()
         {
             // Load connection string from web.config
@@ -29,6 +35,16 @@ namespace ADD_Demo.Classes
             conn.ConnectionString = connString.ConnectionString;
 
             return conn;
+        }
+
+        //because I needed it
+        private static SqlCommand SetCommand(String command, SqlConnection conn)
+        {
+            SqlCommand comm = new SqlCommand();
+            comm.CommandType = CommandType.Text;
+            comm.CommandText = command;
+            comm.Connection = conn;
+            return comm;
         }
 
         private static SqlCommand GetCommand(String storedProcedure, SqlConnection conn)

@@ -10,7 +10,8 @@
         <asp:DropDownList ID="ddlClientSearch" runat="server" AutoPostBack="True" 
             DataSourceID="ODSGetClients" DataTextField="LastName" 
             DataValueField="ClientID" 
-            onselectedindexchanged="ddlClientSearch_SelectedIndexChanged">
+            onselectedindexchanged="ddlClientSearch_SelectedIndexChanged" 
+            ondatabound="ddlClientSearch_DataBound">
         </asp:DropDownList>
         <asp:ObjectDataSource ID="ODSGetClients" runat="server" 
             SelectMethod="GetClients" TypeName="ADD_Demo.Classes.Client">
@@ -115,6 +116,37 @@
             TypeName="ADD_Demo.Classes.ClientSession">
             <SelectParameters>
                 <asp:ControlParameter ControlID="ddlClientSearch" Name="clientID" 
+                    PropertyName="SelectedValue" Type="Int32" />
+            </SelectParameters>
+        </asp:ObjectDataSource>
+        Register For Session<br />
+        <asp:DropDownList ID="ddlCourses" runat="server" AutoPostBack="True" 
+            DataSourceID="ODSCourses" DataTextField="CourseCode" DataValueField="CourseID" 
+            ondatabound="ddlCourses_DataBound" 
+            onselectedindexchanged="ddlCourses_SelectedIndexChanged">
+        </asp:DropDownList>
+&nbsp;&nbsp;&nbsp;
+        <asp:DropDownList ID="ddlSessionsByCourse" runat="server" AutoPostBack="True" 
+            DataSourceID="ODSSessionsByCourse" DataTextField="Date" 
+            DataValueField="SessionID" Enabled="False" 
+            ondatabound="ddlSessionsByCourse_DataBound" 
+            onselectedindexchanged="ddlSessionsByCourse_SelectedIndexChanged">
+        </asp:DropDownList>
+&nbsp;&nbsp;&nbsp;
+        <asp:CheckBox ID="cbPaid" runat="server" Enabled="False" Text="Paid" />
+&nbsp;&nbsp;&nbsp;
+        <asp:TextBox ID="tbPrice" runat="server" ReadOnly="True"></asp:TextBox>
+        <br />
+        <asp:Button ID="btnEnroll" runat="server" Enabled="False" 
+            onclick="btnEnroll_Click" Text="Enroll" />
+        <br />
+        <asp:Label ID="lblStatusText" runat="server"></asp:Label>
+        <asp:ObjectDataSource ID="ODSCourses" runat="server" SelectMethod="GetCourses" 
+            TypeName="ADD_Demo.Classes.Course"></asp:ObjectDataSource>
+        <asp:ObjectDataSource ID="ODSSessionsByCourse" runat="server" 
+            SelectMethod="GetSessionsByCourseID" TypeName="ADD_Demo.Classes.Session">
+            <SelectParameters>
+                <asp:ControlParameter ControlID="ddlCourses" Name="courseID" 
                     PropertyName="SelectedValue" Type="Int32" />
             </SelectParameters>
         </asp:ObjectDataSource>

@@ -10,6 +10,7 @@ namespace ADD_Demo.Classes
 {
     public class Session
     {
+        public int CourseID { get; set; }
         public int SessionID { get; set; }
         public int CourseID { get; set; }
         public int InstructorID { get; set; }
@@ -242,6 +243,7 @@ namespace ADD_Demo.Classes
             while (reader.Read())
             {
                 Session session = new Session();
+                session.CourseID = (int)reader["CourseID"];
                 session.SessionID = (int)reader["SessionID"];
                 session.CourseID = (int)reader["CourseID"];
                 session.InstructorID = (int)reader["InstructorID"];
@@ -255,6 +257,7 @@ namespace ADD_Demo.Classes
 
         private static void AddParameters(Session session, SqlCommand comm)
         {
+            comm.Parameters.AddWithValue("CourseID", session.CourseID);
             comm.Parameters.AddWithValue("InstructorID", session.InstructorID);
             comm.Parameters.AddWithValue("CourseID", session.CourseID);
             comm.Parameters.AddWithValue("RoomID", session.RoomID);
@@ -264,6 +267,7 @@ namespace ADD_Demo.Classes
 
         private static void AddOldParameters(Session session, SqlCommand comm)
         {
+            comm.Parameters.AddWithValue("OldCourseID", session.CourseID);
             comm.Parameters.AddWithValue("OldSessionID", session.SessionID);
             comm.Parameters.AddWithValue("OldCourseID", session.CourseID);
             comm.Parameters.AddWithValue("OldInstructorID", session.InstructorID);

@@ -57,6 +57,7 @@
     <Content Include="Account\Register.aspx" />
     <Content Include="Clients.aspx" />
     <Content Include="Companies.aspx" />
+    <Content Include="Sessions.aspx" />
     <Content Include="Instructors.aspx" />
     <Content Include="Courses.aspx" />
     <Content Include="Styles\Site.css" />
@@ -127,6 +128,13 @@
     </Compile>
     <Compile Include="Companies.aspx.designer.cs">
       <DependentUpon>Companies.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Sessions.aspx.cs">
+      <DependentUpon>Sessions.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Sessions.aspx.designer.cs">
+      <DependentUpon>Sessions.aspx</DependentUpon>
     </Compile>
     <Compile Include="Default.aspx.cs">
       <DependentUpon>Default.aspx</DependentUpon>

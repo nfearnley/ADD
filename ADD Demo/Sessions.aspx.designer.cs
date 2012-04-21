@@ -13,22 +13,13 @@ namespace ADD_Demo {
     public partial class Instructors {
         
         /// <summary>
-        /// DropDownList1 control.
+        /// SessionList control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList DropDownList1;
-        
-        /// <summary>
-        /// InstructorList control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList InstructorList;
+        protected global::System.Web.UI.WebControls.DropDownList SessionList;
         
         /// <summary>
         /// SessionsDataSource control.
@@ -40,13 +31,13 @@ namespace ADD_Demo {
         protected global::System.Web.UI.WebControls.ObjectDataSource SessionsDataSource;
         
         /// <summary>
-        /// SessionsDataSource0 control.
+        /// SessionDataSource control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ObjectDataSource SessionsDataSource0;
+        protected global::System.Web.UI.WebControls.ObjectDataSource SessionDataSource;
         
         /// <summary>
         /// DetailsView1 control.
