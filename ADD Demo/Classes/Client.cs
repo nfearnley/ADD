@@ -49,6 +49,7 @@ namespace ADD_Demo.Classes
 
                 // Read Response
                 clients = Read(reader);
+                db.Dispose();
             }
             
             return clients;
