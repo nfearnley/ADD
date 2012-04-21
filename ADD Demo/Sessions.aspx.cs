@@ -4,34 +4,57 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-
+using ADD_Demo.Classes;
 namespace ADD_Demo
 {
-    public partial class Instructors : System.Web.UI.Page
+    public partial class Sessions : System.Web.UI.Page
     {
-        protected void InstructorDetailsDataSource_Inserted(object sender, ObjectDataSourceStatusEventArgs e)
+        Classes.Session session;
+        bool EditMode = false;
+        protected void Page_Load(object sender, EventArgs e)
         {
-            String instructorID = (String)e.ReturnValue;
-            if (instructorID != "")
-            {
-                InstructorList.DataBind();
-                InstructorList.SelectedValue = instructorID;
-            }
+            EditMode = false;
+            ddlSessions.SelectedValue = Request.Params.Get("SessionID");
+            session = Classes.Session.GetSession(int.Parse(ddlSessions.SelectedValue)).ElementAt(0);
+            tbCourseCode.Text = Course.GetCourse(session.CourseID).ElementAt(0).CourseCode;
+            tbInstructor.Text = Instructor.GetInstructor(session.InstructorID).ElementAt(0).FullName;
+            tbRoomName.Text = Room.GetRoom(session.RoomID).ElementAt(0).RoomName;
+            tbLength.Text = session.Length.ToString();
+            tbDate.Text = session.Date.ToShortDateString();
+            calDate.SelectedDate = session.Date;
+
         }
 
-        protected void InstructorDetailsDataSource_Deleted(object sender, ObjectDataSourceStatusEventArgs e)
+        protected void btnEdit_Click(object sender, EventArgs e)
         {
-            if (e.AffectedRows != 0)
-            {
-                InstructorList.DataBind();
+            EditMode = !EditMode;
+            tbCourseCode.Visible = !tbCourseCode.Visible;
+            calDate.Visible = !calDate.Visible;
+            tbInstructor.Visible = !tbInstructor.Visible;
+            tbLength.ReadOnly = !tbLength.ReadOnly;
+            tbRoomName.Visible = !tbRoomName.Visible;
+            btnDelete.Enabled = !btnDelete.Enabled;
+            ddlCourseCode.Visible=!ddlCourseCode.Visible;
+            ddlInstructor.Visible = !ddlInstructor.Visible;
+            ddlRoomName.Visible = !ddlRoomName.Visible;
+            ddlSessions.Visible = !ddlSessions.Visible;
+            if (EditMode)
+            {                
+                btnEdit.Text = "Update";                
             }
-        }
-
-        protected void InstructorList_DataBound(object sender, EventArgs e)
-        {
-            ListItem item = new ListItem("Please Select: ", "-1");
-            InstructorList.Items.Insert(0, item);
-            InstructorList.SelectedIndex = 0;
+            else 
+            {
+                btnEdit.Text = "Edit";
+                Classes.Session newSession = new Classes.Session();
+                newSession.CourseID = int.Parse(ddlCourseCode.SelectedValue);
+                newSession.Date = calDate.SelectedDate;
+                newSession.InstructorID = int.Parse(ddlCourseCode.SelectedValue);
+                newSession.Length = int.Parse(tbLength.Text);
+                newSession.RoomID = int.Parse(ddlRoomName.SelectedValue);
+                newSession.SessionID = session.SessionID;
+                Classes.Session.UpdateSession(newSession, session);
+                Response.Redirect("~/Sessions.aspx?SessionID=" + newSession.SessionID);
+            }
         }
     }
 }

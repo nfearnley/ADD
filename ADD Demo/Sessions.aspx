@@ -1,29 +1,61 @@
-﻿<%@ Page Title="Instructors" Language="C#" MasterPageFile="~/Site.master" AutoEventWireup="true"
-    CodeBehind="Sessions.aspx.cs" Inherits="ADD_Demo.Instructors" %>
-
-<asp:Content ID="HeaderContent" runat="server" ContentPlaceHolderID="HeadContent">
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Sessions.aspx.cs" Inherits="ADD_Demo.Sessions" %>
+<asp:Content ID="Content1" ContentPlaceHolderID="HeadContent" runat="server">
 </asp:Content>
-<asp:Content ID="BodyContent" runat="server" ContentPlaceHolderID="MainContent"><div>
-    
-        <h3>
-            Sessions</h3>
-        <p>
-            &nbsp;</p>
-    
-        <asp:DropDownList ID="SessionList" runat="server" 
-            DataSourceID="SessionsDataSource" DataTextField="SessionID" 
-            DataValueField="SessionID" AutoPostBack="True" 
-            ondatabound="InstructorList_DataBound" Visible="False">
+<asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
+    <p>
+        Sessions</p>
+    <p>
+        <asp:DropDownList ID="ddlSessions" runat="server" AutoPostBack="True" 
+            DataSourceID="ODSGetSessions" DataTextField="Date" DataValueField="SessionID" 
+            Visible="False">
         </asp:DropDownList>
-        <asp:ObjectDataSource ID="SessionsDataSource" runat="server" 
+    </p>
+    <p>
+        <asp:ObjectDataSource ID="ODSGetSessions" runat="server" 
             SelectMethod="GetSessions" TypeName="ADD_Demo.Classes.Session">
         </asp:ObjectDataSource>
-        <asp:ObjectDataSource ID="SessionDataSource" runat="server" 
-            SelectMethod="GetSession" TypeName="ADD_Demo.Classes.Session" 
+    </p>
+    <p>
+        Course Code:&nbsp;&nbsp;&nbsp;&nbsp;
+        <asp:TextBox ID="tbCourseCode" runat="server" Enabled="False" ReadOnly="True"></asp:TextBox>
+        <asp:DropDownList ID="ddlCourseCode" runat="server" DataSourceID="ODSCourse" 
+            DataTextField="CourseCode" DataValueField="CourseID" Visible="False">
+        </asp:DropDownList>
+    </p>
+    <p>
+        Room Name:&nbsp;&nbsp;&nbsp;&nbsp;
+        <asp:TextBox ID="tbRoomName" runat="server" ReadOnly="True"></asp:TextBox>
+        <asp:DropDownList ID="ddlRoomName" runat="server" DataSourceID="ODSRoom" 
+            DataTextField="RoomName" DataValueField="RoomID" Visible="False">
+        </asp:DropDownList>
+    </p>
+    <p>
+        Instructor:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <asp:TextBox ID="tbInstructor" runat="server" ReadOnly="True"></asp:TextBox>
+        <asp:DropDownList ID="ddlInstructor" runat="server" 
+            DataSourceID="ODSInstructor" DataTextField="FullName" 
+            DataValueField="InstructorID" Visible="False">
+        </asp:DropDownList>
+    </p>
+    <p>
+        Length:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <asp:TextBox ID="tbLength" runat="server" ReadOnly="True"></asp:TextBox>
+    </p>
+    <p>
+        Date:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <asp:TextBox ID="tbDate" runat="server" ReadOnly="True"></asp:TextBox>
+        <asp:Calendar ID="calDate" runat="server" Visible="False"></asp:Calendar>
+    </p>
+    <p>
+        <asp:Button ID="btnEdit" runat="server" onclick="btnEdit_Click" Text="Edit" />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <asp:Button ID="btnDelete" runat="server" Text="Delete" />
+        <asp:ObjectDataSource ID="ODSSessionInfoEdit" runat="server" 
             DataObjectTypeName="ADD_Demo.Classes.Session" DeleteMethod="RemoveSession" 
-            InsertMethod="AddSession" UpdateMethod="UpdateSession">
+            InsertMethod="AddSession" SelectMethod="GetSession" 
+            TypeName="ADD_Demo.Classes.Session" UpdateMethod="UpdateSession">
             <SelectParameters>
-                <asp:ControlParameter ControlID="SessionList" Name="sessionID" 
+                <asp:ControlParameter ControlID="ddlSessions" Name="sessionID" 
                     PropertyName="SelectedValue" Type="Int32" />
             </SelectParameters>
             <UpdateParameters>
@@ -31,59 +63,16 @@
                 <asp:Parameter Name="oldSession" Type="Object" />
             </UpdateParameters>
         </asp:ObjectDataSource>
-        <asp:DetailsView ID="DetailsView1" runat="server" Height="50px" Width="394px" 
-            AutoGenerateRows="False" 
-            DataSourceID="SessionDataSource">
-            <Fields>
-                <asp:BoundField DataField="SessionID" HeaderText="SessionID" 
-                    SortExpression="SessionID" />
-                <asp:BoundField DataField="InstructorID" HeaderText="InstructorID" 
-                    SortExpression="InstructorID" />
-                <asp:BoundField DataField="RoomID" HeaderText="RoomID" 
-                    SortExpression="RoomID" />
-                <asp:BoundField DataField="Length" HeaderText="Length" 
-                    SortExpression="Length" />
-                <asp:BoundField DataField="Date" HeaderText="Date" SortExpression="Date" />
-            </Fields>
-        </asp:DetailsView>
-        <asp:ObjectDataSource ID="InstructorDetailsDataSource" runat="server" 
-            ConflictDetection="CompareAllValues" 
-            DataObjectTypeName="ADD_Demo.Classes.Instructor" 
-            DeleteMethod="RemoveInstructor" InsertMethod="AddInstructor" 
-            OldValuesParameterFormatString="old{0}" SelectMethod="GetInstructor" 
-            TypeName="ADD_Demo.Classes.Instructor" UpdateMethod="UpdateInstructor" 
-            oninserted="InstructorDetailsDataSource_Inserted" 
-            ondeleted="InstructorDetailsDataSource_Deleted">
-            <DeleteParameters>
-                <asp:Parameter Name="instructorID" Type="Int32" />
-            </DeleteParameters>
+        <asp:ObjectDataSource ID="ODSCourse" runat="server" SelectMethod="GetCourses" 
+            TypeName="ADD_Demo.Classes.Course"></asp:ObjectDataSource>
+        <asp:ObjectDataSource ID="ODSRoom" runat="server" SelectMethod="GetRooms" 
+            TypeName="ADD_Demo.Classes.Room"></asp:ObjectDataSource>
+        <asp:ObjectDataSource ID="ODSInstructor" runat="server" 
+            SelectMethod="GetInstructorsByCourseID" TypeName="ADD_Demo.Classes.Instructor">
             <SelectParameters>
-                <asp:ControlParameter ControlID="InstructorList" Name="instructorID" 
+                <asp:ControlParameter ControlID="ddlCourseCode" Name="courseID" 
                     PropertyName="SelectedValue" Type="Int32" />
             </SelectParameters>
         </asp:ObjectDataSource>
-    
-    </div>
-    <h3>
-        Qualifications:</h3>
-    <asp:SqlDataSource ID="InstructorQualificationsDataSource" runat="server" 
-        ConnectionString="<%$ ConnectionStrings:ADDDatabase %>" 
-        SelectCommand="SELECT Courses.Description, Courses.CourseCode FROM InstructorQualifications INNER JOIN Courses ON InstructorQualifications.CourseID = Courses.CourseID WHERE (InstructorQualifications.InstructorID = @InstructorID)">
-        <SelectParameters>
-            <asp:ControlParameter ControlID="InstructorList" Name="InstructorID" 
-                PropertyName="SelectedValue" Type="Int32" />
-        </SelectParameters>
-    </asp:SqlDataSource>
-    <asp:GridView ID="GridView1" runat="server" AutoGenerateColumns="False" 
-        DataSourceID="InstructorQualificationsDataSource">
-        <Columns>
-            <asp:BoundField DataField="Description" HeaderText="Description" 
-                SortExpression="Description" />
-            <asp:BoundField DataField="CourseCode" HeaderText="Course Code" 
-                SortExpression="CourseCode" />
-        </Columns>
-        <EmptyDataTemplate>
-            This instructor is not qualified to teach.
-        </EmptyDataTemplate>
-    </asp:GridView>
+    </p>
 </asp:Content>
