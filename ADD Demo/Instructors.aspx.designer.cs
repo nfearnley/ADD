@@ -49,13 +49,13 @@ namespace ADD_Demo {
         protected global::System.Web.UI.WebControls.ObjectDataSource InstructorDetailsDataSource;
         
         /// <summary>
-        /// GridView1 control.
+        /// InstructorQualificationsList control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.GridView GridView1;
+        protected global::System.Web.UI.WebControls.GridView InstructorQualificationsList;
         
         /// <summary>
         /// InstructorQualificationsDataSource control.
@@ -92,5 +92,23 @@ namespace ADD_Demo {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.ObjectDataSource UnqualifiedCoursesDataSource;
+        
+        /// <summary>
+        /// GridView1 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.GridView GridView1;
+        
+        /// <summary>
+        /// SessionsDataSource control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.ObjectDataSource SessionsDataSource;
     }
 }
