@@ -36,7 +36,10 @@ namespace ADD_Demo.Classes
         public Instructor Instructor { get; set; }
 
         public InstructorQualification()
-        { }
+        {
+            Course = new Course();
+            Instructor = new Instructor();
+        }
 
         // Get InstructorQualifications by CourseID
         public static IEnumerable<InstructorQualification> GetInstructorQualificationsByCourseID(int courseID)
