@@ -20,6 +20,10 @@ namespace ADD_Demo.Classes
         public string FirstName { get; set; }
         public string HomePhone { get; set; }
         public string LastName { get; set; }
+        public string FullName
+        {
+            get { return FirstName + " " + LastName; }
+        }
 
         public Instructor()
         { }
@@ -42,7 +46,7 @@ namespace ADD_Demo.Classes
                 SqlDataReader reader = db.comm.ExecuteReader();
 
                 // Read Response
-                instructors = Read(reader);
+                instructors = ReadInstructors(reader);
             }
 
             return instructors;
@@ -63,11 +67,61 @@ namespace ADD_Demo.Classes
                 SqlDataReader reader = db.comm.ExecuteReader();
 
                 // Read Response
-                instructors = Read(reader);
+                instructors = ReadInstructors(reader);
             }
 
             return instructors;
         }
+
+        // Get Instructor
+        public static IEnumerable<Instructor> GetInstructorsByCourseID(int courseID)
+        {
+            IEnumerable<Instructor> instructors = new List<Instructor>();
+
+            // Setup Connection
+            using (DatabaseConnection db = new DatabaseConnection("dbo.GetInstructorsByCourseID"))
+            {
+                // Set Parameters
+                db.comm.Parameters.AddWithValue("CourseID", courseID);
+
+                // Open Connection
+                db.conn.Open();
+
+                // Execute Command
+                SqlDataReader reader = db.comm.ExecuteReader();
+
+                // Read Response
+                instructors = ReadInstructors(reader);
+            }
+
+            return instructors;
+        }
+
+        // Get Instructor
+        public static IEnumerable<Instructor> GetUnqualifiedInstructorsByCourseID(int courseID)
+        {
+            IEnumerable<Instructor> instructors = new List<Instructor>();
+
+            // Setup Connection
+            using (DatabaseConnection db = new DatabaseConnection("dbo.GetUnqualifiedInstructorsByCourseID"))
+            {
+                // Set Parameters
+                db.comm.Parameters.AddWithValue("CourseID", courseID);
+
+                // Open Connection
+                db.conn.Open();
+
+                // Execute Command
+                SqlDataReader reader = db.comm.ExecuteReader();
+
+                // Read Response
+                instructors = ReadInstructors(reader);
+            }
+
+            return instructors;
+        }
+
+
 
         // Add Instructor, return InstructorID
         public static int AddInstructor(Instructor instructor)
@@ -134,26 +188,31 @@ namespace ADD_Demo.Classes
         }
 
         // Read Response
-        private static IList<Instructor> Read(SqlDataReader reader)
+        public static IList<Instructor> ReadInstructors(SqlDataReader reader)
         {
             IList<Instructor> instructors = new List<Instructor>();
             while (reader.Read())
             {
-                Instructor instructor = new Instructor();
-                instructor.InstructorID = (int)reader["InstructorID"];
-                instructor.AddressCity = (string)reader["AddressCity"];
-                instructor.AddressCountry = (string)reader["AddressCountry"];
-                instructor.AddressLine1 = (string)reader["AddressLine1"];
-                instructor.AddressLine2 = reader["AddressLine2"] as string; // Allow null
-                instructor.AddressPostalCode = (string)reader["AddressPostalCode"];
-                instructor.AddressRegion = (string)reader["AddressRegion"];
-                instructor.AltPhone = reader["AltPhone"] as string; // Allow null
-                instructor.FirstName = (string)reader["FirstName"];
-                instructor.HomePhone = (string)reader["HomePhone"];
-                instructor.LastName = (string)reader["LastName"];
-                instructors.Add(instructor);
+                instructors.Add(ReadInstructor(reader));
             }
             return instructors;
+        }
+
+        public static Instructor ReadInstructor(SqlDataReader reader)
+        {
+            Instructor instructor = new Instructor();
+            instructor.InstructorID = (int)reader["InstructorID"];
+            instructor.AddressCity = (string)reader["AddressCity"];
+            instructor.AddressCountry = (string)reader["AddressCountry"];
+            instructor.AddressLine1 = (string)reader["AddressLine1"];
+            instructor.AddressLine2 = reader["AddressLine2"] as string; // Allow null
+            instructor.AddressPostalCode = (string)reader["AddressPostalCode"];
+            instructor.AddressRegion = (string)reader["AddressRegion"];
+            instructor.AltPhone = reader["AltPhone"] as string; // Allow null
+            instructor.FirstName = (string)reader["FirstName"];
+            instructor.HomePhone = (string)reader["HomePhone"];
+            instructor.LastName = (string)reader["LastName"];
+            return instructor;
         }
 
         // Set Parameters

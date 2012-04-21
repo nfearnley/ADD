@@ -31,13 +31,13 @@ namespace ADD_Demo {
         protected global::System.Web.UI.WebControls.ObjectDataSource InstructorsDataSource;
         
         /// <summary>
-        /// DetailsView1 control.
+        /// InstructorDetails control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DetailsView DetailsView1;
+        protected global::System.Web.UI.WebControls.DetailsView InstructorDetails;
         
         /// <summary>
         /// InstructorDetailsDataSource control.
@@ -49,15 +49,6 @@ namespace ADD_Demo {
         protected global::System.Web.UI.WebControls.ObjectDataSource InstructorDetailsDataSource;
         
         /// <summary>
-        /// InstructorQualificationsDataSource control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.SqlDataSource InstructorQualificationsDataSource;
-        
-        /// <summary>
         /// GridView1 control.
         /// </summary>
         /// <remarks>
@@ -65,5 +56,41 @@ namespace ADD_Demo {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.GridView GridView1;
+        
+        /// <summary>
+        /// InstructorQualificationsDataSource control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.ObjectDataSource InstructorQualificationsDataSource;
+        
+        /// <summary>
+        /// UnqualifiedQualificationList control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList UnqualifiedQualificationList;
+        
+        /// <summary>
+        /// AddQualificationButton control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.LinkButton AddQualificationButton;
+        
+        /// <summary>
+        /// UnqualifiedCoursesDataSource control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.ObjectDataSource UnqualifiedCoursesDataSource;
     }
 }

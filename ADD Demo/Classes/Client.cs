@@ -23,6 +23,10 @@ namespace ADD_Demo.Classes
         public string HomePhone { get; set; }
         public string LastName { get; set; }
         public string WorkPhone { get; set; }
+        public string FullName
+        {
+            get{ return FirstName + " " + LastName;  }
+        }
 
         public Client()
         { }

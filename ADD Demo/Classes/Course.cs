@@ -36,7 +36,7 @@ namespace ADD_Demo.Classes
                 SqlDataReader reader = db.comm.ExecuteReader();
 
                 // Read Response
-                courses = Read(reader);
+                courses = ReadCourses(reader);
             }
 
             return courses;
@@ -56,11 +56,35 @@ namespace ADD_Demo.Classes
                 SqlDataReader reader = db.comm.ExecuteReader();
 
                 // Read Response
-                courses = Read(reader);
+                courses = ReadCourses(reader);
             }
 
             return courses;
         }
+
+        public static IEnumerable<Course> GetUnqualifiedCoursesByInstructorID(int instructorID)
+        {
+            IEnumerable<Course> courses = new List<Course>();
+
+            // Setup Connection
+            using (DatabaseConnection db = new DatabaseConnection("dbo.GetUnqualifiedCoursesByInstructorID"))
+            {
+                // Set Parameters
+                db.comm.Parameters.AddWithValue("InstructorID", instructorID);
+
+                // Open Connection
+                db.conn.Open();
+
+                // Execute Command
+                SqlDataReader reader = db.comm.ExecuteReader();
+
+                // Read Response
+                courses = ReadCourses(reader);
+            }
+
+            return courses;
+        }
+
 
         public static int AddCourse(Course course)
         {
@@ -123,20 +147,25 @@ namespace ADD_Demo.Classes
             return rowsAffected;
         }
 
-        private static IList<Course> Read(SqlDataReader reader)
+        public static IList<Course> ReadCourses(SqlDataReader reader)
         {
             IList<Course> courses = new List<Course>();
             while (reader.Read())
             {
-                Course course = new Course();
-                course.CourseID = (int)reader["CourseID"];
-                course.CourseCode = (string)reader["CourseCode"];
-                course.Description = (string)reader["Description"];
-                course.Outline = (string)reader["Outline"];
-                course.Price = (decimal)reader["Price"];
-                courses.Add(course);
+                courses.Add(ReadCourse(reader));
             }
             return courses;
+        }
+
+        public static Course ReadCourse(SqlDataReader reader)
+        {
+            Course course = new Course();
+            course.CourseID = (int)reader["CourseID"];
+            course.CourseCode = (string)reader["CourseCode"];
+            course.Description = (string)reader["Description"];
+            course.Outline = (string)reader["Outline"];
+            course.Price = (decimal)reader["Price"];
+            return course;
         }
 
         private static void AddParameters(Course course, SqlCommand comm)

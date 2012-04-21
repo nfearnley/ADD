@@ -10,8 +10,30 @@ namespace ADD_Demo.Classes
 {
     public class InstructorQualification
     {
-        public int CourseID { get; set; }
-        public int InstructorID { get; set; }
+        public int CourseID
+        {
+            get
+            {
+                return Course.CourseID;
+            }
+            set
+            {
+                Course.CourseID = value;
+            }
+        }
+        public int InstructorID
+        {
+            get
+            {
+                return Instructor.InstructorID;
+            }
+            set
+            {
+                Instructor.InstructorID = value;
+            }
+        }
+        public Course Course { get; set; }
+        public Instructor Instructor { get; set; }
 
         public InstructorQualification()
         { }
@@ -46,7 +68,7 @@ namespace ADD_Demo.Classes
             IEnumerable<InstructorQualification> instructorQualifications = new List<InstructorQualification>();
 
             // Setup Connection
-            using (DatabaseConnection db = new DatabaseConnection("dbo.GetInstructorQualificationsByCourseID"))
+            using (DatabaseConnection db = new DatabaseConnection("dbo.GetInstructorQualificationsByInstructorID"))
             {
                 // Set Parameters
                 db.comm.Parameters.AddWithValue("InstructorID", instructorID);
@@ -130,8 +152,8 @@ namespace ADD_Demo.Classes
             while (reader.Read())
             {
                 InstructorQualification instructorQualification = new InstructorQualification();
-                instructorQualification.CourseID = (int)reader["CourseID"];
-                instructorQualification.InstructorID = (int)reader["InstructorID"];
+                instructorQualification.Course = Course.ReadCourse(reader);
+                instructorQualification.Instructor = Instructor.ReadInstructor(reader);
                 instructorQualifications.Add(instructorQualification);
             }
             return instructorQualifications;
@@ -140,15 +162,15 @@ namespace ADD_Demo.Classes
         // Set Parameters
         private static void AddParameters(InstructorQualification instructorQualification, SqlCommand comm)
         {
-            comm.Parameters.AddWithValue("CourseID", instructorQualification.CourseID);
-            comm.Parameters.AddWithValue("InstructorID", instructorQualification.InstructorID);
+            comm.Parameters.AddWithValue("CourseID", instructorQualification.Course.CourseID);
+            comm.Parameters.AddWithValue("InstructorID", instructorQualification.Instructor.InstructorID);
         }
 
         // Set Parameters
         private static void AddOldParameters(InstructorQualification instructorQualification, SqlCommand comm)
         {
-            comm.Parameters.AddWithValue("OldCourseID", instructorQualification.CourseID);
-            comm.Parameters.AddWithValue("OldInstructorID", instructorQualification.InstructorID);
+            comm.Parameters.AddWithValue("OldCourseID", instructorQualification.Course.CourseID);
+            comm.Parameters.AddWithValue("OldInstructorID", instructorQualification.Instructor.InstructorID);
         }
     }
 }
