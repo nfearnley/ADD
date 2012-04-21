@@ -38,11 +38,11 @@ namespace ADD_Demo
 
                 // Read Response
                 MyAdapter.Fill(table);
-                modTable(table);
+                //modTable(table);
                 dvClientCompany.DataSource = table.DefaultView;
                 
                 dvClientCompany.DataBind();
-                dvClientCompany.Fields[0].Visible = false;
+                //dvClientCompany.Fields[0].Visible = false;
                 db.Dispose();
             }
             DataTable sessionsTable = new DataTable("AllSessions");
@@ -90,6 +90,62 @@ namespace ADD_Demo
                 dvClientDetails.Fields[11].Visible = true;
             else
                 dvClientDetails.Fields[11].Visible = false;
+        }
+
+        protected void btnEnroll_Click(object sender, EventArgs e)
+        {
+            if (ddlCourses.SelectedValue != null && ddlSessionsByCourse.SelectedValue != null)
+            {
+                ClientSession clientSession = new ClientSession();
+
+                clientSession.ClientID = int.Parse(ddlClientSearch.SelectedValue);
+                clientSession.SessionID = int.Parse(ddlSessionsByCourse.SelectedValue);
+                clientSession.Price = decimal.Parse(tbPrice.Text);
+                clientSession.Paid = cbPaid.Checked;
+
+                ClientSession.AddClientSession(clientSession);
+            }
+            else 
+            {
+                lblStatusText.Text = "You must select a Course and a Session to Enroll";
+            }
+
+        }
+
+        protected void ddlSessionsByCourse_DataBound(object sender, EventArgs e)
+        {
+            addListItem(ddlSessionsByCourse);
+        }
+
+        protected void ddlCourses_DataBound(object sender, EventArgs e)
+        {
+            addListItem(ddlCourses);
+        }
+
+        protected void ddlClientSearch_DataBound(object sender, EventArgs e)
+        {
+            addListItem(ddlClientSearch);
+        }
+
+        protected void addListItem(DropDownList sender)
+        {
+            ListItem item = new ListItem("Please Select: ", "-1");
+            sender.Items.Insert(0, item);
+            sender.SelectedIndex = 0;
+        }
+
+        protected void ddlCourses_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            ddlSessionsByCourse.Enabled = true;
+            cbPaid.Enabled = true;
+            Course course = new Course();
+            course.Price = Classes.Course.GetCourse(int.Parse(ddlCourses.SelectedValue)).ElementAt(0).Price;
+            tbPrice.Text = course.Price.ToString();
+        }
+
+        protected void ddlSessionsByCourse_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            btnEnroll.Enabled = true;
         }
     }
 }
