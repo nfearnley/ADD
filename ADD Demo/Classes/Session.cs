@@ -11,10 +11,11 @@ namespace ADD_Demo.Classes
     public class Session
     {
         public int SessionID { get; set; }
+        public int CourseID { get; set; }
         public int InstructorID { get; set; }
         public int RoomID { get; set; }
+        public DateTime DateTime { get; set; }
         public int Length { get; set; }
-        public DateTime Date { get; set; }
 
         public Session()
         { }
@@ -242,10 +243,11 @@ namespace ADD_Demo.Classes
             {
                 Session session = new Session();
                 session.SessionID = (int)reader["SessionID"];
+                session.CourseID = (int)reader["CourseID"];
                 session.InstructorID = (int)reader["InstructorID"];
                 session.RoomID = (int)reader["RoomID"];
+                session.DateTime = (DateTime)reader["DateTime"];
                 session.Length = (int)reader["Length"];
-                session.Date = (DateTime)reader["Date"];
                 sessions.Add(session);
             }
             return sessions;
@@ -254,17 +256,19 @@ namespace ADD_Demo.Classes
         private static void AddParameters(Session session, SqlCommand comm)
         {
             comm.Parameters.AddWithValue("InstructorID", session.InstructorID);
+            comm.Parameters.AddWithValue("CourseID", session.CourseID);
             comm.Parameters.AddWithValue("RoomID", session.RoomID);
-            comm.Parameters.AddWithValue("DateTime", session.Date);
+            comm.Parameters.AddWithValue("DateTime", session.DateTime);
             comm.Parameters.AddWithValue("Length", session.Length);
         }
 
         private static void AddOldParameters(Session session, SqlCommand comm)
         {
             comm.Parameters.AddWithValue("OldSessionID", session.SessionID);
+            comm.Parameters.AddWithValue("OldCourseID", session.CourseID);
             comm.Parameters.AddWithValue("OldInstructorID", session.InstructorID);
             comm.Parameters.AddWithValue("OldRoomID", session.RoomID);
-            comm.Parameters.AddWithValue("OldDateTime", session.Date);
+            comm.Parameters.AddWithValue("OldDateTime", session.DateTime);
             comm.Parameters.AddWithValue("OldLength", session.Length);
         }
     }
