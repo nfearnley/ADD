@@ -8,7 +8,8 @@
         Choose a Course:<br />
         <asp:DropDownList ID="ddlCourses" runat="server" 
             DataSourceID="ODSGetCourses" DataTextField="CourseCode" 
-            DataValueField="CourseID" AutoPostBack="True">
+            DataValueField="CourseID" AutoPostBack="True" 
+            onselectedindexchanged="ddlCourses_SelectedIndexChanged">
         </asp:DropDownList>
         <br />
     
@@ -43,6 +44,106 @@
                     PropertyName="SelectedValue" Type="Int32" />
             </SelectParameters>
         </asp:ObjectDataSource>
+        Sessions<br />
+        <asp:ObjectDataSource ID="ODSSessionsByCourse" runat="server" 
+            DataObjectTypeName="ADD_Demo.Classes.Session" InsertMethod="AddSession" 
+            SelectMethod="GetSessionsByCourseID" TypeName="ADD_Demo.Classes.Session">
+            <SelectParameters>
+                <asp:ControlParameter ControlID="ddlCourses" Name="courseID" 
+                    PropertyName="SelectedValue" Type="Int32" />
+            </SelectParameters>
+        </asp:ObjectDataSource>
+        <asp:GridView ID="gvSessions" runat="server" AutoGenerateColumns="False" 
+            DataSourceID="ODSSessionsByCourse">
+            <Columns>
+                <asp:CommandField ShowSelectButton="True" />
+                <asp:BoundField DataField="Length" HeaderText="Length" 
+                    SortExpression="Length" />
+                <asp:BoundField DataField="Date" HeaderText="Date" SortExpression="Date" />
+                <asp:BoundField DataField="SessionID" HeaderText="SessionID" 
+                    SortExpression="SessionID" Visible="False" />
+                <asp:BoundField DataField="InstructorID" HeaderText="InstructorID" 
+                    SortExpression="InstructorID" Visible="False" />
+                <asp:BoundField DataField="FirstName + LastName" HeaderText="Instructor" 
+                    SortExpression="InstructorID" />
+                <asp:BoundField DataField="RoomID" HeaderText="RoomID" SortExpression="RoomID" 
+                    Visible="False" />
+                <asp:BoundField DataField="RoomName" HeaderText="Room" 
+                    SortExpression="RoomID" />
+            </Columns>
+        </asp:GridView>
+        <asp:FormView ID="FormView1" runat="server" AllowPaging="True" 
+            DataSourceID="ODSSessionsByCourse">
+            <EditItemTemplate>
+                SessionID:
+                <asp:TextBox ID="SessionIDTextBox" runat="server" 
+                    Text='<%# Bind("SessionID") %>' />
+                <br />
+                InstructorID:
+                <asp:TextBox ID="InstructorIDTextBox" runat="server" 
+                    Text='<%# Bind("InstructorID") %>' />
+                <br />
+                RoomID:
+                <asp:TextBox ID="RoomIDTextBox" runat="server" Text='<%# Bind("RoomID") %>' />
+                <br />
+                Length:
+                <asp:TextBox ID="LengthTextBox" runat="server" Text='<%# Bind("Length") %>' />
+                <br />
+                Date:
+                <asp:TextBox ID="DateTextBox" runat="server" Text='<%# Bind("Date") %>' />
+                <br />
+                <asp:LinkButton ID="UpdateButton" runat="server" CausesValidation="True" 
+                    CommandName="Update" Text="Update" />
+                &nbsp;<asp:LinkButton ID="UpdateCancelButton" runat="server" 
+                    CausesValidation="False" CommandName="Cancel" Text="Cancel" />
+            </EditItemTemplate>
+            <InsertItemTemplate>
+                Instructor:
+                <asp:TextBox ID="InstructorIDTextBox" runat="server" 
+                    Text='<%# Bind("InstructorID") %>' />
+                <br />
+                RoomID:
+                <asp:TextBox ID="RoomIDTextBox" runat="server" Text='<%# Bind("RoomID") %>' />
+                <br />
+                Length:
+                <asp:TextBox ID="LengthTextBox" runat="server" Text='<%# Bind("Length") %>' />
+                <br />
+                Date:
+                <asp:TextBox ID="DateTextBox" runat="server" Text='<%# Bind("Date") %>' />
+                <br />
+                <asp:ObjectDataSource ID="ODSGetInstructors" runat="server" 
+                    SelectMethod="GetInstructor" TypeName="ADD_Demo.Classes.Instructor">
+                    <SelectParameters>
+                        <asp:FormParameter FormField="InstructorID" Name="instructorID" Type="Int32" />
+                    </SelectParameters>
+                </asp:ObjectDataSource>
+                <br />
+                <asp:LinkButton ID="InsertButton" runat="server" CausesValidation="True" 
+                    CommandName="Insert" Text="Insert" />
+&nbsp;<asp:LinkButton ID="InsertCancelButton" runat="server" CausesValidation="False" 
+                    CommandName="Cancel" Text="Cancel" />
+            </InsertItemTemplate>
+            <ItemTemplate>
+                SessionID:
+                <asp:Label ID="SessionIDLabel" runat="server" Text='<%# Bind("SessionID") %>' />
+                <br />
+                InstructorID:
+                <asp:Label ID="InstructorIDLabel" runat="server" 
+                    Text='<%# Bind("InstructorID") %>' />
+                <br />
+                RoomID:
+                <asp:Label ID="RoomIDLabel" runat="server" Text='<%# Bind("RoomID") %>' />
+                <br />
+                Length:
+                <asp:Label ID="LengthLabel" runat="server" Text='<%# Bind("Length") %>' />
+                <br />
+                Date:
+                <asp:Label ID="DateLabel" runat="server" Text='<%# Bind("Date") %>' />
+                <br />
+                <asp:LinkButton ID="NewButton" runat="server" CausesValidation="False" 
+                    CommandName="New" Text="New" />
+            </ItemTemplate>
+        </asp:FormView>
         <br />
         Register Client by Company:<br />
         <asp:DropDownList ID="ddlCompanies" runat="server" AutoPostBack="True" 
