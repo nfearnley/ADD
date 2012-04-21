@@ -10,96 +10,78 @@
 namespace ADD_Demo {
     
     
-    public partial class Clients {
+    public partial class Instructors {
         
         /// <summary>
-        /// lblClientSearch control.
+        /// DropDownList1 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblClientSearch;
+        protected global::System.Web.UI.WebControls.DropDownList DropDownList1;
         
         /// <summary>
-        /// ddlClientSearch control.
+        /// InstructorList control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddlClientSearch;
+        protected global::System.Web.UI.WebControls.DropDownList InstructorList;
         
         /// <summary>
-        /// ODSGetClients control.
+        /// SessionsDataSource control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ObjectDataSource ODSGetClients;
+        protected global::System.Web.UI.WebControls.ObjectDataSource SessionsDataSource;
         
         /// <summary>
-        /// lblClientInfo control.
+        /// SessionsDataSource0 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblClientInfo;
+        protected global::System.Web.UI.WebControls.ObjectDataSource SessionsDataSource0;
         
         /// <summary>
-        /// dvClientDetails control.
+        /// DetailsView1 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DetailsView dvClientDetails;
+        protected global::System.Web.UI.WebControls.DetailsView DetailsView1;
         
         /// <summary>
-        /// ODSGetClient control.
+        /// InstructorDetailsDataSource control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ObjectDataSource ODSGetClient;
+        protected global::System.Web.UI.WebControls.ObjectDataSource InstructorDetailsDataSource;
         
         /// <summary>
-        /// dvClientCompany control.
+        /// InstructorQualificationsDataSource control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DetailsView dvClientCompany;
+        protected global::System.Web.UI.WebControls.SqlDataSource InstructorQualificationsDataSource;
         
         /// <summary>
-        /// ODSGetCompanies control.
+        /// GridView1 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ObjectDataSource ODSGetCompanies;
-        
-        /// <summary>
-        /// gvClientSessions control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.GridView gvClientSessions;
-        
-        /// <summary>
-        /// ODSGetSessions control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.ObjectDataSource ODSGetSessions;
+        protected global::System.Web.UI.WebControls.GridView GridView1;
     }
 }
