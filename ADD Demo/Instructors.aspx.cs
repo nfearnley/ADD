@@ -50,15 +50,31 @@ namespace ADD_Demo
         protected void AddQualificationButton_Click(object sender, EventArgs e)
         {
             
+            IDataSource ds = InstructorQualificationsDataSource;
+            DataSourceView dsv = ds.GetView(InstructorQualificationsList.DataMember);
+
+            System.Collections.IDictionary dict = new Dictionary<String, String>();
+
+            InstructorQualification iq = new InstructorQualification();
+            iq.CourseID = int.Parse(UnqualifiedQualificationList.SelectedValue);
+            iq.InstructorID = int.Parse(InstructorList.SelectedValue);
+
+            dict.Add("InstructorID", iq.InstructorID.ToString());
+            dict.Add("CourseID", iq.CourseID.ToString());
+
+            DataSourceViewOperationCallback callback = new DataSourceViewOperationCallback(delegate {return false;});
+            
+            dsv.Insert(dict, callback);
+
+            InstructorQualificationsList.DataBind();
+            UnqualifiedQualificationList.DataBind();
         }
 
-        protected void InstructorQualificationsDataSource_Inserting(object sender, ObjectDataSourceMethodEventArgs e)
+        protected void UnqualifiedQualificationList_DataBound(object sender, EventArgs e)
         {
-            InstructorQualification instructorQualification = new InstructorQualification();
-            instructorQualification.InstructorID = int.Parse(InstructorList.SelectedValue);
-            instructorQualification.CourseID = int.Parse(UnqualifiedQualificationList.SelectedValue);
-            e.InputParameters["instructorQualifications"] = instructorQualification;
+            ListItem item = new ListItem("Please Select: ", "-1");
+            UnqualifiedQualificationList.Items.Insert(0, item);
+            UnqualifiedQualificationList.SelectedIndex = 0;
         }
-
     }
 }
