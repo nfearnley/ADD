@@ -66,7 +66,10 @@ namespace ADD_Demo.Classes
         public string CompanyBillingName { get { return invoice.CompanyBillingName; } }
 
         public InvoiceItem()
-        { }
+        {
+            clientSession = new ClientSession();
+            invoice = new Invoice();
+        }
 
         public static IEnumerable<InvoiceItem> GetInvoiceItemsByInvoiceID(int invoiceID)
         {

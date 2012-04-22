@@ -33,7 +33,6 @@
                         <asp:MenuItem NavigateUrl="~/Default.aspx" Text="Home"/>
                         <asp:MenuItem Text="Clients" Value="Clients" NavigateUrl="~/Clients.aspx"/>
                         <asp:MenuItem Text="Companies" Value="Companies" NavigateUrl="~/Companies.aspx"></asp:MenuItem>
-                        <asp:MenuItem Text="Sessions" Value="Sessions" NavigateUrl="~/Sessions.aspx"></asp:MenuItem>
                         <asp:MenuItem Text="Courses" Value="Courses" NavigateUrl="~/Courses.aspx"></asp:MenuItem>
                         <asp:MenuItem Text="Instructors" Value="Instructors" 
                             NavigateUrl="~/Instructors.aspx"></asp:MenuItem>

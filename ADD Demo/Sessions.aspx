@@ -6,7 +6,7 @@
         Sessions</p>
     <p>
         <asp:DropDownList ID="ddlSessions" runat="server" AutoPostBack="True" 
-            DataSourceID="ODSGetSessions" DataTextField="Date" DataValueField="SessionID" 
+            DataSourceID="ODSGetSessions" DataTextField="SessionDate" DataValueField="SessionID" 
             Visible="False">
         </asp:DropDownList>
     </p>
@@ -33,7 +33,7 @@
         Instructor:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         <asp:TextBox ID="tbInstructor" runat="server" ReadOnly="True"></asp:TextBox>
         <asp:DropDownList ID="ddlInstructor" runat="server" 
-            DataSourceID="ODSInstructor" DataTextField="FullName" 
+            DataSourceID="ODSInstructor" DataTextField="InstructorFullName" 
             DataValueField="InstructorID" Visible="False">
         </asp:DropDownList>
     </p>

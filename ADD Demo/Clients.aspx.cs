@@ -14,74 +14,12 @@ namespace ADD_Demo
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-
-        }
-
-        protected void ddlClientSearch_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            int clientID = int.Parse(ddlClientSearch.SelectedValue);
-            Client client = (Client.GetClient(clientID)).ElementAt(0);
-            IEnumerable<ClientSession> clientSessions = (ClientSession.GetClientSessionsByClientID(clientID));
-
-            using (DatabaseConnection db = new DatabaseConnection("dbo.GetCompany"))
+            if (!IsPostBack)
             {
-                // Set Parameters
-                db.comm.Parameters.AddWithValue("CompanyID", client.CompanyID);
-
-                // Open Connection
-                db.conn.Open();
-
-                // Execute Command               
-                SqlDataAdapter MyAdapter = new SqlDataAdapter();
-                MyAdapter.SelectCommand = db.comm;
-                DataTable table = new DataTable("companyInfo");
-
-                // Read Response
-                MyAdapter.Fill(table);
-                //modTable(table);
-                dvClientCompany.DataSource = table.DefaultView;
-                
-                dvClientCompany.DataBind();
-                //dvClientCompany.Fields[0].Visible = false;
-                db.Dispose();
+                String courseID = Request.Params.Get("ClientID");
+                ddlClientSearch.DataBind();
+                ddlClientSearch.SelectedValue = courseID;
             }
-            DataTable sessionsTable = new DataTable("AllSessions");
-            foreach(ClientSession sesh in clientSessions)
-            {
-                using (DatabaseConnection db = new DatabaseConnection("dbo.GetSession"))
-                {
-                    // Set Parameters
-                    db.comm.Parameters.AddWithValue("SessionID", sesh.SessionID);
-
-                    // Open Connection
-                    db.conn.Open();
-
-                    // Execute Command               
-                    SqlDataAdapter MyAdapter = new SqlDataAdapter();
-                    MyAdapter.SelectCommand = db.comm;
-                    DataTable table = new DataTable("sessionInfo");
-
-                    // Read Response
-                    MyAdapter.Fill(table);
-                    sessionsTable.Merge(table);                    
-                    //gvClientSessions.Fields[0].Visible = false;
-                    db.Dispose();
-                }
-            }
-            gvClientSessions.DataSource = sessionsTable.DefaultView;
-            gvClientSessions.DataBind();
-            
-        }
-
-        private void modTable(DataTable oldTable)
-        {
-            DataColumnCollection dCC = oldTable.Columns;
-            dCC.Remove("BillingAddressCity");
-            dCC.Remove("BillingAddressCountry");
-            dCC.Remove("BillingAddressLine1");
-            dCC.Remove("BillingAddressLine2");
-            dCC.Remove("BillingAddressPostalCode");
-            dCC.Remove("BillingAddressRegion");
         }
 
         protected void dvClientDetails_ModeChanged(object sender, EventArgs e)
@@ -94,7 +32,7 @@ namespace ADD_Demo
 
         protected void btnEnroll_Click(object sender, EventArgs e)
         {
-            if (ddlCourses.SelectedValue != null && ddlSessionsByCourse.SelectedValue != null)
+            if (ddlCourses.SelectedValue != "-1" && ddlSessionsByCourse.SelectedValue != "-1")
             {
                 ClientSession clientSession = new ClientSession();
 
@@ -105,7 +43,7 @@ namespace ADD_Demo
 
                 ClientSession.AddClientSession(clientSession);
             }
-            else 
+            else
             {
                 lblStatusText.Text = "You must select a Course and a Session to Enroll";
             }
@@ -127,25 +65,37 @@ namespace ADD_Demo
             addListItem(ddlClientSearch);
         }
 
-        protected void addListItem(DropDownList sender)
+        protected void addListItem(DropDownList list)
         {
             ListItem item = new ListItem("Please Select: ", "-1");
-            sender.Items.Insert(0, item);
-            sender.SelectedIndex = 0;
+            list.Items.Insert(0, item);
+            list.SelectedIndex = 0;
         }
 
         protected void ddlCourses_SelectedIndexChanged(object sender, EventArgs e)
         {
-            ddlSessionsByCourse.Enabled = true;
-            cbPaid.Enabled = true;
-            Course course = new Course();
-            course.CoursePrice = Classes.Course.GetCourse(int.Parse(ddlCourses.SelectedValue)).ElementAt(0).CoursePrice;
-            tbPrice.Text = course.CoursePrice.ToString();
+            Boolean enabled = (ddlCourses.SelectedValue != "-1");
+            ddlSessionsByCourse.Enabled = enabled;
+            cbPaid.Enabled = enabled;
+
+            if (enabled)
+            {
+                IEnumerable<Course> courses = (IEnumerable<Course>)ODSGetCourse.Select();
+
+                foreach (Course course in courses)
+                {
+                    tbPrice.Text = course.CoursePrice.ToString();
+                }
+            }
+            else
+            {
+                tbPrice.Text = "";
+            }
         }
 
         protected void ddlSessionsByCourse_SelectedIndexChanged(object sender, EventArgs e)
         {
-            btnEnroll.Enabled = true;
+            btnEnroll.Enabled = ddlSessionsByCourse.SelectedValue != "-1";
         }
     }
 }
