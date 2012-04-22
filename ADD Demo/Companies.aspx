@@ -94,6 +94,8 @@
                 SortExpression="ClientAddressLine2" />
             <asp:BoundField DataField="ClientAddressPostalCode" HeaderText="Postal Code" 
                 SortExpression="ClientAddressPostalCode" />
+            <asp:HyperLinkField DataNavigateUrlFields="ClientID" 
+                DataNavigateUrlFormatString="Clients.aspx?ClientID={0}" Text="link" />
         </Columns>
     </asp:GridView>
     <br />

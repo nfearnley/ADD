@@ -102,6 +102,8 @@
                     Visible="False" />
                 <asp:BoundField DataField="RoomName" HeaderText="Room" 
                     SortExpression="RoomID" />
+                <asp:HyperLinkField DataNavigateUrlFields="CourseID" 
+                    DataNavigateUrlFormatString="Courses.aspx?CourseID={0}" Text="link" />
             </Columns>
         </asp:GridView>
         <br />
