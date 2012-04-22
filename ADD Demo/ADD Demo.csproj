@@ -57,9 +57,9 @@
     <Content Include="Account\Register.aspx" />
     <Content Include="Clients.aspx" />
     <Content Include="Companies.aspx" />
-    <None Include="Instructors.aspx" />
-    <Content Include="Courses.aspx" />
     <Content Include="Sessions.aspx" />
+    <Content Include="Instructors.aspx" />
+    <Content Include="Courses.aspx" />
     <Content Include="Styles\Site.css" />
     <Content Include="Default.aspx" />
     <Content Include="Global.asax" />
@@ -129,6 +129,13 @@
     <Compile Include="Companies.aspx.designer.cs">
       <DependentUpon>Companies.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Sessions.aspx.cs">
+      <DependentUpon>Sessions.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Sessions.aspx.designer.cs">
+      <DependentUpon>Sessions.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Default.aspx.cs">
       <DependentUpon>Default.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -139,21 +146,14 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <None Include="Instructors.aspx.cs">
+    <Compile Include="Instructors.aspx.cs">
       <DependentUpon>Instructors.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
-    </None>
-    <None Include="Instructors.aspx.designer.cs">
+    </Compile>
+    <Compile Include="Instructors.aspx.designer.cs">
       <DependentUpon>Instructors.aspx</DependentUpon>
-    </None>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Sessions.aspx.cs">
-      <DependentUpon>Sessions.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Sessions.aspx.designer.cs">
-      <DependentUpon>Sessions.aspx</DependentUpon>
-    </Compile>
     <Compile Include="Site.Master.cs">
       <DependentUpon>Site.Master</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
