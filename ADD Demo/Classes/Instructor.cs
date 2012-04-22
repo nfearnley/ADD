@@ -10,20 +10,17 @@ namespace ADD_Demo.Classes
     public class Instructor
     {
         public int InstructorID { get; set; }
-        public string AddressCity { get; set; }
-        public string AddressCountry { get; set; }
-        public string AddressLine1 { get; set; }
-        public string AddressLine2 { get; set; } // Can be null
-        public string AddressPostalCode { get; set; }
-        public string AddressRegion { get; set; }
-        public string AltPhone { get; set; } // Can be null
-        public string FirstName { get; set; }
-        public string HomePhone { get; set; }
-        public string LastName { get; set; }
-        public string FullName
-        {
-            get { return FirstName + " " + LastName; }
-        }
+        public string InstructorAddressCity { get; set; }
+        public string InstructorAddressCountry { get; set; }
+        public string InstructorAddressLine1 { get; set; }
+        public string InstructorAddressLine2 { get; set; } // Can be null
+        public string InstructorAddressPostalCode { get; set; }
+        public string InstructorAddressRegion { get; set; }
+        public string InstructorAltPhone { get; set; } // Can be null
+        public string InstructorFirstName { get; set; }
+        public string InstructorHomePhone { get; set; }
+        public string InstructorLastName { get; set; }
+        public string InstructorFullName { get { return InstructorFirstName + " " + InstructorLastName; } }
 
         public Instructor()
         { }
@@ -188,7 +185,7 @@ namespace ADD_Demo.Classes
         }
 
         // Read Response
-        public static IList<Instructor> ReadInstructors(SqlDataReader reader)
+        private static IList<Instructor> ReadInstructors(SqlDataReader reader)
         {
             IList<Instructor> instructors = new List<Instructor>();
             while (reader.Read())
@@ -202,48 +199,48 @@ namespace ADD_Demo.Classes
         {
             Instructor instructor = new Instructor();
             instructor.InstructorID = (int)reader["InstructorID"];
-            instructor.AddressCity = (string)reader["AddressCity"];
-            instructor.AddressCountry = (string)reader["AddressCountry"];
-            instructor.AddressLine1 = (string)reader["AddressLine1"];
-            instructor.AddressLine2 = reader["AddressLine2"] as string; // Allow null
-            instructor.AddressPostalCode = (string)reader["AddressPostalCode"];
-            instructor.AddressRegion = (string)reader["AddressRegion"];
-            instructor.AltPhone = reader["AltPhone"] as string; // Allow null
-            instructor.FirstName = (string)reader["FirstName"];
-            instructor.HomePhone = (string)reader["HomePhone"];
-            instructor.LastName = (string)reader["LastName"];
+            instructor.InstructorAddressCity = (string)reader["InstructorAddressCity"];
+            instructor.InstructorAddressCountry = (string)reader["InstructorAddressCountry"];
+            instructor.InstructorAddressLine1 = (string)reader["InstructorAddressLine1"];
+            instructor.InstructorAddressLine2 = reader["InstructorAddressLine2"] as string; // Allow null
+            instructor.InstructorAddressPostalCode = (string)reader["InstructorAddressPostalCode"];
+            instructor.InstructorAddressRegion = (string)reader["InstructorAddressRegion"];
+            instructor.InstructorAltPhone = reader["InstructorAltPhone"] as string; // Allow null
+            instructor.InstructorFirstName = (string)reader["InstructorFirstName"];
+            instructor.InstructorHomePhone = (string)reader["InstructorHomePhone"];
+            instructor.InstructorLastName = (string)reader["InstructorLastName"];
             return instructor;
         }
 
         // Set Parameters
         private static void AddParameters(Instructor instructor, SqlCommand comm)
         {
-            comm.Parameters.AddWithValue("AddressCity", instructor.AddressCity);
-            comm.Parameters.AddWithValue("AddressCountry", instructor.AddressCountry);
-            comm.Parameters.AddWithValue("AddressLine1", instructor.AddressLine1);
-            comm.Parameters.AddWithValue("AddressLine2", instructor.AddressLine2 == null ? (object)DBNull.Value : instructor.AddressLine2); // Check for null
-            comm.Parameters.AddWithValue("AddressPostalCode", instructor.AddressPostalCode);
-            comm.Parameters.AddWithValue("AddressRegion", instructor.AddressRegion);
-            comm.Parameters.AddWithValue("AltPhone", instructor.AltPhone == null ? (object)DBNull.Value : instructor.AltPhone); // Check for null
-            comm.Parameters.AddWithValue("FirstName", instructor.FirstName);
-            comm.Parameters.AddWithValue("HomePhone", instructor.HomePhone);
-            comm.Parameters.AddWithValue("LastName", instructor.LastName);
+            comm.Parameters.AddWithValue("AddressCity", instructor.InstructorAddressCity);
+            comm.Parameters.AddWithValue("AddressCountry", instructor.InstructorAddressCountry);
+            comm.Parameters.AddWithValue("AddressLine1", instructor.InstructorAddressLine1);
+            comm.Parameters.AddWithValue("AddressLine2", instructor.InstructorAddressLine2 == null ? (object)DBNull.Value : instructor.InstructorAddressLine2); // Check for null
+            comm.Parameters.AddWithValue("AddressPostalCode", instructor.InstructorAddressPostalCode);
+            comm.Parameters.AddWithValue("AddressRegion", instructor.InstructorAddressRegion);
+            comm.Parameters.AddWithValue("AltPhone", instructor.InstructorAltPhone == null ? (object)DBNull.Value : instructor.InstructorAltPhone); // Check for null
+            comm.Parameters.AddWithValue("FirstName", instructor.InstructorFirstName);
+            comm.Parameters.AddWithValue("HomePhone", instructor.InstructorHomePhone);
+            comm.Parameters.AddWithValue("LastName", instructor.InstructorLastName);
         }
 
         // Set Parameters
         private static void AddOldParameters(Instructor instructor, SqlCommand comm)
         {
             comm.Parameters.AddWithValue("OldInstructorID", instructor.InstructorID);
-            comm.Parameters.AddWithValue("OldAddressCity", instructor.AddressCity);
-            comm.Parameters.AddWithValue("OldAddressCountry", instructor.AddressCountry);
-            comm.Parameters.AddWithValue("OldAddressLine1", instructor.AddressLine1);
-            comm.Parameters.AddWithValue("OldAddressLine2", instructor.AddressLine2 == null ? (object)DBNull.Value : instructor.AddressLine2); // Check for null
-            comm.Parameters.AddWithValue("OldAddressPostalCode", instructor.AddressPostalCode);
-            comm.Parameters.AddWithValue("OldAddressRegion", instructor.AddressRegion);
-            comm.Parameters.AddWithValue("OldAltPhone", instructor.AltPhone == null ? (object)DBNull.Value : instructor.AltPhone); // Check for null
-            comm.Parameters.AddWithValue("OldFirstName", instructor.FirstName);
-            comm.Parameters.AddWithValue("OldHomePhone", instructor.HomePhone);
-            comm.Parameters.AddWithValue("OldLastName", instructor.LastName);
+            comm.Parameters.AddWithValue("OldAddressCity", instructor.InstructorAddressCity);
+            comm.Parameters.AddWithValue("OldAddressCountry", instructor.InstructorAddressCountry);
+            comm.Parameters.AddWithValue("OldAddressLine1", instructor.InstructorAddressLine1);
+            comm.Parameters.AddWithValue("OldAddressLine2", instructor.InstructorAddressLine2 == null ? (object)DBNull.Value : instructor.InstructorAddressLine2); // Check for null
+            comm.Parameters.AddWithValue("OldAddressPostalCode", instructor.InstructorAddressPostalCode);
+            comm.Parameters.AddWithValue("OldAddressRegion", instructor.InstructorAddressRegion);
+            comm.Parameters.AddWithValue("OldAltPhone", instructor.InstructorAltPhone == null ? (object)DBNull.Value : instructor.InstructorAltPhone); // Check for null
+            comm.Parameters.AddWithValue("OldFirstName", instructor.InstructorFirstName);
+            comm.Parameters.AddWithValue("OldHomePhone", instructor.InstructorHomePhone);
+            comm.Parameters.AddWithValue("OldLastName", instructor.InstructorLastName);
         }
     }
 }

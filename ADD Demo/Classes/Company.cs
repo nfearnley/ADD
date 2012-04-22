@@ -11,13 +11,13 @@ namespace ADD_Demo.Classes
     public class Company
     {
         public int CompanyID { get; set; }
-        public string BillingAddressCity { get; set; }
-        public string BillingAddressCountry { get; set; }
-        public string BillingAddressLine1 { get; set; }
-        public string BillingAddressLine2 { get; set; } // can be null
-        public string BillingAddressPostalCode { get; set; }
-        public string BillingAddressRegion { get; set; }
-        public string BillingName { get; set; }
+        public string CompanyBillingAddressCity { get; set; }
+        public string CompanyBillingAddressCountry { get; set; }
+        public string CompanyBillingAddressLine1 { get; set; }
+        public string CompanyBillingAddressLine2 { get; set; } // can be null
+        public string CompanyBillingAddressPostalCode { get; set; }
+        public string CompanyBillingAddressRegion { get; set; }
+        public string CompanyBillingName { get; set; }
 
         public Company()
         {}
@@ -39,7 +39,7 @@ namespace ADD_Demo.Classes
                 SqlDataReader reader = db.comm.ExecuteReader();
 
                 // Read Response
-                companies = Read(reader);
+                companies = ReadCompanies(reader);
             }
 
             return companies;
@@ -59,7 +59,7 @@ namespace ADD_Demo.Classes
                 SqlDataReader reader = db.comm.ExecuteReader();
 
                 // Read Response
-                companies = Read(reader);
+                companies = ReadCompanies(reader);
             }
 
             return companies;
@@ -126,46 +126,52 @@ namespace ADD_Demo.Classes
             return rowsAffected;
         }
 
-        private static IList<Company> Read(SqlDataReader reader)
+        private static IList<Company> ReadCompanies(SqlDataReader reader)
         {
             IList<Company> companies = new List<Company>();
             while (reader.Read())
             {
-                Company company = new Company();
-                company.CompanyID = (int)reader["CompanyID"];
-                company.BillingAddressCity = (string)reader["BillingAddressCity"];
-                company.BillingAddressCountry = (string)reader["BillingAddressCountry"];
-                company.BillingAddressPostalCode = (string)reader["BillingAddressPostalCode"];
-                company.BillingAddressLine1 = (string)reader["BillingAddressLine1"];
-                company.BillingAddressLine2 = reader["BillingAddressLine2"] as string; // Allow null
-                company.BillingAddressRegion = (string)reader["BillingAddressRegion"];
-                company.BillingName = (string)reader["BillingName"];
-                companies.Add(company);
+                
+                companies.Add(ReadCompany(reader));
             }
             return companies;
         }
 
+        public static Company ReadCompany(SqlDataReader reader)
+        {
+            Company company = new Company();
+            company.CompanyID = (int)reader["CompanyID"];
+            company.CompanyBillingAddressCity = (string)reader["CompanyBillingAddressCity"];
+            company.CompanyBillingAddressCountry = (string)reader["CompanyBillingAddressCountry"];
+            company.CompanyBillingAddressPostalCode = (string)reader["CompanyBillingAddressPostalCode"];
+            company.CompanyBillingAddressLine1 = (string)reader["CompanyBillingAddressLine1"];
+            company.CompanyBillingAddressLine2 = reader["CompanyBillingAddressLine2"] as string; // Allow null
+            company.CompanyBillingAddressRegion = (string)reader["CompanyBillingAddressRegion"];
+            company.CompanyBillingName = (string)reader["CompanyBillingName"];
+            return company;
+        }
+
         private static void AddParameters(Company company, SqlCommand comm)
         {
-            comm.Parameters.AddWithValue("BillingAddressCity", company.BillingAddressCity);
-            comm.Parameters.AddWithValue("BillingAddressCountry", company.BillingAddressCountry);
-            comm.Parameters.AddWithValue("BillingAddressLine1", company.BillingAddressLine1);
-            comm.Parameters.AddWithValue("BillingAddressLine2", company.BillingAddressLine2 == null ? (object)DBNull.Value : company.BillingAddressLine2); // Check for null
-            comm.Parameters.AddWithValue("BillingAddressPostalCode", company.BillingAddressPostalCode);
-            comm.Parameters.AddWithValue("BillingAddressRegion", company.BillingAddressRegion);
-            comm.Parameters.AddWithValue("BillingName", company.BillingName);
+            comm.Parameters.AddWithValue("BillingAddressCity", company.CompanyBillingAddressCity);
+            comm.Parameters.AddWithValue("BillingAddressCountry", company.CompanyBillingAddressCountry);
+            comm.Parameters.AddWithValue("BillingAddressLine1", company.CompanyBillingAddressLine1);
+            comm.Parameters.AddWithValue("BillingAddressLine2", company.CompanyBillingAddressLine2 == null ? (object)DBNull.Value : company.CompanyBillingAddressLine2); // Check for null
+            comm.Parameters.AddWithValue("BillingAddressPostalCode", company.CompanyBillingAddressPostalCode);
+            comm.Parameters.AddWithValue("BillingAddressRegion", company.CompanyBillingAddressRegion);
+            comm.Parameters.AddWithValue("BillingName", company.CompanyBillingName);
         }
 
         private static void AddOldParameters(Company company, SqlCommand comm)
         {
             comm.Parameters.AddWithValue("OldCompanyID", company.CompanyID);
-            comm.Parameters.AddWithValue("OldBillingAddressCity", company.BillingAddressCity);
-            comm.Parameters.AddWithValue("OldBillingAddressCountry", company.BillingAddressCountry);
-            comm.Parameters.AddWithValue("OldBillingAddressLine1", company.BillingAddressLine1);
-            comm.Parameters.AddWithValue("OldBillingAddressLine2", company.BillingAddressLine2 == null ? (object)DBNull.Value : company.BillingAddressLine2); // Check for null
-            comm.Parameters.AddWithValue("OldBillingAddressPostalCode", company.BillingAddressPostalCode);
-            comm.Parameters.AddWithValue("OldBillingAddressRegion", company.BillingAddressRegion);
-            comm.Parameters.AddWithValue("OldBillingName", company.BillingName);
+            comm.Parameters.AddWithValue("OldBillingAddressCity", company.CompanyBillingAddressCity);
+            comm.Parameters.AddWithValue("OldBillingAddressCountry", company.CompanyBillingAddressCountry);
+            comm.Parameters.AddWithValue("OldBillingAddressLine1", company.CompanyBillingAddressLine1);
+            comm.Parameters.AddWithValue("OldBillingAddressLine2", company.CompanyBillingAddressLine2 == null ? (object)DBNull.Value : company.CompanyBillingAddressLine2); // Check for null
+            comm.Parameters.AddWithValue("OldBillingAddressPostalCode", company.CompanyBillingAddressPostalCode);
+            comm.Parameters.AddWithValue("OldBillingAddressRegion", company.CompanyBillingAddressRegion);
+            comm.Parameters.AddWithValue("OldBillingName", company.CompanyBillingName);
         }
     }
 }

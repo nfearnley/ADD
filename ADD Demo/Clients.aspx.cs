@@ -100,8 +100,8 @@ namespace ADD_Demo
 
                 clientSession.ClientID = int.Parse(ddlClientSearch.SelectedValue);
                 clientSession.SessionID = int.Parse(ddlSessionsByCourse.SelectedValue);
-                clientSession.Price = decimal.Parse(tbPrice.Text);
-                clientSession.Paid = cbPaid.Checked;
+                clientSession.ClientSessionPrice = decimal.Parse(tbPrice.Text);
+                clientSession.ClientSessionPaid = cbPaid.Checked;
 
                 ClientSession.AddClientSession(clientSession);
             }
@@ -139,8 +139,8 @@ namespace ADD_Demo
             ddlSessionsByCourse.Enabled = true;
             cbPaid.Enabled = true;
             Course course = new Course();
-            course.Price = Classes.Course.GetCourse(int.Parse(ddlCourses.SelectedValue)).ElementAt(0).Price;
-            tbPrice.Text = course.Price.ToString();
+            course.CoursePrice = Classes.Course.GetCourse(int.Parse(ddlCourses.SelectedValue)).ElementAt(0).CoursePrice;
+            tbPrice.Text = course.CoursePrice.ToString();
         }
 
         protected void ddlSessionsByCourse_SelectedIndexChanged(object sender, EventArgs e)

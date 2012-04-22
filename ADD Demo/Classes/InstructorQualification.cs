@@ -10,25 +10,25 @@ namespace ADD_Demo.Classes
 {
     public class InstructorQualification
     {
-        public int CourseID { get { return course.CourseID; } set { course.CourseID = value; } }
-        public int InstructorID { get { return instructor.InstructorID; } set { instructor.InstructorID = value; } }
-        public string CourseCode { get { return course.CourseCode; } set { course.CourseCode = value; } }
-        public string CourseDescription { get { return course.Description; } set { course.Description = value; } }
-        public string CourseOutline { get { return course.Outline; } set { course.Outline = value; } }
-        public decimal CoursePrice { get { return course.Price; } set { course.Price = value; } }
-        public string InstructorAddressCity { get { return instructor.AddressCity; } set { instructor.AddressCity = value;  } }
-        public string InstructorAddressCountry { get { return instructor.AddressCountry; } set { instructor.AddressCountry = value; } }
-        public string InstructorAddressLine1 { get { return instructor.AddressLine1; } set { instructor.AddressLine1 = value; } }
-        public string InstructorAddressLine2 { get { return instructor.AddressLine2; } set { instructor.AddressLine2 = value; } }
-        public string InstructorAddressPostalCode { get { return instructor.AddressPostalCode; } set { instructor.AddressPostalCode = value; } }
-        public string InstructorAddressRegion { get { return instructor.AddressRegion; } set { instructor.AddressRegion = value; } }
-        public string InstructorAltPhone { get { return instructor.AltPhone; } set { instructor.AltPhone = value; } }
-        public string InstructorFirstName { get { return instructor.FirstName; } set { instructor.FirstName = value; } }
-        public string InstructorHomePhone { get { return instructor.HomePhone; } set { instructor.HomePhone = value; } }
-        public string InstructorLastName { get { return instructor.LastName; } set { instructor.LastName = value; } }
-        public string InstructorFullName { get { return instructor.FullName; } }
         public Course course { get; set; }
+        public int CourseID { get { return course.CourseID; } set { course.CourseID = value; } }
+        public string CourseCode { get { return course.CourseCode; } }
+        public string CourseDescription { get { return course.CourseDescription; } }
+        public string CourseOutline { get { return course.CourseOutline; } }
+        public decimal CoursePrice { get { return course.CoursePrice; } }
         public Instructor instructor { get; set; }
+        public int InstructorID { get { return instructor.InstructorID; } set { instructor.InstructorID = value; } }
+        public string InstructorAddressCity { get { return instructor.InstructorAddressCity; } }
+        public string InstructorAddressCountry { get { return instructor.InstructorAddressCountry; } }
+        public string InstructorAddressLine1 { get { return instructor.InstructorAddressLine1; } }
+        public string InstructorAddressLine2 { get { return instructor.InstructorAddressLine2; } }
+        public string InstructorAddressPostalCode { get { return instructor.InstructorAddressPostalCode; } }
+        public string InstructorAddressRegion { get { return instructor.InstructorAddressRegion; } }
+        public string InstructorAltPhone { get { return instructor.InstructorAltPhone; } }
+        public string InstructorFirstName { get { return instructor.InstructorFirstName; } }
+        public string InstructorHomePhone { get { return instructor.InstructorHomePhone; } }
+        public string InstructorLastName { get { return instructor.InstructorLastName; } }
+        public string InstructorFullName { get { return instructor.InstructorFullName; } }
 
         public InstructorQualification()
         {
@@ -54,7 +54,7 @@ namespace ADD_Demo.Classes
                 SqlDataReader reader = db.comm.ExecuteReader();
 
                 // Read Response
-                instructorQualifications = Read(reader);
+                instructorQualifications = ReadInstructorQualifications(reader);
             }
 
             return instructorQualifications;
@@ -78,7 +78,7 @@ namespace ADD_Demo.Classes
                 SqlDataReader reader = db.comm.ExecuteReader();
 
                 // Read Response
-                instructorQualifications = Read(reader);
+                instructorQualifications = ReadInstructorQualifications(reader);
             }
 
             return instructorQualifications;
@@ -95,7 +95,7 @@ namespace ADD_Demo.Classes
                 // Open Connection
                 db.conn.Open();
                 SqlDataReader reader = db.comm.ExecuteReader();
-                instructorQualifications = Read(reader);
+                instructorQualifications = ReadInstructorQualifications(reader);
             }
 
             return instructorQualifications;
@@ -144,17 +144,22 @@ namespace ADD_Demo.Classes
         }
 
         // Read Response
-        private static IList<InstructorQualification> Read(SqlDataReader reader)
+        private static IList<InstructorQualification> ReadInstructorQualifications(SqlDataReader reader)
         {
             IList<InstructorQualification> instructorQualifications = new List<InstructorQualification>();
             while (reader.Read())
             {
-                InstructorQualification instructorQualification = new InstructorQualification();
-                instructorQualification.course = Course.ReadCourse(reader);
-                instructorQualification.instructor = Instructor.ReadInstructor(reader);
-                instructorQualifications.Add(instructorQualification);
+                instructorQualifications.Add(ReadInstructorQualification(reader));
             }
             return instructorQualifications;
+        }
+
+        public static InstructorQualification ReadInstructorQualification(SqlDataReader reader)
+        {
+            InstructorQualification instructorQualification = new InstructorQualification();
+            instructorQualification.course = Course.ReadCourse(reader);
+            instructorQualification.instructor = Instructor.ReadInstructor(reader);
+            return instructorQualification;
         }
 
         // Set Parameters

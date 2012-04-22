@@ -17,11 +17,11 @@ namespace ADD_Demo
             ddlSessions.SelectedValue = Request.Params.Get("SessionID");
             session = Classes.Session.GetSession(int.Parse(ddlSessions.SelectedValue)).ElementAt(0);
             tbCourseCode.Text = Course.GetCourse(session.CourseID).ElementAt(0).CourseCode;
-            tbInstructor.Text = Instructor.GetInstructor(session.InstructorID).ElementAt(0).FullName;
+            tbInstructor.Text = Instructor.GetInstructor(session.InstructorID).ElementAt(0).InstructorFullName;
             tbRoomName.Text = Room.GetRoom(session.RoomID).ElementAt(0).RoomName;
-            tbLength.Text = session.Length.ToString();
-            tbDate.Text = session.DateTime.ToShortDateString();
-            calDate.SelectedDate = session.DateTime;
+            tbLength.Text = session.SessionLength.ToString();
+            tbDate.Text = session.SessionDateTime.ToShortDateString();
+            calDate.SelectedDate = session.SessionDateTime;
 
         }
 
@@ -47,9 +47,9 @@ namespace ADD_Demo
                 btnEdit.Text = "Edit";
                 Classes.Session newSession = new Classes.Session();
                 newSession.CourseID = int.Parse(ddlCourseCode.SelectedValue);
-                newSession.DateTime = calDate.SelectedDate;
+                newSession.SessionDateTime = calDate.SelectedDate;
                 newSession.InstructorID = int.Parse(ddlCourseCode.SelectedValue);
-                newSession.Length = int.Parse(tbLength.Text);
+                newSession.SessionLength = int.Parse(tbLength.Text);
                 newSession.RoomID = int.Parse(ddlRoomName.SelectedValue);
                 newSession.SessionID = session.SessionID;
                 Classes.Session.UpdateSession(newSession, session);
