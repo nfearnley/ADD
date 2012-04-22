@@ -76,7 +76,7 @@ namespace ADD_Demo.Classes
             IEnumerable<Instructor> instructors = new List<Instructor>();
 
             // Setup Connection
-            using (DatabaseConnection db = new DatabaseConnection("dbo.GetInstructorsByCourseID"))
+            using (DatabaseConnection db = new DatabaseConnection("dbo.GetInstructorQualificationsByCourseID"))
             {
                 // Set Parameters
                 db.comm.Parameters.AddWithValue("CourseID", courseID);
