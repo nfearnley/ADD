@@ -195,6 +195,8 @@
                 SortExpression="CourseCode" />
             <asp:BoundField DataField="CourseDescription" HeaderText="Description" 
                 SortExpression="CourseDescription" />
+            <asp:HyperLinkField DataNavigateUrlFields="CourseID" 
+                DataNavigateUrlFormatString="Courses.aspx?CourseID={0}" Text="link" />
         </Columns>
         <EmptyDataTemplate>
             This instructor is not qualified to teach.
@@ -256,6 +258,8 @@
                     SortExpression="Enrolled" />
                 <asp:BoundField DataField="AvailableSeats" HeaderText="AvailableSeats" 
                     SortExpression="AvailableSeats" />
+                <asp:HyperLinkField DataNavigateUrlFields="SessionID" 
+                    DataNavigateUrlFormatString="Sessions.aspx?SessionID={0}" Text="link" />
             </Columns>
         </asp:GridView>
         <asp:ObjectDataSource ID="SessionsDataSource" runat="server" 
