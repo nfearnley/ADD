@@ -98,6 +98,8 @@
                 <asp:BoundField DataField="CompanyID" 
                     HeaderText="CompanyID" />
                 <asp:BoundField DataField="CompanyBillingName" HeaderText="Company Name" />
+                <asp:HyperLinkField DataNavigateUrlFields="CompanyID" 
+                    DataNavigateUrlFormatString="Companies.aspx?CompanyID={0}" Text="link" />
             </Fields>
             <FooterStyle BackColor="#CCCCCC" ForeColor="Black" />
             <HeaderStyle BackColor="#000084" Font-Bold="True" ForeColor="White" />
@@ -134,6 +136,8 @@
                     SortExpression="ClientSessionPaid" />
                 <asp:BoundField DataField="StatusName" HeaderText="Status" 
                     SortExpression="StatusName" ReadOnly="True" />
+                <asp:HyperLinkField DataNavigateUrlFields="SessionID" 
+                    DataNavigateUrlFormatString="Sessions.aspx?SessionID={0}" Text="link" />
             </Columns>
         </asp:GridView>
         <asp:ObjectDataSource ID="ODSGetSessions" runat="server" 
