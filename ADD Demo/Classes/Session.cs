@@ -14,11 +14,37 @@ namespace ADD_Demo.Classes
         public int CourseID { get; set; }
         public int InstructorID { get; set; }
         public int RoomID { get; set; }
+        public string CourseCode { get { return course.CourseCode; } set { course.CourseCode = value; } }
+        public string CourseDescription { get { return course.Description; } set { course.Description = value; } }
+        public string CourseOutline { get { return course.Outline; } set { course.Outline = value; } }
+        public decimal CoursePrice { get { return course.Price; } set { course.Price = value; } }
+        public string InstructorAddressCity { get { return instructor.AddressCity; } set { instructor.AddressCity = value;  } }
+        public string InstructorAddressCountry { get { return instructor.AddressCountry; } set { instructor.AddressCountry = value; } }
+        public string InstructorAddressLine1 { get { return instructor.AddressLine1; } set { instructor.AddressLine1 = value; } }
+        public string InstructorAddressLine2 { get { return instructor.AddressLine2; } set { instructor.AddressLine2 = value; } }
+        public string InstructorAddressPostalCode { get { return instructor.AddressPostalCode; } set { instructor.AddressPostalCode = value; } }
+        public string InstructorAddressRegion { get { return instructor.AddressRegion; } set { instructor.AddressRegion = value; } }
+        public string InstructorAltPhone { get { return instructor.AltPhone; } set { instructor.AltPhone = value; } }
+        public string InstructorFirstName { get { return instructor.FirstName; } set { instructor.FirstName = value; } }
+        public string InstructorHomePhone { get { return instructor.HomePhone; } set { instructor.HomePhone = value; } }
+        public string InstructorLastName { get { return instructor.LastName; } set { instructor.LastName = value; } }
+        public string InstructorFullName { get { return instructor.FullName; } }
+        public string RoomName { get; set; }
+        public int Seats { get; set; }
         public DateTime DateTime { get; set; }
         public int Length { get; set; }
+        public int Enrolled { get; set; }
+        public int AvailableSeats { get; set; }
+        public Course course { get; set; }
+        public Instructor instructor { get; set; }
+        public Room room { get; set; }
 
         public Session()
-        { }
+        {
+            course = new Course();
+            instructor = new Instructor();
+            room = new Room();
+        }
 
         public static IEnumerable<Session> GetSession(int sessionID)
         {
@@ -248,6 +274,11 @@ namespace ADD_Demo.Classes
                 session.RoomID = (int)reader["RoomID"];
                 session.DateTime = (DateTime)reader["DateTime"];
                 session.Length = (int)reader["Length"];
+                session.Enrolled = (int)reader["Enrolled"];
+                session.AvailableSeats = (int)reader["AvailableSeats"];
+                session.course = Course.ReadCourse(reader);
+                session.instructor = Instructor.ReadInstructor(reader);
+                session.room = Room.ReadRoom(reader);
                 sessions.Add(session);
             }
             return sessions;

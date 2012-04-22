@@ -10,35 +10,30 @@ namespace ADD_Demo.Classes
 {
     public class InstructorQualification
     {
-        public int CourseID
-        {
-            get
-            {
-                return Course.CourseID;
-            }
-            set
-            {
-                Course.CourseID = value;
-            }
-        }
-        public int InstructorID
-        {
-            get
-            {
-                return Instructor.InstructorID;
-            }
-            set
-            {
-                Instructor.InstructorID = value;
-            }
-        }
-        public Course Course { get; set; }
-        public Instructor Instructor { get; set; }
+        public int CourseID { get { return course.CourseID; } set { course.CourseID = value; } }
+        public int InstructorID { get { return instructor.InstructorID; } set { instructor.InstructorID = value; } }
+        public string CourseCode { get { return course.CourseCode; } set { course.CourseCode = value; } }
+        public string CourseDescription { get { return course.Description; } set { course.Description = value; } }
+        public string CourseOutline { get { return course.Outline; } set { course.Outline = value; } }
+        public decimal CoursePrice { get { return course.Price; } set { course.Price = value; } }
+        public string InstructorAddressCity { get { return instructor.AddressCity; } set { instructor.AddressCity = value;  } }
+        public string InstructorAddressCountry { get { return instructor.AddressCountry; } set { instructor.AddressCountry = value; } }
+        public string InstructorAddressLine1 { get { return instructor.AddressLine1; } set { instructor.AddressLine1 = value; } }
+        public string InstructorAddressLine2 { get { return instructor.AddressLine2; } set { instructor.AddressLine2 = value; } }
+        public string InstructorAddressPostalCode { get { return instructor.AddressPostalCode; } set { instructor.AddressPostalCode = value; } }
+        public string InstructorAddressRegion { get { return instructor.AddressRegion; } set { instructor.AddressRegion = value; } }
+        public string InstructorAltPhone { get { return instructor.AltPhone; } set { instructor.AltPhone = value; } }
+        public string InstructorFirstName { get { return instructor.FirstName; } set { instructor.FirstName = value; } }
+        public string InstructorHomePhone { get { return instructor.HomePhone; } set { instructor.HomePhone = value; } }
+        public string InstructorLastName { get { return instructor.LastName; } set { instructor.LastName = value; } }
+        public string InstructorFullName { get { return instructor.FullName; } }
+        public Course course { get; set; }
+        public Instructor instructor { get; set; }
 
         public InstructorQualification()
         {
-            Course = new Course();
-            Instructor = new Instructor();
+            course = new Course();
+            instructor = new Instructor();
         }
 
         // Get InstructorQualifications by CourseID
@@ -155,8 +150,8 @@ namespace ADD_Demo.Classes
             while (reader.Read())
             {
                 InstructorQualification instructorQualification = new InstructorQualification();
-                instructorQualification.Course = Course.ReadCourse(reader);
-                instructorQualification.Instructor = Instructor.ReadInstructor(reader);
+                instructorQualification.course = Course.ReadCourse(reader);
+                instructorQualification.instructor = Instructor.ReadInstructor(reader);
                 instructorQualifications.Add(instructorQualification);
             }
             return instructorQualifications;
@@ -165,15 +160,15 @@ namespace ADD_Demo.Classes
         // Set Parameters
         private static void AddParameters(InstructorQualification instructorQualification, SqlCommand comm)
         {
-            comm.Parameters.AddWithValue("CourseID", instructorQualification.Course.CourseID);
-            comm.Parameters.AddWithValue("InstructorID", instructorQualification.Instructor.InstructorID);
+            comm.Parameters.AddWithValue("CourseID", instructorQualification.CourseID);
+            comm.Parameters.AddWithValue("InstructorID", instructorQualification.InstructorID);
         }
 
         // Set Parameters
         private static void AddOldParameters(InstructorQualification instructorQualification, SqlCommand comm)
         {
-            comm.Parameters.AddWithValue("OldCourseID", instructorQualification.Course.CourseID);
-            comm.Parameters.AddWithValue("OldInstructorID", instructorQualification.Instructor.InstructorID);
+            comm.Parameters.AddWithValue("OldCourseID", instructorQualification.CourseID);
+            comm.Parameters.AddWithValue("OldInstructorID", instructorQualification.InstructorID);
         }
     }
 }

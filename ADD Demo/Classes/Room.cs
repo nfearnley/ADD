@@ -34,7 +34,7 @@ namespace ADD_Demo.Classes
                 SqlDataReader reader = db.comm.ExecuteReader();
 
                 // Read Response
-                rooms = Read(reader);
+                rooms = ReadRooms(reader);
             }
 
             return rooms;
@@ -54,7 +54,7 @@ namespace ADD_Demo.Classes
                 SqlDataReader reader = db.comm.ExecuteReader();
 
                 // Read Response
-                rooms = Read(reader);
+                rooms = ReadRooms(reader);
             }
 
             return rooms;
@@ -121,18 +121,23 @@ namespace ADD_Demo.Classes
             return rowsAffected;
         }
 
-        private static IList<Room> Read(SqlDataReader reader)
+        public static IList<Room> ReadRooms(SqlDataReader reader)
         {
             IList<Room> rooms = new List<Room>();
             while (reader.Read())
             {
-                Room room = new Room();
-                room.RoomID = (int)reader["RoomID"];
-                room.RoomName = (string)reader["RoomName"];
-                room.Seats = (int)reader["Seats"];
-                rooms.Add(room);
+                rooms.Add(ReadRoom(reader));
             }
             return rooms;
+        }
+
+        public static Room ReadRoom(SqlDataReader reader)
+        {
+            Room room = new Room();
+            room.RoomID = (int)reader["RoomID"];
+            room.RoomName = (string)reader["RoomName"];
+            room.Seats = (int)reader["Seats"];
+            return room;
         }
 
         private static void AddParameters(Room room, SqlCommand comm)

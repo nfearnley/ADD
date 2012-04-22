@@ -13,8 +13,8 @@ namespace ADD_Demo
         bool EditMode = false;
         protected void Page_Load(object sender, EventArgs e)
         {
-            EditMode = false;
-            ddlSessions.SelectedValue = Request.Params.Get("SessionID");
+                // InstructorList.DataBind();
+                // InstructorList.SelectedValue = instructorID;
             session = Classes.Session.GetSession(int.Parse(ddlSessions.SelectedValue)).ElementAt(0);
             tbCourseCode.Text = Course.GetCourse(session.CourseID).ElementAt(0).CourseCode;
             tbInstructor.Text = Instructor.GetInstructor(session.InstructorID).ElementAt(0).FullName;
@@ -40,13 +40,13 @@ namespace ADD_Demo
             ddlSessions.Visible = !ddlSessions.Visible;
             if (EditMode)
             {                
-                btnEdit.Text = "Update";                
+                //InstructorList.DataBind();
             }
             else 
             {
                 btnEdit.Text = "Edit";
-                Classes.Session newSession = new Classes.Session();
-                newSession.CourseID = int.Parse(ddlCourseCode.SelectedValue);
+            //InstructorList.Items.Insert(0, item);
+            //InstructorList.SelectedIndex = 0;
                 newSession.Date = calDate.SelectedDate;
                 newSession.InstructorID = int.Parse(ddlCourseCode.SelectedValue);
                 newSession.Length = int.Parse(tbLength.Text);
