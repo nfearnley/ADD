@@ -9,7 +9,8 @@
         <asp:DropDownList ID="ddlCourses" runat="server" 
             DataSourceID="ODSGetCourses" DataTextField="CourseCode" 
             DataValueField="CourseID" AutoPostBack="True" 
-            onselectedindexchanged="ddlCourses_SelectedIndexChanged">
+            onselectedindexchanged="ddlCourses_SelectedIndexChanged" 
+            ondatabound="ddlCourses_DataBound">
         </asp:DropDownList>
         <br />
     
@@ -45,6 +46,36 @@
             </SelectParameters>
         </asp:ObjectDataSource>
         Sessions<br />
+        Create new session:<br />
+        <asp:Calendar ID="calNewSessionDate" runat="server"></asp:Calendar>
+        Length of Session in Hours:&nbsp;&nbsp;&nbsp;
+        <asp:TextBox ID="tbNewSessionLength" runat="server"></asp:TextBox>
+        <br />
+        Instructor:&nbsp;&nbsp;
+        <asp:DropDownList ID="ddlNewSessionInstructors" runat="server" 
+            DataSourceID="ODSSessionInstructors" DataTextField="FullName" 
+            DataValueField="InstructorID" ondatabound="ddlNewSessionInstructors_DataBound">
+        </asp:DropDownList>
+        <asp:ObjectDataSource ID="ODSSessionInstructors" runat="server" 
+            SelectMethod="GetInstructorsByCourseID" TypeName="ADD_Demo.Classes.Instructor">
+            <SelectParameters>
+                <asp:ControlParameter ControlID="ddlCourses" Name="courseID" 
+                    PropertyName="SelectedValue" Type="Int32" />
+            </SelectParameters>
+        </asp:ObjectDataSource>
+        <asp:ObjectDataSource ID="ODSSessionRooms" runat="server" 
+            SelectMethod="GetRooms" TypeName="ADD_Demo.Classes.Room">
+        </asp:ObjectDataSource>
+        <br />
+        Room:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <asp:DropDownList ID="ddlNewSessionRooms" runat="server" 
+            DataSourceID="ODSSessionRooms" DataTextField="RoomName" DataValueField="RoomID" 
+            ondatabound="ddlNewSessionRooms_DataBound">
+        </asp:DropDownList>
+        <br />
+        <br />
+        <asp:Button ID="btnNewSession" runat="server" onclick="btnNewSession_Click" 
+            Text="Create New Session" />
         <asp:ObjectDataSource ID="ODSSessionsByCourse" runat="server" 
             DataObjectTypeName="ADD_Demo.Classes.Session" InsertMethod="AddSession" 
             SelectMethod="GetSessionsByCourseID" TypeName="ADD_Demo.Classes.Session">
@@ -53,6 +84,7 @@
                     PropertyName="SelectedValue" Type="Int32" />
             </SelectParameters>
         </asp:ObjectDataSource>
+        <br />
         <asp:GridView ID="gvSessions" runat="server" AutoGenerateColumns="False" 
             DataSourceID="ODSSessionsByCourse">
             <Columns>
@@ -72,80 +104,8 @@
                     SortExpression="RoomID" />
             </Columns>
         </asp:GridView>
-        <asp:FormView ID="FormView1" runat="server" AllowPaging="True" 
-            DataSourceID="ODSSessionsByCourse">
-            <EditItemTemplate>
-                SessionID:
-                <asp:TextBox ID="SessionIDTextBox" runat="server" 
-                    Text='<%# Bind("SessionID") %>' />
-                <br />
-                InstructorID:
-                <asp:TextBox ID="InstructorIDTextBox" runat="server" 
-                    Text='<%# Bind("InstructorID") %>' />
-                <br />
-                RoomID:
-                <asp:TextBox ID="RoomIDTextBox" runat="server" Text='<%# Bind("RoomID") %>' />
-                <br />
-                Length:
-                <asp:TextBox ID="LengthTextBox" runat="server" Text='<%# Bind("Length") %>' />
-                <br />
-                Date:
-                <asp:TextBox ID="DateTextBox" runat="server" Text='<%# Bind("Date") %>' />
-                <br />
-                <asp:LinkButton ID="UpdateButton" runat="server" CausesValidation="True" 
-                    CommandName="Update" Text="Update" />
-                &nbsp;<asp:LinkButton ID="UpdateCancelButton" runat="server" 
-                    CausesValidation="False" CommandName="Cancel" Text="Cancel" />
-            </EditItemTemplate>
-            <InsertItemTemplate>
-                Instructor:
-                <asp:TextBox ID="InstructorIDTextBox" runat="server" 
-                    Text='<%# Bind("InstructorID") %>' />
-                <br />
-                RoomID:
-                <asp:TextBox ID="RoomIDTextBox" runat="server" Text='<%# Bind("RoomID") %>' />
-                <br />
-                Length:
-                <asp:TextBox ID="LengthTextBox" runat="server" Text='<%# Bind("Length") %>' />
-                <br />
-                Date:
-                <asp:TextBox ID="DateTextBox" runat="server" Text='<%# Bind("Date") %>' />
-                <br />
-                <asp:ObjectDataSource ID="ODSGetInstructors" runat="server" 
-                    SelectMethod="GetInstructor" TypeName="ADD_Demo.Classes.Instructor">
-                    <SelectParameters>
-                        <asp:FormParameter FormField="InstructorID" Name="instructorID" Type="Int32" />
-                    </SelectParameters>
-                </asp:ObjectDataSource>
-                <br />
-                <asp:LinkButton ID="InsertButton" runat="server" CausesValidation="True" 
-                    CommandName="Insert" Text="Insert" />
-&nbsp;<asp:LinkButton ID="InsertCancelButton" runat="server" CausesValidation="False" 
-                    CommandName="Cancel" Text="Cancel" />
-            </InsertItemTemplate>
-            <ItemTemplate>
-                SessionID:
-                <asp:Label ID="SessionIDLabel" runat="server" Text='<%# Bind("SessionID") %>' />
-                <br />
-                InstructorID:
-                <asp:Label ID="InstructorIDLabel" runat="server" 
-                    Text='<%# Bind("InstructorID") %>' />
-                <br />
-                RoomID:
-                <asp:Label ID="RoomIDLabel" runat="server" Text='<%# Bind("RoomID") %>' />
-                <br />
-                Length:
-                <asp:Label ID="LengthLabel" runat="server" Text='<%# Bind("Length") %>' />
-                <br />
-                Date:
-                <asp:Label ID="DateLabel" runat="server" Text='<%# Bind("Date") %>' />
-                <br />
-                <asp:LinkButton ID="NewButton" runat="server" CausesValidation="False" 
-                    CommandName="New" Text="New" />
-            </ItemTemplate>
-        </asp:FormView>
         <br />
-        Register Client by Company:<br />
+        Register Client by Company:::::::<br />
         <asp:DropDownList ID="ddlCompanies" runat="server" AutoPostBack="True" 
             DataSourceID="ODSGetCompanies" DataTextField="BillingName" 
             DataValueField="CompanyID">
