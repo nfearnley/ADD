@@ -88,5 +88,40 @@ namespace ADD_Demo
             //dcc["FirstName"] + dcc["LastName"].ToString()
         }
 
+        protected void addListItem(DropDownList sender)
+        {
+            ListItem item = new ListItem("Please Select: ", "-1");
+            sender.Items.Insert(0, item);
+            sender.SelectedIndex = 0;
+        }
+
+        protected void ddlCourses_DataBound(object sender, EventArgs e)
+        {
+            addListItem(ddlCourses);
+        }
+
+        protected void ddlNewSessionInstructors_DataBound(object sender, EventArgs e)
+        {
+            addListItem(ddlNewSessionInstructors);
+        }
+
+        protected void ddlNewSessionRooms_DataBound(object sender, EventArgs e)
+        {
+            addListItem(ddlNewSessionRooms);
+        }
+
+        protected void btnNewSession_Click(object sender, EventArgs e)
+        {
+            if(calNewSessionDate.SelectedDate != null && int.Parse(ddlNewSessionRooms.SelectedValue) > 0 && int.Parse(ddlNewSessionInstructors.SelectedValue) > 0 && int.Parse(tbNewSessionLength.Text) > 0)
+            {
+                Classes.Session newSession = new Session();
+                newSession.CourseID = int.Parse(ddlCourses.SelectedValue);
+                newSession.DateTime = calNewSessionDate.SelectedDate;
+                newSession.InstructorID = int.Parse(ddlNewSessionInstructors.SelectedValue);
+                newSession.Length = int.Parse(tbNewSessionLength.Text);
+                newSession.RoomID = int.Parse(ddlNewSessionRooms.SelectedValue);
+                Classes.Session.AddSession(newSession);
+            }
+        }
     }
 }

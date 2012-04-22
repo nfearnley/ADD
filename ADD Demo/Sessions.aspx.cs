@@ -20,8 +20,8 @@ namespace ADD_Demo
             tbInstructor.Text = Instructor.GetInstructor(session.InstructorID).ElementAt(0).FullName;
             tbRoomName.Text = Room.GetRoom(session.RoomID).ElementAt(0).RoomName;
             tbLength.Text = session.Length.ToString();
-            tbDate.Text = session.Date.ToShortDateString();
-            calDate.SelectedDate = session.Date;
+            tbDate.Text = session.DateTime.ToShortDateString();
+            calDate.SelectedDate = session.DateTime;
 
         }
 
@@ -47,7 +47,7 @@ namespace ADD_Demo
                 btnEdit.Text = "Edit";
                 Classes.Session newSession = new Classes.Session();
                 newSession.CourseID = int.Parse(ddlCourseCode.SelectedValue);
-                newSession.Date = calDate.SelectedDate;
+                newSession.DateTime = calDate.SelectedDate;
                 newSession.InstructorID = int.Parse(ddlCourseCode.SelectedValue);
                 newSession.Length = int.Parse(tbLength.Text);
                 newSession.RoomID = int.Parse(ddlRoomName.SelectedValue);
