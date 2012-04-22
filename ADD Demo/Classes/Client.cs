@@ -11,22 +11,27 @@ namespace ADD_Demo.Classes
     public class Client
     {
         public int ClientID { get; set; }
-        public int CompanyID { get; set; }
-        public string AddressRegion { get; set; }
-        public string AddressPostalCode { get; set; }
-        public string AddressLine1 { get; set; }
-        public string AddressLine2 { get; set; } // Can be null
-        public string AddressCountry { get; set; }
-        public string AddressCity { get; set; }
-        public string FaxPhone { get; set; }  // Can be null
-        public string FirstName { get; set; }
-        public string HomePhone { get; set; }
-        public string LastName { get; set; }
-        public string WorkPhone { get; set; }
-        public string FullName
-        {
-            get{ return FirstName + " " + LastName;  }
-        }
+        public string ClientAddressRegion { get; set; }
+        public string ClientAddressPostalCode { get; set; }
+        public string ClientAddressLine1 { get; set; }
+        public string ClientAddressLine2 { get; set; } // Can be null
+        public string ClientAddressCountry { get; set; }
+        public string ClientAddressCity { get; set; }
+        public string ClientFaxPhone { get; set; }  // Can be null
+        public string ClientFirstName { get; set; }
+        public string ClientHomePhone { get; set; }
+        public string ClientLastName { get; set; }
+        public string ClientWorkPhone { get; set; }
+        public string ClientFullName { get { return ClientFirstName + " " + ClientLastName; } }
+        public Company company { get; set; }
+        public int CompanyID { get { return company.CompanyID; } set { company.CompanyID = value; } }
+        public string CompanyBillingAddressCity { get { return company.CompanyBillingAddressCity; } }
+        public string CompanyBillingAddressCountry { get { return company.CompanyBillingAddressCountry; } }
+        public string CompanyBillingAddressLine1 { get { return company.CompanyBillingAddressLine1; } }
+        public string CompanyBillingAddressLine2 { get { return company.CompanyBillingAddressLine2; } } // can be null
+        public string CompanyBillingAddressPostalCode { get { return company.CompanyBillingAddressPostalCode; } }
+        public string CompanyBillingAddressRegion { get { return company.CompanyBillingAddressRegion; } }
+        public string CompanyBillingName { get { return company.CompanyBillingName; } }
 
         public Client()
         { }
@@ -48,7 +53,7 @@ namespace ADD_Demo.Classes
                 SqlDataReader reader = db.comm.ExecuteReader();
 
                 // Read Response
-                clients = Read(reader);
+                clients = ReadClients(reader);
             }
             
             return clients;
@@ -71,7 +76,7 @@ namespace ADD_Demo.Classes
                 SqlDataReader reader = db.comm.ExecuteReader();
 
                 // Read Response
-                clients = Read(reader);
+                clients = ReadClients(reader);
             }
 
             return clients;
@@ -91,7 +96,7 @@ namespace ADD_Demo.Classes
                 SqlDataReader reader = db.comm.ExecuteReader();
 
                 // Read Response
-                clients = Read(reader);
+                clients = ReadClients(reader);
             }
 
             return clients;
@@ -158,61 +163,66 @@ namespace ADD_Demo.Classes
             return rowsAffected;
         }
 
-        private static IList<Client> Read(SqlDataReader reader)
+        private static IList<Client> ReadClients(SqlDataReader reader)
         {
             IList<Client> clients = new List<Client>();
             while (reader.Read())
             {
-                Client client = new Client();
-                client.ClientID = (int)reader["ClientID"];
-                client.CompanyID = (int)reader["CompanyID"];
-                client.AddressCity = (string)reader["AddressCity"];
-                client.AddressCountry = (string)reader["AddressCountry"];
-                client.AddressLine1 = (string)reader["AddressLine1"];
-                client.AddressLine2 = reader["AddressLine2"] as string; // Allow null
-                client.AddressPostalCode = (string)reader["AddressPostalCode"];
-                client.AddressRegion = (string)reader["AddressRegion"];
-                client.FaxPhone = reader["FaxPhone"] as string; // Allow null
-                client.FirstName = (string)reader["FirstName"];
-                client.HomePhone = (string)reader["HomePhone"];
-                client.LastName = (string)reader["LastName"];
-                client.WorkPhone = (string)reader["WorkPhone"];
-                clients.Add(client);
+                clients.Add(ReadClient(reader));
             }
             return clients;
+        }
+
+        public static Client ReadClient(SqlDataReader reader)
+        {
+            Client client = new Client();
+            client.ClientID = (int)reader["ClientID"];
+            client.ClientAddressCity = (string)reader["ClientAddressCity"];
+            client.ClientAddressCountry = (string)reader["ClientAddressCountry"];
+            client.ClientAddressLine1 = (string)reader["ClientAddressLine1"];
+            client.ClientAddressLine2 = reader["ClientAddressLine2"] as string; // Allow null
+            client.ClientAddressPostalCode = (string)reader["ClientAddressPostalCode"];
+            client.ClientAddressRegion = (string)reader["ClientAddressRegion"];
+            client.ClientFaxPhone = reader["ClientFaxPhone"] as string; // Allow null
+            client.ClientFirstName = (string)reader["ClientFirstName"];
+            client.ClientHomePhone = (string)reader["ClientHomePhone"];
+            client.ClientLastName = (string)reader["ClientLastName"];
+            client.ClientWorkPhone = (string)reader["ClientWorkPhone"];
+            client.company = Company.ReadCompany(reader);
+            return client;
         }
 
         private static void AddParameters(Client client, SqlCommand comm)
         {
             comm.Parameters.AddWithValue("CompanyID", client.CompanyID);
-            comm.Parameters.AddWithValue("AddressCity", client.AddressCity);
-            comm.Parameters.AddWithValue("AddressCountry", client.AddressCountry);
-            comm.Parameters.AddWithValue("AddressLine1", client.AddressLine1);
-            comm.Parameters.AddWithValue("AddressLine2", client.AddressLine2 == null ? (object)DBNull.Value :  client.AddressLine2); // Check for null
-            comm.Parameters.AddWithValue("AddressPostalCode", client.AddressPostalCode);
-            comm.Parameters.AddWithValue("AddressRegion", client.AddressRegion);
-            comm.Parameters.AddWithValue("FaxPhone", client.FaxPhone == null ? (object)DBNull.Value : client.FaxPhone); // Check for null
-            comm.Parameters.AddWithValue("FirstName", client.FirstName);
-            comm.Parameters.AddWithValue("HomePhone", client.HomePhone);
-            comm.Parameters.AddWithValue("LastName", client.LastName);
-            comm.Parameters.AddWithValue("WorkPhone", client.WorkPhone);
+            comm.Parameters.AddWithValue("AddressCity", client.ClientAddressCity);
+            comm.Parameters.AddWithValue("AddressCountry", client.ClientAddressCountry);
+            comm.Parameters.AddWithValue("AddressLine1", client.ClientAddressLine1);
+            comm.Parameters.AddWithValue("AddressLine2", client.ClientAddressLine2 == null ? (object)DBNull.Value : client.ClientAddressLine2); // Check for null
+            comm.Parameters.AddWithValue("AddressPostalCode", client.ClientAddressPostalCode);
+            comm.Parameters.AddWithValue("AddressRegion", client.ClientAddressRegion);
+            comm.Parameters.AddWithValue("FaxPhone", client.ClientFaxPhone == null ? (object)DBNull.Value : client.ClientFaxPhone); // Check for null
+            comm.Parameters.AddWithValue("FirstName", client.ClientFirstName);
+            comm.Parameters.AddWithValue("HomePhone", client.ClientHomePhone);
+            comm.Parameters.AddWithValue("LastName", client.ClientLastName);
+            comm.Parameters.AddWithValue("WorkPhone", client.ClientWorkPhone);
         }
 
         private static void AddOldParameters(Client client, SqlCommand comm)
         {
             comm.Parameters.AddWithValue("OldClientID", client.ClientID);
             comm.Parameters.AddWithValue("OldCompanyID", client.CompanyID);
-            comm.Parameters.AddWithValue("OldAddressCity", client.AddressCity);
-            comm.Parameters.AddWithValue("OldAddressCountry", client.AddressCountry);
-            comm.Parameters.AddWithValue("OldAddressLine1", client.AddressLine1);
-            comm.Parameters.AddWithValue("OldAddressLine2", client.AddressLine2 == null ? (object)DBNull.Value : client.AddressLine2); // Check for null
-            comm.Parameters.AddWithValue("OldAddressPostalCode", client.AddressPostalCode);
-            comm.Parameters.AddWithValue("OldAddressRegion", client.AddressRegion);
-            comm.Parameters.AddWithValue("OldFaxPhone", client.FaxPhone == null ? (object)DBNull.Value : client.FaxPhone); // Check for null
-            comm.Parameters.AddWithValue("OldFirstName", client.FirstName);
-            comm.Parameters.AddWithValue("OldHomePhone", client.HomePhone);
-            comm.Parameters.AddWithValue("OldLastName", client.LastName);
-            comm.Parameters.AddWithValue("OldWorkPhone", client.WorkPhone);
+            comm.Parameters.AddWithValue("OldAddressCity", client.ClientAddressCity);
+            comm.Parameters.AddWithValue("OldAddressCountry", client.ClientAddressCountry);
+            comm.Parameters.AddWithValue("OldAddressLine1", client.ClientAddressLine1);
+            comm.Parameters.AddWithValue("OldAddressLine2", client.ClientAddressLine2 == null ? (object)DBNull.Value : client.ClientAddressLine2); // Check for null
+            comm.Parameters.AddWithValue("OldAddressPostalCode", client.ClientAddressPostalCode);
+            comm.Parameters.AddWithValue("OldAddressRegion", client.ClientAddressRegion);
+            comm.Parameters.AddWithValue("OldFaxPhone", client.ClientFaxPhone == null ? (object)DBNull.Value : client.ClientFaxPhone); // Check for null
+            comm.Parameters.AddWithValue("OldFirstName", client.ClientFirstName);
+            comm.Parameters.AddWithValue("OldHomePhone", client.ClientHomePhone);
+            comm.Parameters.AddWithValue("OldLastName", client.ClientLastName);
+            comm.Parameters.AddWithValue("OldWorkPhone", client.ClientWorkPhone);
         }
     }
 }

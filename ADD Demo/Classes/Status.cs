@@ -33,7 +33,7 @@ namespace ADD_Demo.Classes
                 SqlDataReader reader = db.comm.ExecuteReader();
 
                 // Read Response
-                statuses = Read(reader);
+                statuses = ReadStatuses(reader);
             }
 
             return statuses;
@@ -53,7 +53,7 @@ namespace ADD_Demo.Classes
                 SqlDataReader reader = db.comm.ExecuteReader();
 
                 // Read Response
-                statuses = Read(reader);
+                statuses = ReadStatuses(reader);
             }
 
             return statuses;
@@ -99,19 +99,24 @@ namespace ADD_Demo.Classes
             return rowsAffected;
         }
 
-        private static IList<Status> Read(SqlDataReader reader)
+        private static IList<Status> ReadStatuses(SqlDataReader reader)
         {
             IList<Status> statuses = new List<Status>();
             while (reader.Read())
             {
-                Status status = new Status();
-                status.StatusID = (int)reader["StatusID"];
-                status.StatusName = (string)reader["StatusName"];
-                statuses.Add(status);
+                statuses.Add(ReadStatus(reader));
             }
             return statuses;
         }
 
+        public static Status ReadStatus(SqlDataReader reader)
+        {
+            Status status = new Status();
+            status.StatusID = (int)reader["StatusID"];
+            status.StatusName = (string)reader["StatusName"];
+            return status;
+        }
+        
         private static void AddParameters(Status status, SqlCommand comm)
         {
             comm.Parameters.AddWithValue("StatusName", status.StatusName);

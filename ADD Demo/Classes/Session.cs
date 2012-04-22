@@ -11,33 +11,33 @@ namespace ADD_Demo.Classes
     public class Session
     {
         public int SessionID { get; set; }
-        public int CourseID { get; set; }
-        public int InstructorID { get; set; }
-        public int RoomID { get; set; }
-        public string CourseCode { get { return course.CourseCode; } set { course.CourseCode = value; } }
-        public string CourseDescription { get { return course.Description; } set { course.Description = value; } }
-        public string CourseOutline { get { return course.Outline; } set { course.Outline = value; } }
-        public decimal CoursePrice { get { return course.Price; } set { course.Price = value; } }
-        public string InstructorAddressCity { get { return instructor.AddressCity; } set { instructor.AddressCity = value;  } }
-        public string InstructorAddressCountry { get { return instructor.AddressCountry; } set { instructor.AddressCountry = value; } }
-        public string InstructorAddressLine1 { get { return instructor.AddressLine1; } set { instructor.AddressLine1 = value; } }
-        public string InstructorAddressLine2 { get { return instructor.AddressLine2; } set { instructor.AddressLine2 = value; } }
-        public string InstructorAddressPostalCode { get { return instructor.AddressPostalCode; } set { instructor.AddressPostalCode = value; } }
-        public string InstructorAddressRegion { get { return instructor.AddressRegion; } set { instructor.AddressRegion = value; } }
-        public string InstructorAltPhone { get { return instructor.AltPhone; } set { instructor.AltPhone = value; } }
-        public string InstructorFirstName { get { return instructor.FirstName; } set { instructor.FirstName = value; } }
-        public string InstructorHomePhone { get { return instructor.HomePhone; } set { instructor.HomePhone = value; } }
-        public string InstructorLastName { get { return instructor.LastName; } set { instructor.LastName = value; } }
-        public string InstructorFullName { get { return instructor.FullName; } }
-        public string RoomName { get; set; }
-        public int Seats { get; set; }
-        public DateTime DateTime { get; set; }
-        public int Length { get; set; }
-        public int Enrolled { get; set; }
-        public int AvailableSeats { get; set; }
+        public DateTime SessionDateTime { get; set; }
+        public int SessionLength { get; set; }
+        public int SessionEnrolled { get; set; }
+        public int SessionAvailableSeats { get; set; }
         public Course course { get; set; }
+        public int CourseID { get { return course.CourseID; } set { course.CourseID = value; } }
+        public string CourseCode { get { return course.CourseCode; } }
+        public string CourseDescription { get { return course.CourseDescription; } }
+        public string CourseOutline { get { return course.CourseOutline; } }
+        public decimal CoursePrice { get { return course.CoursePrice; } }
         public Instructor instructor { get; set; }
+        public int InstructorID { get { return instructor.InstructorID; } set { instructor.InstructorID = value; } }
+        public string InstructorAddressCity { get { return instructor.InstructorAddressCity; } }
+        public string InstructorAddressCountry { get { return instructor.InstructorAddressCountry; } }
+        public string InstructorAddressLine1 { get { return instructor.InstructorAddressLine1; } }
+        public string InstructorAddressLine2 { get { return instructor.InstructorAddressLine2; } }
+        public string InstructorAddressPostalCode { get { return instructor.InstructorAddressPostalCode; } }
+        public string InstructorAddressRegion { get { return instructor.InstructorAddressRegion; } }
+        public string InstructorAltPhone { get { return instructor.InstructorAltPhone; } }
+        public string InstructorFirstName { get { return instructor.InstructorFirstName; } }
+        public string InstructorHomePhone { get { return instructor.InstructorHomePhone; } }
+        public string InstructorLastName { get { return instructor.InstructorLastName; } }
+        public string InstructorFullName { get { return instructor.InstructorFullName; } }
         public Room room { get; set; }
+        public int RoomID { get { return room.RoomID; } set { room.RoomID = value; } }
+        public string RoomName { get { return room.RoomName; } }
+        public int RoomSeats { get { return room.RoomSeats; } }
 
         public Session()
         {
@@ -63,7 +63,7 @@ namespace ADD_Demo.Classes
                 SqlDataReader reader = db.comm.ExecuteReader();
 
                 // Read Response
-                sessions = Read(reader);
+                sessions = ReadSessions(reader);
             }
 
             return sessions;
@@ -86,7 +86,7 @@ namespace ADD_Demo.Classes
                 SqlDataReader reader = db.comm.ExecuteReader();
 
                 // Read Response
-                sessions = Read(reader);
+                sessions = ReadSessions(reader);
             }
 
             return sessions;
@@ -109,7 +109,7 @@ namespace ADD_Demo.Classes
                 SqlDataReader reader = db.comm.ExecuteReader();
 
                 // Read Response
-                sessions = Read(reader);
+                sessions = ReadSessions(reader);
             }
 
             return sessions;
@@ -132,7 +132,7 @@ namespace ADD_Demo.Classes
                 SqlDataReader reader = db.comm.ExecuteReader();
 
                 // Read Response
-                sessions = Read(reader);
+                sessions = ReadSessions(reader);
             }
 
             return sessions;
@@ -152,7 +152,7 @@ namespace ADD_Demo.Classes
                 SqlDataReader reader = db.comm.ExecuteReader();
 
                 // Read Response
-                sessions = Read(reader);
+                sessions = ReadSessions(reader);
             }
 
             return sessions;
@@ -256,32 +256,34 @@ namespace ADD_Demo.Classes
                 SqlDataReader reader = db.comm.ExecuteReader();
 
                 // Read Response
-                sessions = Read(reader);
+                sessions = ReadSessions(reader);
             }
 
             return sessions;
         }
 
-        private static IList<Session> Read(SqlDataReader reader)
+        private static IList<Session> ReadSessions(SqlDataReader reader)
         {
             IList<Session> sessions = new List<Session>();
             while (reader.Read())
             {
-                Session session = new Session();
-                session.SessionID = (int)reader["SessionID"];
-                session.CourseID = (int)reader["CourseID"];
-                session.InstructorID = (int)reader["InstructorID"];
-                session.RoomID = (int)reader["RoomID"];
-                session.DateTime = (DateTime)reader["DateTime"];
-                session.Length = (int)reader["Length"];
-                session.Enrolled = (int)reader["Enrolled"];
-                session.AvailableSeats = (int)reader["AvailableSeats"];
-                session.course = Course.ReadCourse(reader);
-                session.instructor = Instructor.ReadInstructor(reader);
-                session.room = Room.ReadRoom(reader);
-                sessions.Add(session);
+                sessions.Add(ReadSession(reader));
             }
             return sessions;
+        }
+
+        public static Session ReadSession(SqlDataReader reader)
+        {
+            Session session = new Session();
+            session.SessionID = (int)reader["SessionID"];
+            session.SessionDateTime = (DateTime)reader["SessionDateTime"];
+            session.SessionLength = (int)reader["SessionLength"];
+            session.SessionEnrolled = (int)reader["SessionEnrolled"];
+            session.SessionAvailableSeats = (int)reader["SessionAvailableSeats"];
+            session.course = Course.ReadCourse(reader);
+            session.instructor = Instructor.ReadInstructor(reader);
+            session.room = Room.ReadRoom(reader);
+            return session;
         }
 
         private static void AddParameters(Session session, SqlCommand comm)
@@ -289,8 +291,8 @@ namespace ADD_Demo.Classes
             comm.Parameters.AddWithValue("InstructorID", session.InstructorID);
             comm.Parameters.AddWithValue("CourseID", session.CourseID);
             comm.Parameters.AddWithValue("RoomID", session.RoomID);
-            comm.Parameters.AddWithValue("DateTime", session.DateTime);
-            comm.Parameters.AddWithValue("Length", session.Length);
+            comm.Parameters.AddWithValue("DateTime", session.SessionDateTime);
+            comm.Parameters.AddWithValue("Length", session.SessionLength);
         }
 
         private static void AddOldParameters(Session session, SqlCommand comm)
@@ -299,8 +301,8 @@ namespace ADD_Demo.Classes
             comm.Parameters.AddWithValue("OldCourseID", session.CourseID);
             comm.Parameters.AddWithValue("OldInstructorID", session.InstructorID);
             comm.Parameters.AddWithValue("OldRoomID", session.RoomID);
-            comm.Parameters.AddWithValue("OldDateTime", session.DateTime);
-            comm.Parameters.AddWithValue("OldLength", session.Length);
+            comm.Parameters.AddWithValue("OldDateTime", session.SessionDateTime);
+            comm.Parameters.AddWithValue("OldLength", session.SessionLength);
         }
     }
 }

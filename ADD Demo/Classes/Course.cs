@@ -12,9 +12,9 @@ namespace ADD_Demo.Classes
     {
         public int CourseID { get; set; }
         public string CourseCode { get; set; }
-        public string Description { get; set; }
-        public string Outline { get; set; }
-        public decimal Price { get; set; }
+        public string CourseDescription { get; set; }
+        public string CourseOutline { get; set; }
+        public decimal CoursePrice { get; set; }
 
         public Course()
         { }
@@ -147,7 +147,7 @@ namespace ADD_Demo.Classes
             return rowsAffected;
         }
 
-        public static IList<Course> ReadCourses(SqlDataReader reader)
+        private static IList<Course> ReadCourses(SqlDataReader reader)
         {
             IList<Course> courses = new List<Course>();
             while (reader.Read())
@@ -162,27 +162,27 @@ namespace ADD_Demo.Classes
             Course course = new Course();
             course.CourseID = (int)reader["CourseID"];
             course.CourseCode = (string)reader["CourseCode"];
-            course.Description = (string)reader["Description"];
-            course.Outline = (string)reader["Outline"];
-            course.Price = (decimal)reader["Price"];
+            course.CourseDescription = (string)reader["CourseDescription"];
+            course.CourseOutline = (string)reader["CourseOutline"];
+            course.CoursePrice = (decimal)reader["CoursePrice"];
             return course;
         }
 
         private static void AddParameters(Course course, SqlCommand comm)
         {
             comm.Parameters.AddWithValue("CourseCode", course.CourseCode);
-            comm.Parameters.AddWithValue("Description", course.Description);
-            comm.Parameters.AddWithValue("Outline", course.Outline);
-            comm.Parameters.AddWithValue("Price", course.Price);
+            comm.Parameters.AddWithValue("Description", course.CourseDescription);
+            comm.Parameters.AddWithValue("Outline", course.CourseOutline);
+            comm.Parameters.AddWithValue("Price", course.CoursePrice);
         }
 
         private static void AddOldParameters(Course course, SqlCommand comm)
         {
-            comm.Parameters.AddWithValue("OldCourseID", course.Price);
+            comm.Parameters.AddWithValue("OldCourseID", course.CourseID);
             comm.Parameters.AddWithValue("OldCourseCode", course.CourseCode);
-            comm.Parameters.AddWithValue("OldDescription", course.Description);
-            comm.Parameters.AddWithValue("OldOutline", course.Outline);
-            comm.Parameters.AddWithValue("OldPrice", course.Price);
+            comm.Parameters.AddWithValue("OldDescription", course.CourseDescription);
+            comm.Parameters.AddWithValue("OldOutline", course.CourseOutline);
+            comm.Parameters.AddWithValue("OldPrice", course.CoursePrice);
         }
     }
 }

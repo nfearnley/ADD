@@ -14,7 +14,12 @@ namespace ADD_Demo
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-
+            if (!IsPostBack)
+            {
+                String courseID = Request.Params.Get("CourseID");
+                ddlCourses.DataBind();
+                ddlCourses.SelectedValue = courseID;
+            }
         }
 
         protected void ddlCourses_SelectedIndexChanged(object sender, EventArgs e)

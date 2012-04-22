@@ -11,8 +11,16 @@ namespace ADD_Demo.Classes
     public class Invoice
     {
         public int InvoiceID { get; set; }
-        public int CompanyID { get; set; }
-        public DateTime Date { get; set; }
+        public DateTime InvoiceDate { get; set; }
+        public Company company { get; set; }
+        public int CompanyID { get { return company.CompanyID; } set { company.CompanyID = value; } }
+        public string CompanyBillingAddressCity { get { return company.CompanyBillingAddressCity; } }
+        public string CompanyBillingAddressCountry { get { return company.CompanyBillingAddressCountry; } }
+        public string CompanyBillingAddressLine1 { get { return company.CompanyBillingAddressLine2; } }
+        public string CompanyBillingAddressLine2 { get { return company.CompanyBillingAddressLine2; } } // can be null
+        public string CompanyBillingAddressPostalCode { get { return company.CompanyBillingAddressPostalCode; } }
+        public string CompanyBillingAddressRegion { get { return company.CompanyBillingAddressRegion; } }
+        public string CompanyBillingName { get { return company.CompanyBillingName; } }
 
         public Invoice()
         { }
@@ -55,7 +63,7 @@ namespace ADD_Demo.Classes
                 SqlDataReader reader = db.comm.ExecuteReader();
 
                 // Read Response
-                invoices = Read(reader);
+                invoices = ReadInvoices(reader);
             }
 
             return invoices;
@@ -78,7 +86,7 @@ namespace ADD_Demo.Classes
                 SqlDataReader reader = db.comm.ExecuteReader();
 
                 // Read Response
-                invoices = Read(reader);
+                invoices = ReadInvoices(reader);
             }
 
             return invoices;
@@ -98,7 +106,7 @@ namespace ADD_Demo.Classes
                 SqlDataReader reader = db.comm.ExecuteReader();
 
                 // Read Response
-                invoices = Read(reader);
+                invoices = ReadInvoices(reader);
             }
 
             return invoices;
@@ -165,31 +173,37 @@ namespace ADD_Demo.Classes
             return rowsAffected;
         }
 
-        private static IList<Invoice> Read(SqlDataReader reader)
+        private static IList<Invoice> ReadInvoices(SqlDataReader reader)
         {
             IList<Invoice> invoices = new List<Invoice>();
             while (reader.Read())
             {
-                Invoice invoice = new Invoice();
-                invoice.InvoiceID = (int)reader["InvoiceID"];
-                invoice.CompanyID = (int)reader["CompanyID"];
-                invoice.Date = (DateTime)reader["Date"];
-                invoices.Add(invoice);
+                invoices.Add(ReadInvoice(reader));
             }
             return invoices;
         }
 
+        public static Invoice ReadInvoice(SqlDataReader reader)
+        {
+            Invoice invoice = new Invoice();
+            invoice.InvoiceID = (int)reader["InvoiceID"];
+            invoice.InvoiceDate = (DateTime)reader["InvoiceDate"];
+            invoice.company = Company.ReadCompany(reader);
+            return invoice;
+        }
+
+
         private static void AddParameters(Invoice invoice, SqlCommand comm)
         {
             comm.Parameters.AddWithValue("CompanyID", invoice.CompanyID);
-            comm.Parameters.AddWithValue("Date", invoice.Date);
+            comm.Parameters.AddWithValue("Date", invoice.InvoiceDate);
         }
 
         private static void AddOldParameters(Invoice invoice, SqlCommand comm)
         {
             comm.Parameters.AddWithValue("OldInvoiceID", invoice.InvoiceID);
             comm.Parameters.AddWithValue("OldCompanyID", invoice.CompanyID);
-            comm.Parameters.AddWithValue("OldDate", invoice.Date);
+            comm.Parameters.AddWithValue("OldDate", invoice.InvoiceDate);
         }
     }
 }

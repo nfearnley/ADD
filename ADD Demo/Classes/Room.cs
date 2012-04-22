@@ -12,7 +12,7 @@ namespace ADD_Demo.Classes
     {
         public int RoomID { get; set; }
         public string RoomName { get; set; }
-        public int Seats { get; set; }
+        public int RoomSeats { get; set; }
 
         public Room()
         { }
@@ -121,7 +121,7 @@ namespace ADD_Demo.Classes
             return rowsAffected;
         }
 
-        public static IList<Room> ReadRooms(SqlDataReader reader)
+        private static IList<Room> ReadRooms(SqlDataReader reader)
         {
             IList<Room> rooms = new List<Room>();
             while (reader.Read())
@@ -136,21 +136,21 @@ namespace ADD_Demo.Classes
             Room room = new Room();
             room.RoomID = (int)reader["RoomID"];
             room.RoomName = (string)reader["RoomName"];
-            room.Seats = (int)reader["Seats"];
+            room.RoomSeats = (int)reader["RoomSeats"];
             return room;
         }
 
         private static void AddParameters(Room room, SqlCommand comm)
         {
             comm.Parameters.AddWithValue("RoomName", room.RoomName);
-            comm.Parameters.AddWithValue("Seats", room.Seats);
+            comm.Parameters.AddWithValue("Seats", room.RoomSeats);
         }
 
         private static void AddOldParameters(Room room, SqlCommand comm)
         {
             comm.Parameters.AddWithValue("OldRoomID", room.RoomID);
             comm.Parameters.AddWithValue("OldRoomName", room.RoomName);
-            comm.Parameters.AddWithValue("OldSeats", room.Seats);
+            comm.Parameters.AddWithValue("OldSeats", room.RoomSeats);
         }
     }
 }
