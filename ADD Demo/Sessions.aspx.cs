@@ -7,15 +7,15 @@ using System.Web.UI.WebControls;
 
 namespace ADD_Demo
 {
-    public partial class Instructors : System.Web.UI.Page
+    public partial class Sessions : System.Web.UI.Page
     {
         protected void InstructorDetailsDataSource_Inserted(object sender, ObjectDataSourceStatusEventArgs e)
         {
             String instructorID = (String)e.ReturnValue;
             if (instructorID != "")
             {
-                InstructorList.DataBind();
-                InstructorList.SelectedValue = instructorID;
+                // InstructorList.DataBind();
+                // InstructorList.SelectedValue = instructorID;
             }
         }
 
@@ -23,15 +23,15 @@ namespace ADD_Demo
         {
             if (e.AffectedRows != 0)
             {
-                InstructorList.DataBind();
+                //InstructorList.DataBind();
             }
         }
 
         protected void InstructorList_DataBound(object sender, EventArgs e)
         {
             ListItem item = new ListItem("Please Select: ", "-1");
-            InstructorList.Items.Insert(0, item);
-            InstructorList.SelectedIndex = 0;
+            //InstructorList.Items.Insert(0, item);
+            //InstructorList.SelectedIndex = 0;
         }
     }
 }

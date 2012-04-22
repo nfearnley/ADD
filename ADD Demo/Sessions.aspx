@@ -1,5 +1,5 @@
-﻿<%@ Page Title="Instructors" Language="C#" MasterPageFile="~/Site.master" AutoEventWireup="true"
-    CodeBehind="Sessions.aspx.cs" Inherits="ADD_Demo.Instructors" %>
+﻿<%@ Page Title="Sessions" Language="C#" MasterPageFile="~/Site.master" AutoEventWireup="true"
+    CodeBehind="Sessions.aspx.cs" Inherits="ADD_Demo.Sessions" %>
 
 <asp:Content ID="HeaderContent" runat="server" ContentPlaceHolderID="HeadContent">
 </asp:Content>

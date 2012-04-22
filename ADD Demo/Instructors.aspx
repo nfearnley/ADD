@@ -187,24 +187,14 @@
         DataSourceID="InstructorQualificationsDataSource">
         <Columns>
             <asp:CommandField ShowDeleteButton="True" />
-            <asp:BoundField DataField="CourseID" HeaderText="CourseID" SortExpression="CourseID" />
-            <asp:BoundField DataField="InstructorID" HeaderText="InstructorID" SortExpression="InstructorID" />
-            <asp:TemplateField HeaderText="Course Code" SortExpression="Code">
-                <EditItemTemplate>
-                    <asp:TextBox ID="TextBox2" runat="server" Text='<%# Bind("CourseID") %>'></asp:TextBox>
-                </EditItemTemplate>
-                <ItemTemplate>
-                    <asp:Label ID="Label2" runat="server" Text='<%# Eval("Course.CourseCode") %>'></asp:Label>
-                </ItemTemplate>
-            </asp:TemplateField>
-            <asp:TemplateField HeaderText="Description" SortExpression="InstructorID">
-                <EditItemTemplate>
-                    <asp:TextBox ID="TextBox1" runat="server" Text='<%# Bind("InstructorID") %>'></asp:TextBox>
-                </EditItemTemplate>
-                <ItemTemplate>
-                    <asp:Label ID="Label1" runat="server" Text='<%# Eval("Course.Description") %>'></asp:Label>
-                </ItemTemplate>
-            </asp:TemplateField>
+            <asp:BoundField DataField="CourseID" HeaderText="CourseID" 
+                SortExpression="CourseID" Visible="False" />
+            <asp:BoundField DataField="InstructorID" HeaderText="InstructorID" 
+                SortExpression="InstructorID" Visible="False" />
+            <asp:BoundField DataField="CourseCode" HeaderText="Course Code" 
+                SortExpression="CourseCode" />
+            <asp:BoundField DataField="CourseDescription" HeaderText="Description" 
+                SortExpression="CourseDescription" />
         </Columns>
         <EmptyDataTemplate>
             This instructor is not qualified to teach.
@@ -240,14 +230,32 @@
             AutoGenerateColumns="False" DataSourceID="SessionsDataSource">
             <Columns>
                 <asp:BoundField DataField="SessionID" HeaderText="SessionID" 
-                    SortExpression="SessionID" />
+                    SortExpression="SessionID" Visible="False" />
+                <asp:BoundField DataField="CourseID" HeaderText="CourseID" 
+                    SortExpression="CourseID" Visible="False" />
                 <asp:BoundField DataField="InstructorID" HeaderText="InstructorID" 
-                    SortExpression="InstructorID" />
+                    SortExpression="InstructorID" Visible="False" />
                 <asp:BoundField DataField="RoomID" HeaderText="RoomID" 
-                    SortExpression="RoomID" />
+                    SortExpression="RoomID" Visible="False" />
+                <asp:BoundField DataField="CourseCode" HeaderText="CourseCode" 
+                    SortExpression="CourseCode" />
+                <asp:BoundField DataField="CourseDescription" HeaderText="CourseDescription" 
+                    SortExpression="CourseDescription" />
+                <asp:BoundField DataField="CourseOutline" HeaderText="CourseOutline" 
+                    SortExpression="CourseOutline" />
+                <asp:BoundField DataField="CoursePrice" HeaderText="CoursePrice" 
+                    SortExpression="CoursePrice" />
+                <asp:BoundField DataField="RoomName" HeaderText="RoomName" 
+                    SortExpression="RoomName" />
+                <asp:BoundField DataField="Seats" HeaderText="Seats" SortExpression="Seats" />
+                <asp:BoundField DataField="DateTime" HeaderText="DateTime" 
+                    SortExpression="DateTime" />
                 <asp:BoundField DataField="Length" HeaderText="Length" 
                     SortExpression="Length" />
-                <asp:BoundField DataField="Date" HeaderText="Date" SortExpression="Date" />
+                <asp:BoundField DataField="Enrolled" HeaderText="Enrolled" 
+                    SortExpression="Enrolled" />
+                <asp:BoundField DataField="AvailableSeats" HeaderText="AvailableSeats" 
+                    SortExpression="AvailableSeats" />
             </Columns>
         </asp:GridView>
         <asp:ObjectDataSource ID="SessionsDataSource" runat="server" 

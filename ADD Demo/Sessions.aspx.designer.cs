@@ -10,7 +10,7 @@
 namespace ADD_Demo {
     
     
-    public partial class Instructors {
+    public partial class Sessions {
         
         /// <summary>
         /// SessionList control.
