@@ -8,7 +8,7 @@
         <asp:Label ID="lblClientSearch" runat="server" Text="Search for a Client"></asp:Label>
         <br />
         <asp:DropDownList ID="ddlClientSearch" runat="server" AutoPostBack="True" 
-            DataSourceID="ODSGetClients" DataTextField="LastName" 
+            DataSourceID="ODSGetClients" DataTextField="ClientLastName" 
             DataValueField="ClientID" 
             onselectedindexchanged="ddlClientSearch_SelectedIndexChanged" 
             ondatabound="ddlClientSearch_DataBound">
@@ -26,39 +26,39 @@
             <AlternatingRowStyle BackColor="#DCDCDC" />
             <EditRowStyle BackColor="#008A8C" Font-Bold="True" ForeColor="White" />
             <Fields>
-                <asp:BoundField DataField="FirstName" HeaderText="First Name" 
-                    SortExpression="FirstName" />
-                <asp:BoundField DataField="LastName" HeaderText="Last Name" 
-                    SortExpression="LastName" />
-                <asp:BoundField DataField="HomePhone" HeaderText="Home Phone" 
-                    SortExpression="HomePhone" />
-                <asp:BoundField DataField="WorkPhone" HeaderText="Work Phone" 
-                    SortExpression="WorkPhone" />
-                <asp:BoundField DataField="FaxPhone" HeaderText="Fax Phone" 
-                    SortExpression="FaxPhone" />
-                <asp:BoundField DataField="AddressCity" HeaderText="City" 
-                    SortExpression="AddressCity" />
-                <asp:BoundField DataField="AddressCountry" HeaderText="Country" 
-                    SortExpression="AddressCountry" />
-                <asp:BoundField DataField="AddressRegion" HeaderText="Region" 
-                    SortExpression="AddressRegion" />
-                <asp:BoundField DataField="AddressLine1" HeaderText="Address Line  1" 
-                    SortExpression="AddressLine1" />
-                <asp:BoundField DataField="AddressLine2" HeaderText="Address Line 2" 
-                    SortExpression="AddressLine2" />
-                <asp:BoundField DataField="AddressPostalCode" HeaderText="Postal Code" 
-                    SortExpression="AddressPostalCode" />
+                <asp:BoundField DataField="ClientFirstName" HeaderText="First Name" 
+                    SortExpression="ClientFirstName" />
+                <asp:BoundField DataField="ClientLastName" HeaderText="Last Name" 
+                    SortExpression="ClientLastName" />
+                <asp:BoundField DataField="ClientHomePhone" HeaderText="Home Phone" 
+                    SortExpression="ClientHomePhone" />
+                <asp:BoundField DataField="ClientWorkPhone" HeaderText="Work Phone" 
+                    SortExpression="ClientWorkPhone" />
+                <asp:BoundField DataField="ClientFaxPhone" HeaderText="Fax Phone" 
+                    SortExpression="ClientFaxPhone" />
+                <asp:BoundField DataField="ClientAddressCity" HeaderText="City" 
+                    SortExpression="ClientAddressCity" />
+                <asp:BoundField DataField="ClientAddressCountry" HeaderText="Country" 
+                    SortExpression="ClientAddressCountry" />
+                <asp:BoundField DataField="ClientAddressRegion" HeaderText="Region" 
+                    SortExpression="ClientAddressRegion" />
+                <asp:BoundField DataField="ClientAddressLine1" HeaderText="Address Line  1" 
+                    SortExpression="ClientAddressLine1" />
+                <asp:BoundField DataField="ClientAddressLine2" HeaderText="Address Line 2" 
+                    SortExpression="ClientAddressLine2" />
+                <asp:BoundField DataField="ClientAddressPostalCode" HeaderText="Postal Code" 
+                    SortExpression="ClientAddressPostalCode" />
                 <asp:TemplateField HeaderText="Company Name" SortExpression="CompanyID" 
                     Visible="False">
                     <EditItemTemplate>
                         <asp:DropDownList ID="DropDownList1" runat="server" 
-                            DataSourceID="ODSGetCompanies" DataTextField="BillingName" 
+                            DataSourceID="ODSGetCompanies" DataTextField="CompanyBillingName" 
                             DataValueField="CompanyID">
                         </asp:DropDownList>
                     </EditItemTemplate>
                     <InsertItemTemplate>
                         <asp:DropDownList ID="DropDownList1" runat="server" 
-                            DataSourceID="ODSGetCompanies" DataTextField="BillingName" 
+                            DataSourceID="ODSGetCompanies" DataTextField="CompanyBillingName" 
                             DataValueField="CompanyID">
                         </asp:DropDownList>
                     </InsertItemTemplate>
@@ -98,7 +98,7 @@
             <Fields>
                 <asp:BoundField DataField="CompanyID" 
                     HeaderText="CompanyID" />
-                <asp:BoundField DataField="BillingName" HeaderText="Company Name" />
+                <asp:BoundField DataField="CompanyBillingName" HeaderText="Company Name" />
             </Fields>
             <FooterStyle BackColor="#CCCCCC" ForeColor="Black" />
             <HeaderStyle BackColor="#000084" Font-Bold="True" ForeColor="White" />
