@@ -34,7 +34,9 @@ namespace ADD_Demo.Classes
         public string CompanyBillingName { get { return company.CompanyBillingName; } }
 
         public Client()
-        { }
+        {
+            company = new Company();
+        }
 
         public static IEnumerable<Client> GetClient(int clientID)
         {

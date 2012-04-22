@@ -66,7 +66,11 @@ namespace ADD_Demo.Classes
         public string StatusName { get { return status.StatusName; } }
 
         public ClientSession()
-        { }
+        {
+            client = new Client();
+            session = new Session();
+            status = new Status();
+        }
 
         public static IEnumerable<ClientSession> GetUnpaidClientSessionsByCompanyID(int companyID)
         {

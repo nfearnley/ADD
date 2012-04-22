@@ -23,7 +23,9 @@ namespace ADD_Demo.Classes
         public string CompanyBillingName { get { return company.CompanyBillingName; } }
 
         public Invoice()
-        { }
+        {
+            company = new Company();
+        }
 
         public static int GenerateInvoice(int companyID)
         {
