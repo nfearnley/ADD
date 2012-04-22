@@ -18,10 +18,10 @@
         <asp:ObjectDataSource ID="SessionsDataSource" runat="server" 
             SelectMethod="GetSessions" TypeName="ADD_Demo.Classes.Session">
         </asp:ObjectDataSource>
-        <asp:ObjectDataSource ID="SessionDataSource" runat="server" 
-            SelectMethod="GetSession" TypeName="ADD_Demo.Classes.Session" 
+        <asp:ObjectDataSource ID="ODSSession" runat="server" 
             DataObjectTypeName="ADD_Demo.Classes.Session" DeleteMethod="RemoveSession" 
-            InsertMethod="AddSession" UpdateMethod="UpdateSession">
+            InsertMethod="AddSession" SelectMethod="GetSession" 
+            TypeName="ADD_Demo.Classes.Session" UpdateMethod="UpdateSession">
             <SelectParameters>
                 <asp:ControlParameter ControlID="SessionList" Name="sessionID" 
                     PropertyName="SelectedValue" Type="Int32" />
@@ -31,10 +31,11 @@
                 <asp:Parameter Name="oldSession" Type="Object" />
             </UpdateParameters>
         </asp:ObjectDataSource>
-        <asp:DetailsView ID="DetailsView1" runat="server" Height="50px" Width="394px" 
-            AutoGenerateRows="False" 
-            DataSourceID="SessionDataSource">
+        <asp:DetailsView ID="DetailsView1" runat="server" AutoGenerateRows="False" 
+            DataSourceID="ODSSession" Height="50px" Width="125px">
             <Fields>
+                <asp:BoundField DataField="CourseID" HeaderText="CourseID" 
+                    SortExpression="CourseID" />
                 <asp:BoundField DataField="SessionID" HeaderText="SessionID" 
                     SortExpression="SessionID" />
                 <asp:BoundField DataField="InstructorID" HeaderText="InstructorID" 

@@ -13,16 +13,25 @@ namespace ADD_Demo
         bool EditMode = false;
         protected void Page_Load(object sender, EventArgs e)
         {
-                // InstructorList.DataBind();
-                // InstructorList.SelectedValue = instructorID;
+<<<<<<< HEAD
+            EditMode = false;
+            ddlSessions.SelectedValue = Request.Params.Get("SessionID");
             session = Classes.Session.GetSession(int.Parse(ddlSessions.SelectedValue)).ElementAt(0);
             tbCourseCode.Text = Course.GetCourse(session.CourseID).ElementAt(0).CourseCode;
             tbInstructor.Text = Instructor.GetInstructor(session.InstructorID).ElementAt(0).FullName;
             tbRoomName.Text = Room.GetRoom(session.RoomID).ElementAt(0).RoomName;
             tbLength.Text = session.Length.ToString();
-            tbDate.Text = session.DateTime.ToShortDateString();
-            calDate.SelectedDate = session.DateTime;
+            tbDate.Text = session.Date.ToShortDateString();
+            calDate.SelectedDate = session.Date;
 
+=======
+            String instructorID = (String)e.ReturnValue;
+            if (instructorID != "")
+            {
+                // InstructorList.DataBind();
+                // InstructorList.SelectedValue = instructorID;
+            }
+>>>>>>> aae848a75d241084a1c8e981c59303089492482a
         }
 
         protected void btnEdit_Click(object sender, EventArgs e)
@@ -40,15 +49,15 @@ namespace ADD_Demo
             ddlSessions.Visible = !ddlSessions.Visible;
             if (EditMode)
             {                
-                //InstructorList.DataBind();
+                btnEdit.Text = "Update";                
             }
             else 
             {
+<<<<<<< HEAD
                 btnEdit.Text = "Edit";
-            //InstructorList.Items.Insert(0, item);
-            //InstructorList.SelectedIndex = 0;
                 Classes.Session newSession = new Classes.Session();
-                newSession.DateTime = calDate.SelectedDate;
+                newSession.CourseID = int.Parse(ddlCourseCode.SelectedValue);
+                newSession.Date = calDate.SelectedDate;
                 newSession.InstructorID = int.Parse(ddlCourseCode.SelectedValue);
                 newSession.Length = int.Parse(tbLength.Text);
                 newSession.RoomID = int.Parse(ddlRoomName.SelectedValue);
@@ -57,5 +66,17 @@ namespace ADD_Demo
                 Response.Redirect("~/Sessions.aspx?SessionID=" + newSession.SessionID);
             }
         }
+=======
+                //InstructorList.DataBind();
+            }
+        }
+
+        protected void InstructorList_DataBound(object sender, EventArgs e)
+        {
+            ListItem item = new ListItem("Please Select: ", "-1");
+            //InstructorList.Items.Insert(0, item);
+            //InstructorList.SelectedIndex = 0;
+        }
+>>>>>>> aae848a75d241084a1c8e981c59303089492482a
     }
 }
