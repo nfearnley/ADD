@@ -22,13 +22,14 @@
             <Fields>
                 <asp:BoundField DataField="CourseID" HeaderText="CourseID" 
                     SortExpression="CourseID" Visible="False" />
-                <asp:BoundField DataField="CourseCode" HeaderText="CourseCode" 
+                <asp:BoundField DataField="CourseCode" HeaderText="Course Code" 
                     SortExpression="CourseCode" />
-                <asp:BoundField DataField="Description" HeaderText="Description" 
+                <asp:BoundField DataField="CourseDescription" HeaderText="Description" 
                     SortExpression="Description" />
-                <asp:BoundField DataField="Outline" HeaderText="Outline" 
+                <asp:BoundField DataField="CourseOutline" HeaderText="Outline" 
                     SortExpression="Outline" />
-                <asp:BoundField DataField="Price" HeaderText="Price" SortExpression="Price" />
+                <asp:BoundField DataField="CoursePrice" HeaderText="Price" 
+                    SortExpression="Price" />
                 <asp:CommandField ShowDeleteButton="True" ShowEditButton="True" 
                     ShowInsertButton="True" />
             </Fields>
@@ -51,12 +52,11 @@
         Length of Session in Hours:&nbsp;&nbsp;&nbsp;
         <asp:TextBox ID="tbNewSessionLength" runat="server"></asp:TextBox>
         <br />
-        Instructor:&nbsp;&nbsp;
-        <asp:DropDownList ID="ddlNewSessionInstructors" runat="server" 
-            DataSourceID="ODSSessionInstructors" DataTextField="FullName" 
-            DataValueField="InstructorID" ondatabound="ddlNewSessionInstructors_DataBound">
+        Instructor:&nbsp;&nbsp;<asp:DropDownList ID="ddlNewSessionInstructors" 
+            runat="server" DataSourceID="ODSSessionInstructors" 
+            DataTextField="InstructorFullName" DataValueField="InstructorID">
         </asp:DropDownList>
-        <asp:ObjectDataSource ID="ODSSessionInstructors" runat="server" 
+&nbsp;<asp:ObjectDataSource ID="ODSSessionInstructors" runat="server" 
             SelectMethod="GetInstructorsByCourseID" TypeName="ADD_Demo.Classes.Instructor">
             <SelectParameters>
                 <asp:ControlParameter ControlID="ddlCourses" Name="courseID" 
@@ -85,29 +85,37 @@
             </SelectParameters>
         </asp:ObjectDataSource>
         <br />
-        <asp:GridView ID="gvSessions" runat="server" AutoGenerateColumns="False" 
-            DataSourceID="ODSSessionsByCourse">
+        <asp:GridView ID="gvSessions2" runat="server" AutoGenerateColumns="False" 
+            DataSourceID="ODSGetSessions">
             <Columns>
                 <asp:CommandField ShowSelectButton="True" />
-                <asp:BoundField DataField="Length" HeaderText="Length" 
-                    SortExpression="Length" />
-                <asp:BoundField DataField="Date" HeaderText="Date" SortExpression="Date" />
                 <asp:BoundField DataField="SessionID" HeaderText="SessionID" 
                     SortExpression="SessionID" Visible="False" />
-                <asp:BoundField DataField="InstructorID" HeaderText="InstructorID" 
-                    SortExpression="InstructorID" Visible="False" />
-                <asp:BoundField DataField="FirstName + LastName" HeaderText="Instructor" 
-                    SortExpression="InstructorID" />
-                <asp:BoundField DataField="RoomID" HeaderText="RoomID" SortExpression="RoomID" 
-                    Visible="False" />
-                <asp:BoundField DataField="RoomName" HeaderText="Room" 
-                    SortExpression="RoomID" />
+                <asp:BoundField DataField="SessionDateTime" HeaderText="Date" 
+                    SortExpression="SessionDateTime" />
+                <asp:BoundField DataField="SessionLength" HeaderText="Length" 
+                    SortExpression="SessionLength" />
+                <asp:BoundField DataField="SessionEnrolled" HeaderText="Enrolled" 
+                    SortExpression="SessionEnrolled" />
+                <asp:BoundField DataField="SessionAvailableSeats" HeaderText="Available Seats" 
+                    SortExpression="SessionAvailableSeats" />
+                <asp:BoundField DataField="InstructorFullName" HeaderText="Full Name" 
+                    ReadOnly="True" SortExpression="InstructorFullName" />
+                <asp:BoundField DataField="RoomName" HeaderText="Room" ReadOnly="True" 
+                    SortExpression="RoomName" />
             </Columns>
         </asp:GridView>
+        <asp:ObjectDataSource ID="ODSGetSessions" runat="server" 
+            SelectMethod="GetSessionsByCourseID" TypeName="ADD_Demo.Classes.Session">
+            <SelectParameters>
+                <asp:ControlParameter ControlID="ddlCourses" Name="courseID" 
+                    PropertyName="SelectedValue" Type="Int32" />
+            </SelectParameters>
+        </asp:ObjectDataSource>
         <br />
-        Register Client by Company:::::::<br />
+        Register Client by Company:<br />
         <asp:DropDownList ID="ddlCompanies" runat="server" AutoPostBack="True" 
-            DataSourceID="ODSGetCompanies" DataTextField="BillingName" 
+            DataSourceID="ODSGetCompanies" DataTextField="CompanyBillingName" 
             DataValueField="CompanyID">
         </asp:DropDownList>
         <asp:ObjectDataSource ID="ODSGetCompanies" runat="server" 
@@ -117,11 +125,11 @@
             AutoGenerateColumns="False" DataSourceID="ODSGetClientsByCompany" Width="250px">
             <Columns>
                 <asp:BoundField DataField="ClientID" HeaderText="ClientID" 
-                    SortExpression="ClientID" />
-                <asp:BoundField DataField="FirstName" HeaderText="FirstName" 
-                    SortExpression="FirstName" />
-                <asp:BoundField DataField="LastName" HeaderText="LastName" 
-                    SortExpression="LastName" />
+                    SortExpression="ClientID" Visible="False" />
+                <asp:BoundField DataField="ClientFirstName" HeaderText="First Name" 
+                    SortExpression="ClientFirstName" />
+                <asp:BoundField DataField="ClientLastName" HeaderText="Last Name" 
+                    SortExpression="ClientLastName" />
                 <asp:CommandField ButtonType="Button" SelectText="Enroll" 
                     ShowSelectButton="True" />
             </Columns>

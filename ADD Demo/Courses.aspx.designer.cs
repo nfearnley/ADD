@@ -121,13 +121,22 @@ namespace ADD_Demo {
         protected global::System.Web.UI.WebControls.ObjectDataSource ODSSessionsByCourse;
         
         /// <summary>
-        /// gvSessions control.
+        /// gvSessions2 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.GridView gvSessions;
+        protected global::System.Web.UI.WebControls.GridView gvSessions2;
+        
+        /// <summary>
+        /// ODSGetSessions control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.ObjectDataSource ODSGetSessions;
         
         /// <summary>
         /// ddlCompanies control.

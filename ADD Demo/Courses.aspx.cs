@@ -31,10 +31,10 @@ namespace ADD_Demo
             DataTable sessionsTable = new DataTable("SessionsTable");
             foreach (Session sesh in sessions)
             {
-                using (DatabaseConnection db = new DatabaseConnection("dbo.GetInstructor"))
+                using (DatabaseConnection db = new DatabaseConnection("dbo.GetSession"))
                 {
                     // Set Parameters
-                    db.comm.Parameters.AddWithValue("InstructorID", sesh.InstructorID);
+                    db.comm.Parameters.AddWithValue("SessionID", sesh.SessionID);
 
                     // Open Connection
                     db.conn.Open();
@@ -46,50 +46,45 @@ namespace ADD_Demo
 
                     // Read Response
                     MyAdapter.Fill(table);
-                    modInstructorTable(table);
-                    sessionsTable.Merge(table);
-                    db.Dispose();
-                }
-                using (DatabaseConnection db = new DatabaseConnection("dbo.GetRoom"))
-                {
-                    // Set Parameters
-                    db.comm.Parameters.AddWithValue("RoomID", sesh.RoomID);
-
-                    // Open Connection
-                    db.conn.Open();
-
-                    // Execute Command               
-                    SqlDataAdapter MyAdapter = new SqlDataAdapter();
-                    MyAdapter.SelectCommand = db.comm;
-                    DataTable table = new DataTable();
-
-                    // Read Response
-                    MyAdapter.Fill(table);
-                    modRoomTable(table);
+                    
                     sessionsTable.Merge(table);
                     db.Dispose();
                 }
             }
-            gvSessions.DataSource = sessionsTable.DefaultView;
-            gvSessions.DataBind();
+            modSessionTable(sessionsTable);
+            //gvSessions.DataSource = sessionsTable.DefaultView;
+            //gvSessions.DataBind();
+        }
+        private void modSessionTable(DataTable oldTable)
+        {
+            DataColumnCollection dcc = oldTable.Columns;
+            dcc.Remove("RoomSeats");
+            dcc.Remove("InstructorID");
+            dcc.Remove("InstructorAddressCity");
+            dcc.Remove("InstructorAddressCountry");
+            dcc.Remove("InstructorAddressLine1");
+            dcc.Remove("InstructorAddressLine2");
+            dcc.Remove("InstructorAddressPostalCode");
+            dcc.Remove("InstructorAddressRegion");
+            dcc.Remove("InstructorAltPhone");
+            dcc.Remove("InstructorHomePhone");
+            dcc.Remove("CourseID");
+            dcc.Remove("CourseCode");
+            dcc.Remove("CourseDescription");
+            dcc.Remove("CourseOutline");
+            dcc.Remove("CoursePrice");
+            //dcc.Remove("");
+
         }
         private void modRoomTable(DataTable oldTable)
         {
             DataColumnCollection dcc = oldTable.Columns;
-            dcc.Remove("Seats");
+
         }
         private void modInstructorTable(DataTable oldTable)
         {
             DataColumnCollection dcc = oldTable.Columns;
-            dcc.Remove("InstructorID");
-            dcc.Remove("AddressCity");
-            dcc.Remove("AddressCountry");
-            dcc.Remove("AddressLine1");
-            dcc.Remove("AddressLine2");
-            dcc.Remove("AddressPostalCode");
-            dcc.Remove("AddressRegion");
-            dcc.Remove("AddressAltPhone");
-            dcc.Remove("AddressHomePhone");
+
             //dcc["FirstName"] + dcc["LastName"].ToString()
         }
 
@@ -126,6 +121,7 @@ namespace ADD_Demo
                 newSession.SessionLength = int.Parse(tbNewSessionLength.Text);
                 newSession.room = Room.GetRoom(int.Parse(ddlNewSessionRooms.SelectedValue)).ElementAt(0);
                 Classes.Session.AddSession(newSession);
+                Response.Redirect("~/Courses.aspx?CourseID='"+ddlCourses.SelectedValue+"'");
             }
         }
     }
