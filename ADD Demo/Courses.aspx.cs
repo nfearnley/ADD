@@ -121,9 +121,9 @@ namespace ADD_Demo
             {
                 Classes.Session newSession = new Session();
                 newSession.CourseID = int.Parse(ddlCourses.SelectedValue);
-                newSession.DateTime = calNewSessionDate.SelectedDate;
-                newSession.InstructorID = int.Parse(ddlNewSessionInstructors.SelectedValue);
-                newSession.Length = int.Parse(tbNewSessionLength.Text);
+                newSession.SessionDateTime = calNewSessionDate.SelectedDate;
+                newSession.instructor = Instructor.GetInstructor(int.Parse(ddlNewSessionInstructors.SelectedValue)).ElementAt(0);
+                newSession.SessionLength = int.Parse(tbNewSessionLength.Text);
                 newSession.RoomID = int.Parse(ddlNewSessionRooms.SelectedValue);
                 Classes.Session.AddSession(newSession);
             }
