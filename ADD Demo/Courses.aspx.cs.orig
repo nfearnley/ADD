@@ -120,11 +120,15 @@ namespace ADD_Demo
             if(calNewSessionDate.SelectedDate != null && int.Parse(ddlNewSessionRooms.SelectedValue) > 0 && int.Parse(ddlNewSessionInstructors.SelectedValue) > 0 && int.Parse(tbNewSessionLength.Text) > 0)
             {
                 Classes.Session newSession = new Session();
-                newSession.course = Course.GetCourse(int.Parse(ddlCourses.SelectedValue)).ElementAt(0);
+                newSession.CourseID = int.Parse(ddlCourses.SelectedValue);
                 newSession.SessionDateTime = calNewSessionDate.SelectedDate;
+<<<<<<< HEAD
                 newSession.instructor = Instructor.GetInstructor(int.Parse(ddlNewSessionInstructors.SelectedValue)).ElementAt(0);
+=======
+                newSession.InstructorID = int.Parse(ddlNewSessionInstructors.SelectedValue);
+>>>>>>> bd952cec874c1b24671197a8d853d49681cd8320
                 newSession.SessionLength = int.Parse(tbNewSessionLength.Text);
-                newSession.room = Room.GetRoom(int.Parse(ddlNewSessionRooms.SelectedValue)).ElementAt(0);
+                newSession.RoomID = int.Parse(ddlNewSessionRooms.SelectedValue);
                 Classes.Session.AddSession(newSession);
             }
         }
