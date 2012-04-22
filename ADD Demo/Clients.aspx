@@ -8,9 +8,8 @@
         <asp:Label ID="lblClientSearch" runat="server" Text="Search for a Client"></asp:Label>
         <br />
         <asp:DropDownList ID="ddlClientSearch" runat="server" AutoPostBack="True" 
-            DataSourceID="ODSGetClients" DataTextField="ClientLastName" 
+            DataSourceID="ODSGetClients" DataTextField="ClientFullName" 
             DataValueField="ClientID" 
-            onselectedindexchanged="ddlClientSearch_SelectedIndexChanged" 
             ondatabound="ddlClientSearch_DataBound">
         </asp:DropDownList>
         <asp:ObjectDataSource ID="ODSGetClients" runat="server" 
@@ -92,7 +91,7 @@
         <asp:DetailsView ID="dvClientCompany" runat="server" 
             BackColor="White" BorderColor="#999999" BorderStyle="None" BorderWidth="1px" 
             CellPadding="3" GridLines="Vertical" Height="50px" 
-            Width="250px" AutoGenerateRows="False">
+            Width="250px" AutoGenerateRows="False" DataSourceID="ODSGetClient">
             <AlternatingRowStyle BackColor="#DCDCDC" />
             <EditRowStyle BackColor="#008A8C" Font-Bold="True" ForeColor="White" />
             <Fields>
@@ -109,7 +108,33 @@
         <asp:ObjectDataSource ID="ODSGetCompanies" runat="server" 
             SelectMethod="GetCompanies" TypeName="ADD_Demo.Classes.Company">
         </asp:ObjectDataSource>
-        Sessions Registered<asp:GridView ID="gvClientSessions" runat="server">
+        Sessions Registered<asp:GridView ID="gvClientSessions" runat="server" 
+            AutoGenerateColumns="False" DataSourceID="ODSGetSessions">
+            <Columns>
+                <asp:BoundField DataField="ClientSessionID" HeaderText="ClientSessionID" 
+                    SortExpression="ClientSessionID" Visible="False" />
+                <asp:BoundField DataField="CourseCode" 
+                    HeaderText="Course Code" ReadOnly="True" 
+                    SortExpression="CourseCode" />
+                <asp:BoundField DataField="SessionDateTime" 
+                    HeaderText="Date" ReadOnly="True" 
+                    SortExpression="SessionDateTime" />
+                <asp:BoundField DataField="SessionLength" HeaderText="Length" 
+                    ReadOnly="True" SortExpression="SessionLength" />
+                <asp:BoundField DataField="InstructorFullName" HeaderText="Instructor" 
+                    ReadOnly="True" SortExpression="InstructorFullName" />
+                <asp:BoundField DataField="RoomName" 
+                    HeaderText="Room" ReadOnly="True" 
+                    SortExpression="RoomName" />
+                <asp:BoundField DataField="CourseDescription" HeaderText="Description" 
+                    ReadOnly="True" SortExpression="CourseDescription" />
+                <asp:BoundField DataField="ClientSessionPrice" HeaderText="Price" 
+                    SortExpression="ClientSessionPrice" />
+                <asp:CheckBoxField DataField="ClientSessionPaid" HeaderText="Paid" 
+                    SortExpression="ClientSessionPaid" />
+                <asp:BoundField DataField="StatusName" HeaderText="Status" 
+                    SortExpression="StatusName" ReadOnly="True" />
+            </Columns>
         </asp:GridView>
         <asp:ObjectDataSource ID="ODSGetSessions" runat="server" 
             SelectMethod="GetClientSessionsByClientID" 
@@ -127,14 +152,13 @@
         </asp:DropDownList>
 &nbsp;&nbsp;&nbsp;
         <asp:DropDownList ID="ddlSessionsByCourse" runat="server" AutoPostBack="True" 
-            DataSourceID="ODSSessionsByCourse" DataTextField="Date" 
+            DataSourceID="ODSSessionsByCourse" DataTextField="SessionDateTime" 
             DataValueField="SessionID" Enabled="False" 
             ondatabound="ddlSessionsByCourse_DataBound" 
             onselectedindexchanged="ddlSessionsByCourse_SelectedIndexChanged">
         </asp:DropDownList>
 &nbsp;&nbsp;&nbsp;
         <asp:CheckBox ID="cbPaid" runat="server" Enabled="False" Text="Paid" />
-&nbsp;&nbsp;&nbsp;
         <asp:TextBox ID="tbPrice" runat="server" ReadOnly="True"></asp:TextBox>
         <br />
         <asp:Button ID="btnEnroll" runat="server" Enabled="False" 
@@ -143,6 +167,13 @@
         <asp:Label ID="lblStatusText" runat="server"></asp:Label>
         <asp:ObjectDataSource ID="ODSCourses" runat="server" SelectMethod="GetCourses" 
             TypeName="ADD_Demo.Classes.Course"></asp:ObjectDataSource>
+        <asp:ObjectDataSource ID="ODSGetCourse" runat="server" SelectMethod="GetCourse" 
+            TypeName="ADD_Demo.Classes.Course">
+            <SelectParameters>
+                <asp:ControlParameter ControlID="ddlCourses" Name="courseID" 
+                    PropertyName="SelectedValue" Type="Int32" />
+            </SelectParameters>
+        </asp:ObjectDataSource>
         <asp:ObjectDataSource ID="ODSSessionsByCourse" runat="server" 
             SelectMethod="GetSessionsByCourseID" TypeName="ADD_Demo.Classes.Session">
             <SelectParameters>
