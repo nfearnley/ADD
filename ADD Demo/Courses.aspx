@@ -32,6 +32,9 @@
                     SortExpression="Price" />
                 <asp:CommandField ShowDeleteButton="True" ShowEditButton="True" 
                     ShowInsertButton="True" />
+                <asp:HyperLinkField DataNavigateUrlFields="CourseID" 
+                    DataNavigateUrlFormatString="Reports/SessionReports.aspx?CourseID={0}" 
+                    InsertVisible="False" Text="Build Session Report" />
             </Fields>
         </asp:DetailsView>
         <asp:ObjectDataSource ID="ODSGetCourse" runat="server" 

@@ -46,6 +46,9 @@
                 SortExpression="CompanyBillingAddressRegion" />
             <asp:CommandField ShowDeleteButton="True" ShowEditButton="True" 
                 ShowInsertButton="True" />
+            <asp:HyperLinkField DataNavigateUrlFields="CompanyID" 
+                DataNavigateUrlFormatString="Reports/CompanySessionReports.aspx?CompanyID={0}" 
+                InsertVisible="False" Text="Build Session Report" />
         </Fields>
     </asp:DetailsView>
         <asp:ObjectDataSource ID="GetCompany" runat="server" 

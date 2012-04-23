@@ -58,6 +58,9 @@
     <Content Include="Clients.aspx" />
     <Content Include="Companies.aspx" />
     <Content Include="Invoices.aspx" />
+    <Content Include="Reports\ClientSessionReports.aspx" />
+    <Content Include="Reports\CompanySessionReports.aspx" />
+    <Content Include="Reports\SessionReports.aspx" />
     <Content Include="Rooms.aspx" />
     <Content Include="Sessions.aspx" />
     <Content Include="Instructors.aspx" />
@@ -137,6 +140,27 @@
     </Compile>
     <Compile Include="Invoices.aspx.designer.cs">
       <DependentUpon>Invoices.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\ClientSessionReports.aspx.cs">
+      <DependentUpon>ClientSessionReports.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Reports\ClientSessionReports.aspx.designer.cs">
+      <DependentUpon>ClientSessionReports.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\CompanySessionReports.aspx.cs">
+      <DependentUpon>CompanySessionReports.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Reports\CompanySessionReports.aspx.designer.cs">
+      <DependentUpon>CompanySessionReports.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\SessionReports.aspx.cs">
+      <DependentUpon>SessionReports.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Reports\SessionReports.aspx.designer.cs">
+      <DependentUpon>SessionReports.aspx</DependentUpon>
     </Compile>
     <Compile Include="Rooms.aspx.cs">
       <DependentUpon>Rooms.aspx</DependentUpon>

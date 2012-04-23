@@ -12,6 +12,7 @@
             DataValueField="ClientID" 
             ondatabound="ddlClientSearch_DataBound">
         </asp:DropDownList>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         <asp:ObjectDataSource ID="ODSGetClients" runat="server" 
             SelectMethod="GetClients" TypeName="ADD_Demo.Classes.Client">
         </asp:ObjectDataSource>
@@ -66,6 +67,9 @@
                     ShowInsertButton="True" />
                 <asp:BoundField DataField="ClientID" HeaderText="ClientID" 
                     SortExpression="ClientID" InsertVisible="False" Visible="False" />
+                <asp:HyperLinkField DataNavigateUrlFields="ClientID" 
+                    DataNavigateUrlFormatString="Reports/ClientSessionReports.aspx?ClientID={0}" 
+                    InsertVisible="False" Text="Build Session Report" />
             </Fields>
             <FooterStyle BackColor="#CCCCCC" ForeColor="Black" />
             <HeaderStyle BackColor="#000084" Font-Bold="True" ForeColor="White" />
