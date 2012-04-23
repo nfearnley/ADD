@@ -128,9 +128,9 @@ namespace ADD_Demo
         protected void btnRegister_Click(object sender, EventArgs e)
         {
             ClientSession cltSssn = new ClientSession();
-            cltSssn.client = (Client)gvClientsByCompany.SelectedValue;
-            cltSssn.session = (Classes.Session)gvSessions2.SelectedValue;
-            cltSssn.status = Status.GetStatus(1).ElementAt(0);
+            cltSssn.ClientID = int.Parse((string)gvClientsByCompany.SelectedValue);
+            cltSssn.SessionID = int.Parse((string)gvSessions2.SelectedValue);
+            cltSssn.StatusID = 1;
             ClientSession.AddClientSession(cltSssn);
         }
     }

@@ -31,24 +31,6 @@ namespace ADD_Demo {
         protected global::System.Web.UI.WebControls.ObjectDataSource GetCompanies;
         
         /// <summary>
-        /// GetCompany control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.ObjectDataSource GetCompany;
-        
-        /// <summary>
-        /// GetClientsByCompany control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.ObjectDataSource GetClientsByCompany;
-        
-        /// <summary>
         /// btnInvoice control.
         /// </summary>
         /// <remarks>
@@ -67,12 +49,66 @@ namespace ADD_Demo {
         protected global::System.Web.UI.WebControls.DetailsView dvCompanyInfo;
         
         /// <summary>
-        /// GridView1 control.
+        /// GetCompany control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.GridView GridView1;
+        protected global::System.Web.UI.WebControls.ObjectDataSource GetCompany;
+        
+        /// <summary>
+        /// ClientsGridView control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.GridView ClientsGridView;
+        
+        /// <summary>
+        /// GetClientsByCompany control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.ObjectDataSource GetClientsByCompany;
+        
+        /// <summary>
+        /// InvoicesGridView control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.GridView InvoicesGridView;
+        
+        /// <summary>
+        /// GetInvoicesByCompany control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.ObjectDataSource GetInvoicesByCompany;
+        
+        /// <summary>
+        /// InvoiceItemsGridView control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.GridView InvoiceItemsGridView;
+        
+        /// <summary>
+        /// GetInvoiceItemsByInvoice control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.ObjectDataSource GetInvoiceItemsByInvoice;
     }
 }
