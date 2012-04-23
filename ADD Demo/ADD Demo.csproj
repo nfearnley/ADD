@@ -145,12 +145,15 @@
     </Compile>
     <Compile Include="Reports\ClientSessionReports.aspx.cs">
       <DependentUpon>ClientSessionReports.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
     <Compile Include="Permissions.aspx.cs">
       <DependentUpon>Permissions.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Reports\ClientSessionReports.aspx.designer.cs">
       <DependentUpon>ClientSessionReports.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Permissions.aspx.designer.cs">
       <DependentUpon>Permissions.aspx</DependentUpon>
     </Compile>
