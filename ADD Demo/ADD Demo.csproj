@@ -58,6 +58,7 @@
     <Content Include="Clients.aspx" />
     <Content Include="Companies.aspx" />
     <Content Include="Invoices.aspx" />
+    <Content Include="Permissions.aspx" />
     <Content Include="Rooms.aspx" />
     <Content Include="Sessions.aspx" />
     <Content Include="Instructors.aspx" />
@@ -114,6 +115,7 @@
     <Compile Include="Classes\InstructorQualification.cs" />
     <Compile Include="Classes\Invoice.cs" />
     <Compile Include="Classes\InvoiceItem.cs" />
+    <Compile Include="Classes\Permission.cs" />
     <Compile Include="Classes\Room.cs" />
     <Compile Include="Classes\Session.cs" />
     <Compile Include="Classes\Status.cs" />
@@ -137,6 +139,13 @@
     </Compile>
     <Compile Include="Invoices.aspx.designer.cs">
       <DependentUpon>Invoices.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Permissions.aspx.cs">
+      <DependentUpon>Permissions.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Permissions.aspx.designer.cs">
+      <DependentUpon>Permissions.aspx</DependentUpon>
     </Compile>
     <Compile Include="Rooms.aspx.cs">
       <DependentUpon>Rooms.aspx</DependentUpon>
