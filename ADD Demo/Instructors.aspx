@@ -234,12 +234,20 @@
                     SortExpression="RoomID" Visible="False" />
                 <asp:BoundField DataField="CourseCode" HeaderText="Course Code" 
                     SortExpression="CourseCode" />
+                <asp:BoundField DataField="CourseDescription" HeaderText="Description" 
+                    SortExpression="CourseDescription" />
                 <asp:BoundField DataField="RoomName" HeaderText="Room Name" 
                     SortExpression="RoomName" />
                 <asp:BoundField DataField="SessionDateTime" HeaderText="Session Date" 
                     SortExpression="SessionDateTime" />
                 <asp:BoundField DataField="SessionLength" HeaderText="Session Length" 
                     SortExpression="SessionLength" />
+                <asp:BoundField DataField="RoomSeats" HeaderText="Seats" 
+                    SortExpression="RoomSeats" />
+                <asp:BoundField DataField="SessionEnrolled" HeaderText="Enrolled" 
+                    SortExpression="SessionEnrolled" />
+                <asp:BoundField DataField="SessionAvailableSeats" HeaderText="Available Seats" 
+                    SortExpression="SessionAvailableSeats" />
                 <asp:HyperLinkField DataNavigateUrlFields="SessionID" 
                     DataNavigateUrlFormatString="Sessions.aspx?SessionID={0}" Text="link" />
             </Columns>
