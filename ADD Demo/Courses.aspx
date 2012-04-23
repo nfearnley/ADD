@@ -126,18 +126,21 @@
         <asp:GridView ID="gvClientsByCompany" runat="server" 
             AutoGenerateColumns="False" DataSourceID="ODSGetClientsByCompany" Width="250px">
             <Columns>
+                <asp:CommandField 
+                    ShowSelectButton="True" />
                 <asp:BoundField DataField="ClientID" HeaderText="ClientID" 
                     SortExpression="ClientID" Visible="False" />
                 <asp:BoundField DataField="ClientFirstName" HeaderText="First Name" 
                     SortExpression="ClientFirstName" />
                 <asp:BoundField DataField="ClientLastName" HeaderText="Last Name" 
                     SortExpression="ClientLastName" />
-                <asp:CommandField ButtonType="Button" SelectText="Enroll" 
-                    ShowSelectButton="True" />
                 <asp:HyperLinkField DataNavigateUrlFields="ClientID" 
                     DataNavigateUrlFormatString="Clients.aspx?ClientID={0}" Text="link" />
             </Columns>
         </asp:GridView>
+        <br />
+        <asp:Button ID="btnRegister" runat="server" onclick="btnRegister_Click" 
+            Text="Register" />
         <asp:ObjectDataSource ID="ODSGetClientsByCompany" runat="server" 
             SelectMethod="GetClientsByCompanyID" TypeName="ADD_Demo.Classes.Client">
             <SelectParameters>
