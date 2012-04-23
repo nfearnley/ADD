@@ -11,5 +11,23 @@ namespace ADD_Demo {
     
     
     public partial class _Default {
+        
+        /// <summary>
+        /// HLCompany control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HyperLink HLCompany;
+        
+        /// <summary>
+        /// HLClient control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HyperLink HLClient;
     }
 }

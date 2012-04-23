@@ -109,6 +109,8 @@
                 SortExpression="InvoiceID" Visible="False" />
             <asp:BoundField DataField="InvoiceDate" HeaderText="InvoiceDate" 
                 SortExpression="InvoiceDate" />
+            <asp:HyperLinkField DataNavigateUrlFields="InvoiceID" 
+                DataNavigateUrlFormatString="Invoices.aspx?InvoiceID={0}" Text="Report" />
         </Columns>
     </asp:GridView>
     <asp:ObjectDataSource ID="GetInvoicesByCompany" runat="server" 

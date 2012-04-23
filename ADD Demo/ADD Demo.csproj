@@ -57,6 +57,7 @@
     <Content Include="Account\Register.aspx" />
     <Content Include="Clients.aspx" />
     <Content Include="Companies.aspx" />
+    <Content Include="Invoices.aspx" />
     <Content Include="Rooms.aspx" />
     <Content Include="Sessions.aspx" />
     <Content Include="Instructors.aspx" />
@@ -129,6 +130,13 @@
     </Compile>
     <Compile Include="Companies.aspx.designer.cs">
       <DependentUpon>Companies.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Invoices.aspx.cs">
+      <DependentUpon>Invoices.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Invoices.aspx.designer.cs">
+      <DependentUpon>Invoices.aspx</DependentUpon>
     </Compile>
     <Compile Include="Rooms.aspx.cs">
       <DependentUpon>Rooms.aspx</DependentUpon>
