@@ -121,7 +121,7 @@ namespace ADD_Demo
                 newSession.SessionLength = int.Parse(tbNewSessionLength.Text);
                 newSession.room = Room.GetRoom(int.Parse(ddlNewSessionRooms.SelectedValue)).ElementAt(0);
                 Classes.Session.AddSession(newSession);
-                Response.Redirect("~/Courses.aspx?CourseID='"+ddlCourses.SelectedValue+"'");
+                Response.Redirect("Courses.aspx?CourseID="+ddlCourses.SelectedValue);
             }
         }
 
