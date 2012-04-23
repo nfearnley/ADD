@@ -232,25 +232,14 @@
                     SortExpression="InstructorID" Visible="False" />
                 <asp:BoundField DataField="RoomID" HeaderText="RoomID" 
                     SortExpression="RoomID" Visible="False" />
-                <asp:BoundField DataField="CourseCode" HeaderText="CourseCode" 
+                <asp:BoundField DataField="CourseCode" HeaderText="Course Code" 
                     SortExpression="CourseCode" />
-                <asp:BoundField DataField="CourseDescription" HeaderText="CourseDescription" 
-                    SortExpression="CourseDescription" />
-                <asp:BoundField DataField="CourseOutline" HeaderText="CourseOutline" 
-                    SortExpression="CourseOutline" />
-                <asp:BoundField DataField="CoursePrice" HeaderText="CoursePrice" 
-                    SortExpression="CoursePrice" />
-                <asp:BoundField DataField="RoomName" HeaderText="RoomName" 
+                <asp:BoundField DataField="RoomName" HeaderText="Room Name" 
                     SortExpression="RoomName" />
-                <asp:BoundField DataField="RoomSeats" HeaderText="RoomSeats" SortExpression="RoomSeats" />
-                <asp:BoundField DataField="SessionDateTime" HeaderText="SessionDateTime" 
+                <asp:BoundField DataField="SessionDateTime" HeaderText="Session Date" 
                     SortExpression="SessionDateTime" />
-                <asp:BoundField DataField="SessionLength" HeaderText="SessionLength" 
+                <asp:BoundField DataField="SessionLength" HeaderText="Session Length" 
                     SortExpression="SessionLength" />
-                <asp:BoundField DataField="SessionEnrolled" HeaderText="SessionEnrolled" 
-                    SortExpression="SessionEnrolled" />
-                <asp:BoundField DataField="SessionAvailableSeats" HeaderText="SessionAvailableSeats" 
-                    SortExpression="SessionAvailableSeats" />
                 <asp:HyperLinkField DataNavigateUrlFields="SessionID" 
                     DataNavigateUrlFormatString="Sessions.aspx?SessionID={0}" Text="link" />
             </Columns>
