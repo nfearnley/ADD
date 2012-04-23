@@ -22,11 +22,12 @@ namespace ADD_Demo
 
         protected void btnInvoice_Click(object sender, EventArgs e)
         {
-            int invoiceID = Invoice.GenerateInvoice(int.Parse(ddlCompanies.SelectedValue));
+            string invoiceID = Invoice.GenerateInvoice(int.Parse(ddlCompanies.SelectedValue)).ToString();
             InvoicesGridView.DataBind();
             for (int x = 0; x < InvoicesGridView.DataKeys.Count; x++)
             {
-                if (InvoicesGridView.DataKeys[x].Value == invoiceID.ToString())
+                string selectedInvoiceID = InvoicesGridView.DataKeys[x].Value.ToString();
+                if (selectedInvoiceID == invoiceID)
                 {
                     InvoicesGridView.SelectedIndex = x;
                     break;
