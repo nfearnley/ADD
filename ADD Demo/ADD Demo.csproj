@@ -59,6 +59,7 @@
     <Content Include="Companies.aspx" />
     <Content Include="Invoices.aspx" />
     <Content Include="Reports\ClientSessionReports.aspx" />
+    <Content Include="Permissions.aspx" />
     <Content Include="Reports\CompanySessionReports.aspx" />
     <Content Include="Reports\SessionReports.aspx" />
     <Content Include="Rooms.aspx" />
@@ -117,6 +118,7 @@
     <Compile Include="Classes\InstructorQualification.cs" />
     <Compile Include="Classes\Invoice.cs" />
     <Compile Include="Classes\InvoiceItem.cs" />
+    <Compile Include="Classes\Permission.cs" />
     <Compile Include="Classes\Room.cs" />
     <Compile Include="Classes\Session.cs" />
     <Compile Include="Classes\Status.cs" />
@@ -143,10 +145,14 @@
     </Compile>
     <Compile Include="Reports\ClientSessionReports.aspx.cs">
       <DependentUpon>ClientSessionReports.aspx</DependentUpon>
+    <Compile Include="Permissions.aspx.cs">
+      <DependentUpon>Permissions.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Reports\ClientSessionReports.aspx.designer.cs">
       <DependentUpon>ClientSessionReports.aspx</DependentUpon>
+    <Compile Include="Permissions.aspx.designer.cs">
+      <DependentUpon>Permissions.aspx</DependentUpon>
     </Compile>
     <Compile Include="Reports\CompanySessionReports.aspx.cs">
       <DependentUpon>CompanySessionReports.aspx</DependentUpon>
