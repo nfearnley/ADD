@@ -15,7 +15,7 @@ namespace ADD_Demo
         {
             EditMode = false;
             ddlSessions.SelectedValue = Request.Params.Get("SessionID");
-            session = Classes.Session.GetSession(int.Parse(ddlSessions.SelectedValue)).ElementAt(0);
+            session = Classes.Session.GetSession(int.Parse(Request.Params.Get("SessionID"))).ElementAt(0);
             tbCourseCode.Text = Course.GetCourse(session.CourseID).ElementAt(0).CourseCode;
             tbInstructor.Text = Instructor.GetInstructor(session.InstructorID).ElementAt(0).InstructorFullName;
             tbRoomName.Text = Room.GetRoom(session.RoomID).ElementAt(0).RoomName;
@@ -53,7 +53,7 @@ namespace ADD_Demo
                 newSession.RoomID = int.Parse(ddlRoomName.SelectedValue);
                 newSession.SessionID = session.SessionID;
                 Classes.Session.UpdateSession(newSession, session);
-                Response.Redirect("~/Sessions.aspx?SessionID=" + newSession.SessionID);
+                Response.Redirect("~/Sessions.aspx?SessionID=" + session.SessionID);
             }
         }
     }

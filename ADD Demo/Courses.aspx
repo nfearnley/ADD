@@ -103,6 +103,8 @@
                     ReadOnly="True" SortExpression="InstructorFullName" />
                 <asp:BoundField DataField="RoomName" HeaderText="Room" ReadOnly="True" 
                     SortExpression="RoomName" />
+                <asp:HyperLinkField DataNavigateUrlFields="SessionID" 
+                    DataNavigateUrlFormatString="Sessions.aspx?SessionID={0}" Text="link" />
             </Columns>
         </asp:GridView>
         <asp:ObjectDataSource ID="ODSGetSessions" runat="server" 

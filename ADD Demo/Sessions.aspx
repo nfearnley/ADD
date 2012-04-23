@@ -6,7 +6,7 @@
         Sessions</p>
     <p>
         <asp:DropDownList ID="ddlSessions" runat="server" AutoPostBack="True" 
-            DataSourceID="ODSGetSessions" DataTextField="SessionDate" DataValueField="SessionID" 
+            DataSourceID="ODSGetSessions" DataTextField="SessionDateTime" DataValueField="SessionID" 
             Visible="False">
         </asp:DropDownList>
     </p>
