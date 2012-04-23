@@ -134,6 +134,8 @@
                     SortExpression="ClientLastName" />
                 <asp:CommandField ButtonType="Button" SelectText="Enroll" 
                     ShowSelectButton="True" />
+                <asp:HyperLinkField DataNavigateUrlFields="ClientID" 
+                    DataNavigateUrlFormatString="Clients.aspx?ClientID={0}" Text="link" />
             </Columns>
         </asp:GridView>
         <asp:ObjectDataSource ID="ODSGetClientsByCompany" runat="server" 
