@@ -16,25 +16,6 @@
         <asp:ObjectDataSource ID="GetCompanies" runat="server" 
             SelectMethod="GetCompanies" TypeName="ADD_Demo.Classes.Company">
         </asp:ObjectDataSource>
-        <asp:ObjectDataSource ID="GetCompany" runat="server" 
-            DataObjectTypeName="ADD_Demo.Classes.Company" DeleteMethod="RemoveCompany" 
-            InsertMethod="AddCompany" SelectMethod="GetCompany" 
-            TypeName="ADD_Demo.Classes.Company" UpdateMethod="UpdateCompany">
-            <DeleteParameters>
-                <asp:Parameter Name="companyID" Type="Int32" />
-            </DeleteParameters>
-            <SelectParameters>
-                <asp:ControlParameter ControlID="ddlCompanies" Name="companyID" 
-                    PropertyName="SelectedValue" Type="Int32" />
-            </SelectParameters>
-        </asp:ObjectDataSource>
-        <asp:ObjectDataSource ID="GetClientsByCompany" runat="server" 
-            SelectMethod="GetClientsByCompanyID" TypeName="ADD_Demo.Classes.Client">
-            <SelectParameters>
-                <asp:ControlParameter ControlID="ddlCompanies" Name="companyID" 
-                    PropertyName="SelectedValue" Type="Int32" />
-            </SelectParameters>
-        </asp:ObjectDataSource>
     
         Generate Invoice:<br />
         <asp:Button ID="btnInvoice" runat="server" onclick="btnInvoice_Click" 
@@ -67,8 +48,20 @@
                 ShowInsertButton="True" />
         </Fields>
     </asp:DetailsView>
+        <asp:ObjectDataSource ID="GetCompany" runat="server" 
+            DataObjectTypeName="ADD_Demo.Classes.Company" DeleteMethod="RemoveCompany" 
+            InsertMethod="AddCompany" SelectMethod="GetCompany" 
+            TypeName="ADD_Demo.Classes.Company" UpdateMethod="UpdateCompany">
+            <DeleteParameters>
+                <asp:Parameter Name="companyID" Type="Int32" />
+            </DeleteParameters>
+            <SelectParameters>
+                <asp:ControlParameter ControlID="ddlCompanies" Name="companyID" 
+                    PropertyName="SelectedValue" Type="Int32" />
+            </SelectParameters>
+        </asp:ObjectDataSource>
     <br />
-    Clients Registered with This Company:<asp:GridView ID="GridView1" 
+    Clients Registered with This Company:<asp:GridView ID="ClientsGridView" 
         runat="server" AutoGenerateColumns="False" DataSourceID="GetClientsByCompany" 
         Width="750px">
         <Columns>
@@ -98,5 +91,62 @@
                 DataNavigateUrlFormatString="Clients.aspx?ClientID={0}" Text="link" />
         </Columns>
     </asp:GridView>
+        <asp:ObjectDataSource ID="GetClientsByCompany" runat="server" 
+            SelectMethod="GetClientsByCompanyID" TypeName="ADD_Demo.Classes.Client">
+            <SelectParameters>
+                <asp:ControlParameter ControlID="ddlCompanies" Name="companyID" 
+                    PropertyName="SelectedValue" Type="Int32" />
+            </SelectParameters>
+        </asp:ObjectDataSource>
+    
+        <br />
+    Invoices:<asp:GridView ID="InvoicesGridView" runat="server" 
+        AutoGenerateColumns="False" DataSourceID="GetInvoicesByCompany" 
+        DataKeyNames="InvoiceID">
+        <Columns>
+            <asp:CommandField ShowSelectButton="True" />
+            <asp:BoundField DataField="InvoiceID" HeaderText="InvoiceID" 
+                SortExpression="InvoiceID" Visible="False" />
+            <asp:BoundField DataField="InvoiceDate" HeaderText="InvoiceDate" 
+                SortExpression="InvoiceDate" />
+        </Columns>
+    </asp:GridView>
+    <asp:ObjectDataSource ID="GetInvoicesByCompany" runat="server" 
+        SelectMethod="GetInvoicesByCompanyID" TypeName="ADD_Demo.Classes.Invoice">
+        <SelectParameters>
+            <asp:ControlParameter ControlID="ddlCompanies" Name="companyID" 
+                PropertyName="SelectedValue" Type="Int32" />
+        </SelectParameters>
+    </asp:ObjectDataSource>
+    <asp:GridView ID="InvoiceItemsGridView" runat="server" 
+        AutoGenerateColumns="False" DataSourceID="GetInvoiceItemsByInvoice">
+        <Columns>
+            <asp:BoundField DataField="ClientSessionID" HeaderText="ClientSessionID" 
+                SortExpression="ClientSessionID" Visible="False" />
+            <asp:BoundField DataField="InvoiceID" HeaderText="InvoiceID" 
+                SortExpression="InvoiceID" Visible="False" />
+            <asp:CheckBoxField DataField="ClientSessionPaid" HeaderText="ClientSessionPaid" 
+                ReadOnly="True" SortExpression="ClientSessionPaid" />
+            <asp:BoundField DataField="ClientSessionPrice" HeaderText="ClientSessionPrice" 
+                ReadOnly="True" SortExpression="ClientSessionPrice" />
+            <asp:BoundField DataField="ClientFullName" HeaderText="ClientFullName" 
+                ReadOnly="True" SortExpression="ClientFullName" />
+            <asp:BoundField DataField="CourseCode" HeaderText="CourseCode" ReadOnly="True" 
+                SortExpression="CourseCode" />
+            <asp:BoundField DataField="CourseDescription" HeaderText="CourseDescription" 
+                ReadOnly="True" SortExpression="CourseDescription" />
+            <asp:BoundField DataField="StatusName" HeaderText="StatusName" ReadOnly="True" 
+                SortExpression="StatusName" />
+        </Columns>
+    </asp:GridView>
+    <asp:ObjectDataSource ID="GetInvoiceItemsByInvoice" runat="server" 
+        SelectMethod="GetInvoiceItemsByInvoiceID" 
+        TypeName="ADD_Demo.Classes.InvoiceItem">
+        <SelectParameters>
+            <asp:ControlParameter ControlID="InvoicesGridView" Name="invoiceID" 
+                PropertyName="SelectedValue" Type="Int32" />
+        </SelectParameters>
+    </asp:ObjectDataSource>
+    <br />
     <br />
 </asp:Content>
