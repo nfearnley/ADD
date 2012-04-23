@@ -37,10 +37,13 @@ namespace ADD_Demo
             ddlCourseCode.Visible=!ddlCourseCode.Visible;
             ddlInstructor.Visible = !ddlInstructor.Visible;
             ddlRoomName.Visible = !ddlRoomName.Visible;
-            ddlSessions.Visible = !ddlSessions.Visible;
+            //ddlSessions.Visible = !ddlSessions.Visible;
             if (EditMode)
             {                
-                btnEdit.Text = "Update";                
+                btnEdit.Text = "Update";
+                ddlCourseCode.SelectedValue = session.CourseID.ToString();
+                ddlInstructor.SelectedValue = session.InstructorID.ToString();
+                ddlRoomName.SelectedValue = session.RoomID.ToString();
             }
             else 
             {
@@ -55,6 +58,16 @@ namespace ADD_Demo
                 Classes.Session.UpdateSession(newSession, session);
                 Response.Redirect("~/Sessions.aspx?SessionID=" + session.SessionID);
             }
+        }
+
+        protected void btnRegister_Click(object sender, EventArgs e)
+        {
+            ClientSession clt = new ClientSession();
+            clt.status = Status.GetStatus(1).ElementAt(0);
+            clt.session = session;
+            clt.client = Client.GetClient(int.Parse(ddlClients.SelectedValue)).ElementAt(0);
+            ClientSession.AddClientSession(clt);
+            Response.Redirect("~/Sessions.aspx?SessionID=" + session.SessionID);
         }
     }
 }
