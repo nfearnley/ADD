@@ -115,40 +115,6 @@
             </SelectParameters>
         </asp:ObjectDataSource>
         <br />
-        Register Client by Company:<br />
-        <asp:DropDownList ID="ddlCompanies" runat="server" AutoPostBack="True" 
-            DataSourceID="ODSGetCompanies" DataTextField="CompanyBillingName" 
-            DataValueField="CompanyID">
-        </asp:DropDownList>
-        <asp:ObjectDataSource ID="ODSGetCompanies" runat="server" 
-            SelectMethod="GetCompanies" TypeName="ADD_Demo.Classes.Company">
-        </asp:ObjectDataSource>
-        <asp:GridView ID="gvClientsByCompany" runat="server" 
-            AutoGenerateColumns="False" DataSourceID="ODSGetClientsByCompany" Width="250px">
-            <Columns>
-                <asp:CommandField 
-                    ShowSelectButton="True" />
-                <asp:BoundField DataField="ClientID" HeaderText="ClientID" 
-                    SortExpression="ClientID" Visible="False" />
-                <asp:BoundField DataField="ClientFirstName" HeaderText="First Name" 
-                    SortExpression="ClientFirstName" />
-                <asp:BoundField DataField="ClientLastName" HeaderText="Last Name" 
-                    SortExpression="ClientLastName" />
-                <asp:HyperLinkField DataNavigateUrlFields="ClientID" 
-                    DataNavigateUrlFormatString="Clients.aspx?ClientID={0}" Text="link" />
-            </Columns>
-        </asp:GridView>
-        <br />
-        <asp:Button ID="btnRegister" runat="server" onclick="btnRegister_Click" 
-            Text="Register" />
-        <asp:ObjectDataSource ID="ODSGetClientsByCompany" runat="server" 
-            SelectMethod="GetClientsByCompanyID" TypeName="ADD_Demo.Classes.Client">
-            <SelectParameters>
-                <asp:ControlParameter ControlID="ddlCompanies" Name="companyID" 
-                    PropertyName="SelectedValue" Type="Int32" />
-            </SelectParameters>
-        </asp:ObjectDataSource>
-        <br />
     
     </div>
 </asp:Content>

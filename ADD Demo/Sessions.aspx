@@ -75,4 +75,65 @@
             </SelectParameters>
         </asp:ObjectDataSource>
     </p>
+    <p>
+        Registered Clients:</p>
+    <p>
+        <asp:ObjectDataSource ID="ODSGetClientSessions" runat="server" 
+            SelectMethod="GetClientSessionsBySessionID" TypeName="ADD_Demo.Classes.ClientSession" 
+            UpdateMethod="UpdateClientSession">
+            <SelectParameters>
+                <asp:querystringparameter name="SessionID" querystringfield="SessionID" Type="Int32"/>
+            </SelectParameters>
+            <UpdateParameters>
+                <asp:Parameter Name="clientSession" Type="Object" />
+                <asp:Parameter Name="oldClientSession" Type="Object" />
+            </UpdateParameters>
+        </asp:ObjectDataSource>
+        <asp:GridView ID="gvClientSessions" runat="server" AutoGenerateColumns="False" 
+            DataSourceID="ODSGetClientSessions">
+            <Columns>
+                <asp:CommandField ShowEditButton="True" />
+<asp:BoundField DataField="ClientFullName" HeaderText="Client Name" ReadOnly="True" 
+                    SortExpression="ClientFullName"></asp:BoundField>
+                <asp:BoundField DataField="StatusName" HeaderText="Status" 
+                    ReadOnly="True" SortExpression="StatusName" />
+                <asp:CheckBoxField DataField="ClientSessionPaid" HeaderText="Paid" 
+                    SortExpression="ClientSessionPaid" />
+                <asp:BoundField DataField="ClientSessionID" HeaderText="ClientSessionID" 
+                    SortExpression="ClientSessionID" Visible="False" />
+                <asp:BoundField DataField="ClientID" HeaderText="ClientID" 
+                    SortExpression="ClientID" Visible="False" />
+                <asp:BoundField DataField="StatusID" HeaderText="StatusID" 
+                    SortExpression="StatusID" Visible="False" />
+            </Columns>
+        </asp:GridView>
+    </p>
+    <p>
+        Register Client for Session by Company:</p>
+    <p>
+        Company: 
+        <asp:DropDownList ID="ddlCompanies" runat="server" AutoPostBack="True" 
+            DataSourceID="ODSGetCompanies" DataTextField="CompanyBillingName" 
+            DataValueField="CompanyID">
+        </asp:DropDownList>
+&nbsp;&nbsp;&nbsp; Client:
+        <asp:DropDownList ID="ddlClients" runat="server" 
+            DataSourceID="ODSGetClientsByCompany" DataTextField="ClientFullName" 
+            DataValueField="ClientID">
+        </asp:DropDownList>
+        <asp:ObjectDataSource ID="ODSGetCompanies" runat="server" 
+            SelectMethod="GetCompanies" TypeName="ADD_Demo.Classes.Company">
+        </asp:ObjectDataSource>
+        <asp:Button ID="btnRegister" runat="server" onclick="btnRegister_Click" 
+            Text="Register" />
+    </p>
+    <p>
+        <asp:ObjectDataSource ID="ODSGetClientsByCompany" runat="server" 
+            SelectMethod="GetClientsByCompanyID" TypeName="ADD_Demo.Classes.Client">
+            <SelectParameters>
+                <asp:ControlParameter ControlID="ddlCompanies" Name="companyID" 
+                    PropertyName="SelectedValue" Type="Int32" />
+            </SelectParameters>
+        </asp:ObjectDataSource>
+    </p>
 </asp:Content>

@@ -36,10 +36,11 @@ namespace ADD_Demo
             {
                 ClientSession clientSession = new ClientSession();
 
-                clientSession.ClientID = int.Parse(ddlClientSearch.SelectedValue);
-                clientSession.SessionID = int.Parse(ddlSessionsByCourse.SelectedValue);
+                clientSession.client = Client.GetClient(int.Parse(ddlClientSearch.SelectedValue)).ElementAt(0);
+                clientSession.session = Classes.Session.GetSession(int.Parse(ddlSessionsByCourse.SelectedValue)).ElementAt(0);
                 clientSession.ClientSessionPrice = decimal.Parse(tbPrice.Text);
                 clientSession.ClientSessionPaid = cbPaid.Checked;
+                clientSession.status = Status.GetStatus(1).ElementAt(0);
 
                 ClientSession.AddClientSession(clientSession);
             }
